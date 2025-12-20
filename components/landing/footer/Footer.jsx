@@ -31,7 +31,7 @@ const Footer = () => {
           </Link>
         ))}
       </div>
-      <p className="text-sm text-primary">
+      <p className="text-sm text-[#9D9D9D]">
         © 2025 – 2026 - All rights reserved.
       </p>
     </footer>
