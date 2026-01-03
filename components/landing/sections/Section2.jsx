@@ -12,29 +12,31 @@ const Section3 = () => {
         <h1 className="text-2xl md:text-3xl font-bold leading-tight text-primary">
         What This Space Would Give
         </h1>
-        <p>It's not another “soft girl era” with a never-ending to do list.</p>
+        <p>It's not another "soft girl era" with a never-ending to do list.</p>
         <p>
-          It’s just space. <br /> To share the wins, the progress, the awkward
+          It's just space. <br /> To share the wins, the progress, the awkward
           stuff, and the off-days. To feel seen without needing to explain
           everything. To show up without the pressure of reinventing yourself
           every week.
         </p>
         <p>
           Because the girl you've been craving to be is not just a Pinterest
-          board. She’s a practice. She’s in the little choices you make every
+          board. She's a practice. She's in the little choices you make every
           day.
         </p>
-        <p>That’s exactly what this space is for.</p>
+        <p>That's exactly what this space is for.</p>
         <ImSoInButton size="xl" />
       </div>
-      <Image
-        src="/2.png"
-        alt="Lifestyle photograph"
-        width={708}
-        height={759}
-        className=""
-        priority
-      />
+      <div className="relative rounded-2xl overflow-hidden">
+        <Image
+          src="/2.png"
+          alt="Lifestyle photograph"
+          width={708}
+          height={759}
+          className="w-full h-full object-cover"
+          priority
+        />
+      </div>
     </div>
   );
 };

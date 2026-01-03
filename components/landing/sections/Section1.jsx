@@ -8,7 +8,7 @@ import { Play } from "lucide-react";
 const Section1 = () => {
   return (
     <div className="grid lg:grid-cols-2 gap-8 w-full self-center max-w-360 rounded-2xl overflow-hidden">
-      <div className="relative">
+      <div className="relative rounded-2xl overflow-hidden">
         <Image
           src="/1.png"
           alt="Lifestyle photograph"
