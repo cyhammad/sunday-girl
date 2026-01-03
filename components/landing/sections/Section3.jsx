@@ -83,6 +83,39 @@ const Section3 = () => {
             </Select>
           </div>
 
+          {/* Consent Checkbox */}
+          <div className="flex items-start gap-3">
+            <input
+              type="checkbox"
+              id="consent"
+              className="mt-1 h-4 w-4 rounded border-gray-300 accent-primary focus:ring-primary"
+            />
+            <label
+              htmlFor="consent"
+              className="text-xs md:text-sm text-black font-normal leading-relaxed"
+            >
+              By clicking <strong>Submit</strong>, you confirm you're{" "}
+              <strong>13 or older</strong> and agree to receive emails and text
+              messages from us with updates, content, and community news. You
+              can opt out anytime — reply STOP to texts or Unsubscribe via
+              email. Community's{" "}
+              <a
+                href="#"
+                className="underline font-semibold hover:text-primary transition-colors"
+              >
+                Terms of Service
+              </a>{" "}
+              and{" "}
+              <a
+                href="#"
+                className="underline font-semibold hover:text-primary transition-colors"
+              >
+                Privacy Policy
+              </a>{" "}
+              apply. Message & data rates may apply.
+            </label>
+          </div>
+
           {/* Submit Button */}
           <div className="pt-1">
             <ImSoInButton size="xl" />
