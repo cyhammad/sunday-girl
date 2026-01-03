@@ -17,14 +17,16 @@ import {
 const Section3 = () => {
   return (
     <div className="grid lg:grid-cols-2 gap-8 self-center max-w-360">
-      <Image
-        src="/3.png"
-        alt="Lifestyle photograph"
-        width={708}
-        height={759}
-        className=""
-        priority
-      />
+      <div className="relative rounded-2xl overflow-hidden">
+        <Image
+          src="/3.png"
+          alt="Lifestyle photograph"
+          width={708}
+          height={759}
+          className="w-full h-full object-cover"
+          priority
+        />
+      </div>
 
       {/* Right Panel - Form */}
       <div className="flex-1 bg-white rounded-2xl flex flex-col w-full items-center justify-center p-8 lg:p-12 xl:p-16">
