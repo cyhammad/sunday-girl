@@ -116,7 +116,7 @@ const Section3 = () => {
           {/* Submit Button */}
           <Button
             size="xl"
-            className="mt-5.5 text-2xl sm:text-2xl h-[63px] px-8 gap-1.5 sm:h-[63px] w-fit"
+            className="mt-2 md:mt-5.5 text-2xl sm:text-2xl h-[63px] px-8 gap-1.5 sm:h-[63px] w-fit"
           >
             I'm so in
             <Image
