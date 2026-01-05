@@ -6,9 +6,9 @@ import MainSection from "@/components/landing/sections/MainSection";
 
 const LandingPage = () => {
   return (
-    <div className="flex flex-col w-full h-full gap-20">
+    <div className="flex flex-col w-full h-full gap-6 sm:gap-12">
       <MainSection />
-      <div className="flex flex-col px-5 gap-20">
+      <div className="flex flex-col px-5 lg:px-10 gap-20">
         <Section1 />
         <Section2 />
         <Section3 />

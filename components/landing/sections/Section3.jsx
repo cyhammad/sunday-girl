@@ -13,11 +13,13 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
+import { Button } from "@/components/ui/button";
 
 const Section3 = () => {
   return (
     <div className="grid lg:grid-cols-2 gap-8 self-center max-w-360">
-      <div className="relative rounded-2xl overflow-hidden">
+      <div className="relative rounded-2xl min-h-[389px] sm:min-h-auto overflow-hidden">
         <Image
           src="/3.png"
           alt="Lifestyle photograph"
@@ -86,16 +88,9 @@ const Section3 = () => {
           </div>
 
           {/* Consent Checkbox */}
-          <div className="flex items-start gap-3">
-            <input
-              type="checkbox"
-              id="consent"
-              className="mt-1 h-4 w-4 rounded border-gray-300 accent-primary focus:ring-primary"
-            />
-            <label
-              htmlFor="consent"
-              className="text-xs md:text-sm text-black font-normal leading-relaxed"
-            >
+          <div className="flex items-start gap-2">
+            <Checkbox id="consent" className="mt-0.75" />
+            <label htmlFor="consent" className="text-sm text-black font-normal">
               By clicking <strong>Submit</strong>, you confirm you're{" "}
               <strong>13 or older</strong> and agree to receive emails and text
               messages from us with updates, content, and community news. You
@@ -103,26 +98,37 @@ const Section3 = () => {
               email. Community's{" "}
               <a
                 href="#"
-                className="underline font-semibold hover:text-primary transition-colors"
+                className="underline hover:font-semibold text-primary transition-colors"
               >
                 Terms of Service
               </a>{" "}
               and{" "}
               <a
                 href="#"
-                className="underline font-semibold hover:text-primary transition-colors"
+                className="underline hover:font-semibold text-primary transition-colors"
               >
                 Privacy Policy
               </a>{" "}
-              apply. Message & data rates may apply.
+              apply. <br /> Message & data rates may apply.
             </label>
           </div>
 
           {/* Submit Button */}
-          <div className="pt-1">
-            <ImSoInButton size="xl" />
-          </div>
-          <p className="text-start font-semibold text-secondary-foreground">
+          <Button
+            size="xl"
+            className="mt-5.5 text-2xl sm:text-2xl h-[63px] px-8 gap-1.5 sm:h-[63px] w-fit"
+          >
+            I'm so in
+            <Image
+              src="/arrow.png"
+              quality={100}
+              width={24}
+              height={24}
+              className="size-4.5"
+              alt="Arrow"
+            />
+          </Button>
+          <p className="text-start text-lg font-semibold text-secondary-foreground">
             We saved you a seat. Welcome in.
           </p>
         </form>

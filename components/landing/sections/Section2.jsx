@@ -3,31 +3,45 @@
 import React from "react";
 import Image from "next/image";
 import ImSoInButton from "@/components/landing/buttons/ImSoInButton";
+import { Button } from "@/components/ui/button";
 
 const Section3 = () => {
   return (
-    <div className="grid lg:grid-cols-[4.2fr_3fr] gap-8 self-center max-w-360">
-      <div className="flex-1 md:text-2xl text-lg bg-white rounded-2xl flex flex-col w-full items-start gap-8 p-8 lg:p-12 xl:p-16">
+    <div className="grid lg:grid-cols-[4.2fr_3fr] sm:gap-8 gap-4 self-center max-w-360 bg-white sm:bg-transparent p-5 sm:p-0 rounded-[16px] sm:rounded-2xl overflow-hidden">
+      <div className="flex-1 order-2 lg:order-1 md:text-2xl text-xl bg-white rounded-2xl flex flex-col w-full items-start gap-4 p-0 sm:p-8 lg:p-12 xl:p-16">
         {/* Title */}
         <h1 className="text-2xl md:text-3xl font-bold leading-tight text-primary">
         What This Space Would Give
         </h1>
-        <p>It's not another "soft girl era" with a never-ending to do list.</p>
+        <p className="sm:pb-4">It's not another "soft girl era" with a never-ending to do list.</p>
         <p>
           It's just space. <br /> To share the wins, the progress, the awkward
           stuff, and the off-days. To feel seen without needing to explain
           everything. To show up without the pressure of reinventing yourself
           every week.
         </p>
-        <p>
+        <p className="sm:pb-4">
           Because the girl you've been craving to be is not just a Pinterest
           board. She's a practice. She's in the little choices you make every
           day.
         </p>
-        <p>That's exactly what this space is for.</p>
-        <ImSoInButton size="xl" />
+        <p className="sm:pb-4">That's exactly what this space is for.</p>
+        <Button
+          size="xl"
+          className="mt-5.5 text-2xl sm:text-2xl h-[63px] px-8 gap-1.5 sm:h-[63px]"
+        >
+          I'm so in
+          <Image
+            src="/arrow.png"
+            quality={100}
+            width={24}
+            height={24}
+            className="size-4.5"
+            alt="Arrow"
+          />
+        </Button>
       </div>
-      <div className="relative rounded-2xl overflow-hidden">
+      <div className="relative order-1 lg:order-2 rounded-2xl min-h-[390px] sm:min-h-auto overflow-hidden">
         <Image
           src="/2.png"
           alt="Lifestyle photograph"
