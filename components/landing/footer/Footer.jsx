@@ -1,12 +1,12 @@
 import React from "react";
-import { TiktokIcon, InstagramIcon, MailIcon } from "@/icons/landing-icons";
+import { YoutubeIcon, InstagramIcon, MailIcon } from "@/icons/landing-icons";
 import Link from "next/link";
 
 const Footer = () => {
   const socialLinks = [
     {
-      icon: <TiktokIcon />,
-      href: "https://www.tiktok.com/@sundaygirl",
+      icon: <YoutubeIcon />,
+      href: "https://www.youtube.com/@sundaygirl",
     },
     {
       icon: <InstagramIcon />,
