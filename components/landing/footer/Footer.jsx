@@ -6,15 +6,15 @@ const Footer = () => {
   const socialLinks = [
     {
       icon: <YoutubeIcon />,
-      href: "https://www.youtube.com/@sundaygirl",
+      href: "https://www.youtube.com/sadoraparis",
     },
     {
       icon: <InstagramIcon />,
-      href: "https://www.instagram.com/@sundaygirl",
+      href: "https://instagram.com/sadoraparis",
     },
     {
       icon: <MailIcon />,
-      href: "mailto:info@sundaygirl.com",
+      href: "mailto:hello@sundaygirl.space",
     },
   ];
   return (
