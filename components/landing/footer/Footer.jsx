@@ -18,7 +18,7 @@ const Footer = () => {
     },
   ];
   return (
-    <footer className="self-center max-w-[312px] flex flex-col items-center justify-center text-center gap-5 sm:gap-8 pt-7 sm:pt-13 pb-4.5">
+    <footer className="self-center max-w-[312px] flex flex-col items-center justify-center text-center gap-5 sm:gap-8 pt-7 sm:pt-13 pb-8">
       <div className="flex items-center justify-center gap-4">
         {socialLinks.map((link) => (
           <Link
