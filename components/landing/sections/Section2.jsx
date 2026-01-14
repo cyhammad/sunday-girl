@@ -5,7 +5,7 @@ import Image from "next/image";
 import ImSoInButton from "@/components/landing/buttons/ImSoInButton";
 import { Button } from "@/components/ui/button";
 
-const Section3 = () => {
+const Section2 = () => {
   return (
     <div className="grid lg:grid-cols-2 sm:gap-8 gap-4 self-center max-w-360 bg-white sm:bg-transparent p-5 sm:p-0 rounded-[16px] sm:rounded-2xl overflow-hidden">
       <div className="flex-1 order-2 lg:order-1 md:text-base text-sm bg-white rounded-2xl flex flex-col w-full items-start gap-4 p-0 sm:p-8 lg:p-8 xl:p-10">
@@ -55,4 +55,4 @@ const Section3 = () => {
   );
 };
 
-export default Section3;
+export default Section2;

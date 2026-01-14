@@ -18,7 +18,7 @@ import { Button } from "@/components/ui/button";
 
 const Section3 = () => {
   return (
-    <div className="grid lg:grid-cols-2 gap-8 self-center max-w-360">
+    <div className="grid lg:grid-cols-2 gap-[36px] self-center max-w-360">
       <div className="relative rounded-2xl min-h-[389px] sm:min-h-auto overflow-hidden">
         <Image
           src="/sec-3.png"
@@ -32,7 +32,7 @@ const Section3 = () => {
 
       {/* Right Panel - Form */}
       <div className="flex-1 bg-white rounded-2xl flex flex-col w-full items-center justify-center p-8">
-        <h2 className="text-2xl font-semibold leading-tight text-black mb-10">
+        <h2 className="text-2xl font-semibold text-[#2A2A2A] mb-10">
           If this sounds like your kind of vibe, the waitlist is open. You'll
           fit right in.
         </h2>
@@ -45,9 +45,9 @@ const Section3 = () => {
               id="firstName"
               type="text"
               placeholder="Enter"
-              className="w-full rounded-md"
+              className="w-full rounded-md text-[#999DA0]"
             />
-          </div>
+          </div>  
 
           {/* Email */}
           <div className="space-y-2">
@@ -56,7 +56,7 @@ const Section3 = () => {
               id="email"
               type="email"
               placeholder="Enter"
-              className="w-full rounded-md"
+              className="w-full rounded-md text-[#999DA0]"
             />
           </div>
 
@@ -67,7 +67,7 @@ const Section3 = () => {
               id="phone"
               type="tel"
               placeholder="Enter"
-              className="w-full rounded-md"
+              className="w-full rounded-md text-[#999DA0]"
             />
           </div>
 
@@ -90,33 +90,19 @@ const Section3 = () => {
           {/* Consent Checkbox */}
           <div className="flex items-start gap-2">
             <Checkbox id="consent" className="mt-0.75" />
-            <label htmlFor="consent" className="text-sm text-black font-normal">
+            <label htmlFor="consent" className="text-[14px] leading-tight text-[#414141] font-normal">
               By clicking <strong>Submit</strong>, you confirm you're{" "}
               <strong>13 or older</strong> and agree to receive emails and text
               messages from us with updates, content, and community news. You
               can opt out anytime — reply STOP to texts or Unsubscribe via
-              email. Community's{" "}
-              <a
-                href="#"
-                className="underline hover:font-semibold text-primary transition-colors"
-              >
-                Terms of Service
-              </a>{" "}
-              and{" "}
-              <a
-                href="#"
-                className="underline hover:font-semibold text-primary transition-colors"
-              >
-                Privacy Policy
-              </a>{" "}
-              apply. <br /> Message & data rates may apply.
+              email.
             </label>
           </div>
 
           {/* Submit Button */}
           <Button
             size="xl"
-            className="mt-2 md:mt-5.5 text-2xl sm:text-2xl h-[63px] px-8 gap-1.5 sm:h-[63px] w-fit"
+            className="mt-2 text-2xl sm:text-xl h-[58px] w-[164px] gap-1.5 sm:h-[58px]"
           >
             I'm so in
             <Image
