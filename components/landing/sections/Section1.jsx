@@ -11,10 +11,10 @@ const Section1 = () => {
     <div className="grid lg:grid-cols-2 sm:gap-8 gap-4 w-full self-center bg-white sm:bg-transparent p-5 sm:p-0 max-w-360 rounded-[16px] sm:rounded-2xl overflow-hidden">
       <div className="relative rounded-2xl overflow-hidden min-h-[458px] sm:min-h-auto">
         <Image
-          src="/1.png"
+          src="/sec-1.png"
           alt="Lifestyle photograph"
-          width={708}
-          height={759}
+          width={618}
+          height={448}
           className="w-full h-full object-cover"
           priority
         />
@@ -43,28 +43,28 @@ const Section1 = () => {
           </button>
         </div>
       </div>
-      <div className="flex-1 md:text-2xl text-xl bg-white rounded-2xl flex flex-col w-full items-start gap-4 p-0 sm:p-8 lg:p-12 xl:p-16">
+      <div className="flex-1 md:text-base text-sm bg-white rounded-2xl flex flex-col w-full items-start gap-4 p-0 sm:p-8 lg:p-10 xl:p-10">
         {/* Title */}
         <h1 className="text-2xl md:text-3xl font-bold leading-tight text-primary">
           Creating something real... for us.
         </h1>
-        <p className="sm:pb-4">
+        <p className="">
           We're connected to everything and yet still out of touch with
           ourselves.
         </p>
-        <p className="sm:pb-4">
+        <p className="">
           Social media edits our personalities. Perfection is curated. Every
           scroll says: Do more. Be better. Glow up. Heal. Repeat.
         </p>
-        <p className="sm:pb-4">It's all so... loud.</p>
-        <p className="sm:pb-4">What if all you needed was space?</p>
-        <p className="sm:pb-4">
+        <p className="">It's all so... loud.</p>
+        <p className="">What if all you needed was space?</p>
+        <p className="">
           To actually hear yourself. To break the loops. To practice who you're
           becoming, not just talk about her.
         </p>
         <Button
           size="xl"
-          className="mt-5.5 text-2xl sm:text-2xl h-[63px] px-8 gap-1.5 sm:h-[63px]"
+          className="mt-2 text-2xl sm:text-xl h-[58px] w-[163px] gap-1.5 sm:h-[63px]"
         >
           I'm so in
           <Image

@@ -21,7 +21,7 @@ const Section3 = () => {
     <div className="grid lg:grid-cols-2 gap-8 self-center max-w-360">
       <div className="relative rounded-2xl min-h-[389px] sm:min-h-auto overflow-hidden">
         <Image
-          src="/3.png"
+          src="/sec-3.png"
           alt="Lifestyle photograph"
           width={708}
           height={759}
@@ -31,7 +31,7 @@ const Section3 = () => {
       </div>
 
       {/* Right Panel - Form */}
-      <div className="flex-1 bg-white rounded-2xl flex flex-col w-full items-center justify-center p-8 lg:p-12 xl:p-16">
+      <div className="flex-1 bg-white rounded-2xl flex flex-col w-full items-center justify-center p-8">
         <h2 className="text-2xl font-semibold leading-tight text-black mb-10">
           If this sounds like your kind of vibe, the waitlist is open. You'll
           fit right in.
