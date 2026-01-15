@@ -17,6 +17,14 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 
 const Section3 = () => {
+  const wantOptions = [
+    { value: "joy", label: "Joy" },
+    { value: "connection", label: "Connection" },
+    { value: "confidence", label: "Confidence" },
+    { value: "clarity", label: "Clarity" },
+    { value: "motivation", label: "Motivation" },
+    { value: "other", label: "Other" },
+  ];
   return (
     <div className="grid lg:grid-cols-2 gap-[36px] self-center max-w-360">
       <div className="relative rounded-2xl min-h-[389px] sm:min-h-auto overflow-hidden">
@@ -79,10 +87,11 @@ const Section3 = () => {
                 <SelectValue placeholder="Choose one" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="option1">Soulmate</SelectItem>
-                <SelectItem value="option2">Friend</SelectItem>
-                <SelectItem value="option3">Family</SelectItem>
-                <SelectItem value="option4">Other</SelectItem>
+                {wantOptions.map((option) => (
+                  <SelectItem key={option.value} value={option.value}>
+                    {option.label}
+                  </SelectItem>
+                ))}
               </SelectContent>
             </Select>
           </div>
