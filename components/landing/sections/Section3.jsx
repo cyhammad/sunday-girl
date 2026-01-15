@@ -26,7 +26,7 @@ const Section3 = () => {
     { value: "other", label: "Other" },
   ];
   return (
-    <div className="grid lg:grid-cols-2 gap-[36px] self-center max-w-360">
+    <div className="grid lg:grid-cols-2 sm:gap-9 gap-4 self-center max-w-360">
       <div className="relative rounded-2xl min-h-[389px] sm:min-h-auto overflow-hidden">
         <Image
           src="/sec-3.png"
@@ -39,10 +39,10 @@ const Section3 = () => {
       </div>
 
       {/* Right Panel - Form */}
-      <div className="flex-1 bg-white rounded-2xl flex flex-col w-full items-center justify-center gap-6 p-8">
-        <h2 className="text-2xl font-semibold text-[#2A2A2A]">
+      <div className="flex-1 bg-white rounded-2xl flex flex-col w-full items-center justify-center gap-6 p-6 sm:p-8">
+        <h2 className="text-xl sm:text-2xl font-semibold text-[#2A2A2A]">
           If this sounds like your kind of vibe, the waitlist is open. You'll
-          fit right in.
+          fit right <br /> in.
         </h2>
         {/* Form */}
         <form className="flex flex-col w-full gap-5">
@@ -55,7 +55,7 @@ const Section3 = () => {
               placeholder="Enter"
               className="w-full rounded-md text-[#999DA0]"
             />
-          </div>  
+          </div>
 
           {/* Email */}
           <div className="space-y-2">
@@ -81,7 +81,7 @@ const Section3 = () => {
 
           {/* Dropdown */}
           <div className="space-y-2">
-            <Label htmlFor="heart">What's on your heart?</Label>
+            <Label htmlFor="heart">What do you want more of?</Label>
             <Select>
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Choose one" />
@@ -111,7 +111,7 @@ const Section3 = () => {
           {/* Submit Button */}
           <Button
             size="xl"
-            className="mt-2 text-2xl sm:text-xl h-[58px] w-[164px] gap-1.5 sm:h-[58px]"
+            className="mt-2 sm:text-xl h-[53px] w-[143px] sm:h-[58px] sm:w-[163px] gap-1.5"
           >
             I'm so in
             <Image
@@ -119,7 +119,7 @@ const Section3 = () => {
               quality={100}
               width={24}
               height={24}
-              className="size-4.5"
+              className="size-3 sm:size-4.5"
               alt="Arrow"
             />
           </Button>

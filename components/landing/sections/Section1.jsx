@@ -43,9 +43,9 @@ const Section1 = () => {
           </button>
         </div>
       </div>
-      <div className="flex-1 md:text-base text-sm bg-white rounded-2xl flex flex-col w-full items-start gap-4 p-0 sm:p-8 lg:p-10 xl:p-10">
+      <div className="flex-1 text-base bg-white text-[#2A2A2A] rounded-2xl flex flex-col w-full items-start gap-4 p-0 sm:p-8 lg:p-10 xl:p-10">
         {/* Title */}
-        <h1 className="text-2xl md:text-3xl font-bold leading-tight text-primary">
+        <h1 className="text-xl md:text-3xl font-bold leading-tight text-primary">
           Creating something real... for us.
         </h1>
         <p className="">
@@ -63,7 +63,7 @@ const Section1 = () => {
           becoming, not just talk about her.
         </p>
         <Button
-          className="mt-2 text-2xl sm:text-xl h-[58px] w-[163px] gap-1.5"
+          className="mt-2 sm:text-xl h-[53px] w-[143px] sm:h-[58px] sm:w-[163px] gap-1.5"
         >
           I'm so in
           <Image
@@ -71,7 +71,7 @@ const Section1 = () => {
             quality={100}
             width={24}
             height={24}
-            className="size-4.5"
+            className="size-3 sm:size-4.5"
             alt="Arrow"
           />
         </Button>

@@ -8,9 +8,9 @@ import { Button } from "@/components/ui/button";
 const Section2 = () => {
   return (
     <div className="grid lg:grid-cols-2 sm:gap-8 gap-4 self-center max-w-360 bg-white sm:bg-transparent p-5 sm:p-0 rounded-[16px] sm:rounded-2xl overflow-hidden">
-      <div className="flex-1 order-2 lg:order-1 md:text-base text-sm bg-white rounded-2xl flex flex-col w-full items-start gap-4 p-0 sm:p-8 lg:p-8 xl:p-10">
+      <div className="flex-1 order-2 lg:order-1 text-base text-[#2A2A2A] bg-white rounded-2xl flex flex-col w-full items-start gap-4 p-0 sm:p-8 lg:p-8 xl:p-10">
         {/* Title */}
-        <h1 className="text-2xl md:text-3xl font-bold leading-tight text-primary">
+        <h1 className="text-xl md:text-3xl font-bold leading-tight text-primary">
         What This Space Would Give
         </h1>
         <p className="">It's not another "soft girl era" with a never-ending to do list.</p>
@@ -27,7 +27,7 @@ const Section2 = () => {
         </p>
         <p className="">That's exactly what this space is for.</p>
         <Button
-          className="mt-2 text-2xl sm:text-xl h-[58px] w-[163px] gap-1.5"
+          className="mt-2 sm:text-xl h-[53px] w-[143px] sm:h-[58px] sm:w-[163px] gap-1.5"
         >
           I'm so in
           <Image
@@ -35,7 +35,7 @@ const Section2 = () => {
             quality={100}
             width={24}
             height={24}
-            className="size-4.5"
+            className="size-3 sm:size-4.5"
             alt="Arrow"
           />
         </Button>
