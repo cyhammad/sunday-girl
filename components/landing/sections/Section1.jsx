@@ -63,8 +63,7 @@ const Section1 = () => {
           becoming, not just talk about her.
         </p>
         <Button
-          size="xl"
-          className="mt-2 text-2xl sm:text-xl h-[58px] w-[163px] gap-1.5 sm:h-[63px]"
+          className="mt-2 text-2xl sm:text-xl h-[58px] w-[163px] gap-1.5"
         >
           I'm so in
           <Image

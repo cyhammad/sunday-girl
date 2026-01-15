@@ -14,7 +14,7 @@ const MainSection = () => {
       <p className="text-[26px] leading-[30px] sm:text-[40px] max-w-[362px] sm:max-w-none tracking-normal font-light text-[#ECECEC]">
         The space we've craved but never quite found.
       </p>
-      <Button className="mt-5.5 text-2xl tracking-normal sm:h-[63px] w-[182px] sm:h-[74px]">
+      <Button className="mt-5.5 text-2xl tracking-normal sm:h-[63px] w-[182px]">
         I'm so in
         <Image src="/arrow.png" quality={100} width={24} height={24} className="size-4.5 sm:size-6" alt="Arrow" />
       </Button>

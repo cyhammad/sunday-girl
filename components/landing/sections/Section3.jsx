@@ -62,7 +62,7 @@ const Section3 = () => {
 
           {/* Phone Number */}
           <div className="space-y-2">
-            <Label htmlFor="phone">Phone Number</Label>
+            <Label htmlFor="phone">Phone</Label>
             <Input
               id="phone"
               type="tel"
