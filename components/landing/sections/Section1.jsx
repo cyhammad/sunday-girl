@@ -2,8 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import ImSoInButton from "@/components/landing/buttons/ImSoInButton";
-import { Play } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
 const Section1 = () => {
@@ -16,7 +14,8 @@ const Section1 = () => {
           width={618}
           height={448}
           className="w-full h-full object-cover"
-          priority
+          loading="lazy"
+          sizes="(max-width: 1024px) 100vw, 50vw"
         />
         {/* Play Button Overlay */}
         <div className="absolute inset-0 flex items-center justify-center">
@@ -68,7 +67,6 @@ const Section1 = () => {
           I'm so in
           <Image
             src="/arrow.png"
-            quality={100}
             width={24}
             height={24}
             className="size-3 sm:size-4.5"

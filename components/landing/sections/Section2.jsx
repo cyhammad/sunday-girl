@@ -2,7 +2,6 @@
 
 import React from "react";
 import Image from "next/image";
-import ImSoInButton from "@/components/landing/buttons/ImSoInButton";
 import { Button } from "@/components/ui/button";
 
 const Section2 = () => {
@@ -11,7 +10,7 @@ const Section2 = () => {
       <div className="flex-1 order-2 lg:order-1 text-base text-[#2A2A2A] bg-white rounded-2xl flex flex-col w-full items-start gap-4 p-0 sm:p-8 lg:p-8 xl:p-10">
         {/* Title */}
         <h1 className="text-xl md:text-3xl font-bold leading-tight text-primary">
-        What This Space Would Give
+          What This Space Would Give
         </h1>
         <p className="">It's not another "soft girl era" with a never-ending to do list.</p>
         <p>
@@ -32,7 +31,6 @@ const Section2 = () => {
           I'm so in
           <Image
             src="/arrow.png"
-            quality={100}
             width={24}
             height={24}
             className="size-3 sm:size-4.5"
@@ -47,7 +45,8 @@ const Section2 = () => {
           width={708}
           height={759}
           className="w-full h-full object-cover"
-          priority
+          loading="lazy"
+          sizes="(max-width: 1024px) 100vw, 50vw"
         />
       </div>
     </div>

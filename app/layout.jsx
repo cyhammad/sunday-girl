@@ -1,5 +1,6 @@
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
+import { Toaster } from "@/components/ui/sonner";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -17,7 +18,9 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${dmSans.className} flex flex-col w-full h-full`}>
         {children}
+        <Toaster position="top-center" richColors />
       </body>
     </html>
   );
 }
+
