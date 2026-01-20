@@ -85,9 +85,7 @@ const Section3 = () => {
       }
 
       // Show success toast and reset form
-      toast.success("We saved you a seat. Welcome in! 🎉", {
-        description: "Check your inbox for a confirmation email.",
-      });
+      toast.success("We saved you a seat. Welcome in! 🎉");
       resetForm();
     } catch (err) {
       toast.error(err.message || "Failed to subscribe. Please try again.");
