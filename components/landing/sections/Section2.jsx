@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Section2 = () => {
   return (
@@ -25,6 +26,7 @@ const Section2 = () => {
           day.
         </p>
         <p className="">That's exactly what this space is for.</p>
+        <Link href="#section3">
         <Button
           className="mt-2 sm:text-xl h-[53px] w-[143px] sm:h-[58px] sm:w-[163px] gap-1.5"
         >
@@ -37,6 +39,7 @@ const Section2 = () => {
             alt="Arrow"
           />
         </Button>
+        </Link>
       </div>
       <div className="relative order-1 lg:order-2 rounded-2xl min-h-[390px] sm:min-h-auto overflow-hidden">
         <Image

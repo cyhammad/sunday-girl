@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
+import Link from "next/link";
 
 const Section1 = () => {
   return (
@@ -61,18 +62,20 @@ const Section1 = () => {
           To actually hear yourself. To break the loops. To practice who you're
           becoming, not just talk about her.
         </p>
-        <Button
-          className="mt-2 sm:text-xl h-[53px] w-[143px] sm:h-[58px] sm:w-[163px] gap-1.5"
-        >
-          I'm so in
-          <Image
-            src="/arrow.png"
-            width={24}
-            height={24}
-            className="size-3 sm:size-4.5"
-            alt="Arrow"
-          />
-        </Button>
+        <Link href="#section3">
+          <Button
+            className="mt-2 sm:text-xl h-[53px] w-[143px] sm:h-[58px] sm:w-[163px] gap-1.5"
+          >
+            I'm so in
+            <Image
+              src="/arrow.png"
+              width={24}
+              height={24}
+              className="size-3 sm:size-4.5"
+              alt="Arrow"
+            />
+          </Button>
+        </Link>
       </div>
     </div>
   );

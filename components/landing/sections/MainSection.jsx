@@ -1,6 +1,7 @@
 import React from "react";
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 const MainSection = () => {
   return (
@@ -27,10 +28,12 @@ const MainSection = () => {
       <p className="text-[26px] leading-[30px] sm:text-[40px] max-w-[362px] sm:max-w-none tracking-normal font-light text-[#ECECEC] relative z-10">
         The space we've craved but never quite found.
       </p>
-      <Button className="mt-5.5 sm:text-2xl tracking-normal h-[53px] sm:h-[63px] sm:w-[182px] w-[192px] relative z-10">
-        I'm so in
-        <Image src="/arrow.png" width={24} height={24} className="size-3 sm:size-6" alt="Arrow" />
-      </Button>
+      <Link href="#section3">
+        <Button className="mt-5.5 sm:text-2xl tracking-normal h-[53px] sm:h-[63px] sm:w-[182px] w-[192px] relative z-10">
+          I'm so in
+          <Image src="/arrow.png" width={24} height={24} className="size-3 sm:size-6" alt="Arrow" />
+        </Button>
+      </Link>
     </div>
   );
 };

@@ -103,7 +103,7 @@ const Section3 = () => {
     { value: "other", label: "Other" },
   ];
   return (
-    <div className="grid lg:grid-cols-2 sm:gap-9 gap-4 self-center max-w-360">
+    <div id="section3" className="grid lg:grid-cols-2 sm:gap-9 gap-4 self-center max-w-360">
       <div className="relative rounded-2xl min-h-[389px] sm:min-h-auto overflow-hidden">
         <Image
           src="/sec-3.png"
