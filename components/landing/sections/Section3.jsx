@@ -14,6 +14,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { ArrowIcon } from "@/icons/landing-icons";
 
 const Section3 = () => {
   const [formData, setFormData] = useState({
@@ -106,10 +107,10 @@ const Section3 = () => {
     <div id="section3" className="grid lg:grid-cols-2 sm:gap-9 gap-4 self-center max-w-360">
       <div className="relative rounded-2xl min-h-[389px] sm:min-h-auto overflow-hidden">
         <Image
-          src="/sec-3.png"
+          src="/sect-3.png"
           alt="Lifestyle photograph"
-          width={708}
-          height={759}
+          width={618}
+          height={736}
           className="w-full h-full object-cover"
           loading="lazy"
           sizes="(max-width: 1024px) 100vw, 50vw"
@@ -118,7 +119,7 @@ const Section3 = () => {
 
       {/* Right Panel - Form */}
       <div className="flex-1 bg-white rounded-2xl flex flex-col w-full items-center justify-center gap-6 p-6 sm:p-8">
-        <h2 className="text-xl sm:text-2xl font-semibold text-[#2A2A2A]">
+        <h2 className="text-2xl sm:text-[28px] font-semibold text-[#2A2A2A]">
           If this sounds like your kind of vibe, the waitlist is open. You'll
           fit right in.
         </h2>
@@ -135,7 +136,7 @@ const Section3 = () => {
               value={formData.firstName}
               onChange={handleInputChange}
               disabled={isLoading}
-              className="w-full rounded-md text-[#999DA0]"
+              className="w-full rounded-md placeholder:text-[#999DA0]"
             />
           </div>
 
@@ -149,7 +150,7 @@ const Section3 = () => {
               value={formData.email}
               onChange={handleInputChange}
               disabled={isLoading}
-              className="w-full rounded-md text-[#999DA0]"
+              className="w-full rounded-md placeholder:text-[#999DA0]"
             />
           </div>
 
@@ -163,7 +164,7 @@ const Section3 = () => {
               value={formData.phone}
               onChange={handleInputChange}
               disabled={isLoading}
-              className="w-full rounded-md text-[#999DA0]"
+              className="w-full rounded-md placeholder:text-[#999DA0]"
             />
           </div>
 
@@ -175,7 +176,7 @@ const Section3 = () => {
               onValueChange={handleSelectChange}
               disabled={isLoading}
             >
-              <SelectTrigger className="w-full">
+              <SelectTrigger className="w-full text-sm">
                 <SelectValue placeholder="Choose one" />
               </SelectTrigger>
               <SelectContent>
@@ -211,7 +212,7 @@ const Section3 = () => {
             type="submit"
             size="xl"
             disabled={isLoading}
-            className="mt-2 sm:text-xl h-[53px] w-[143px] sm:h-[58px] sm:w-[163px] gap-1.5"
+            className="mt-2 text-xl h-[58px] md:h-[58px] w-[165px] gap-1.5"
           >
             {isLoading ? (
               <span className="flex items-center gap-2">
@@ -223,13 +224,7 @@ const Section3 = () => {
             ) : (
               <>
                 I'm so in
-                <Image
-                  src="/arrow.png"
-                  width={24}
-                  height={24}
-                  className="size-3 sm:size-4.5"
-                  alt="Arrow"
-                />
+                <ArrowIcon className="size-5" />
               </>
             )}
           </Button>

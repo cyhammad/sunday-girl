@@ -104,3 +104,9 @@ export const MailIcon = () => (
     />
   </svg>
 );
+
+export const ArrowIcon = ({ className }) => (
+  <svg className={className} width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M7 14C7 14 11.5 10.6858 11.5 9.5C11.5 8.3141 7 5 7 5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);

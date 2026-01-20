@@ -4,16 +4,17 @@ import React from "react";
 import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { ArrowIcon } from "@/icons/landing-icons";
 
 const Section1 = () => {
   return (
     <div className="grid lg:grid-cols-2 sm:gap-8 gap-4 w-full self-center bg-white sm:bg-transparent p-5 sm:p-0 max-w-360 rounded-[16px] sm:rounded-2xl overflow-hidden">
       <div className="relative rounded-2xl overflow-hidden min-h-[458px] sm:min-h-auto">
         <Image
-          src="/sec-1.png"
+          src="/sect-1.png"
           alt="Lifestyle photograph"
           width={618}
-          height={448}
+          height={555}
           className="w-full h-full object-cover"
           loading="lazy"
           sizes="(max-width: 1024px) 100vw, 50vw"
@@ -43,37 +44,31 @@ const Section1 = () => {
           </button>
         </div>
       </div>
-      <div className="flex-1 text-base bg-white text-[#2A2A2A] rounded-2xl flex flex-col w-full items-start gap-4 p-0 sm:p-8 lg:p-10 xl:p-10">
+      <div className="flex-1 md:text-xl text-lg bg-white text-[#2A2A2A] rounded-2xl flex flex-col w-full items-start gap-4 p-0 sm:p-8 lg:p-10 xl:p-10">
         {/* Title */}
-        <h1 className="text-xl md:text-3xl font-bold leading-tight text-primary">
+        <h1 className="text-2xl md:text-3xl font-bold leading-tight text-primary">
           Creating something real... for us.
         </h1>
         <p className="">
           We're connected to everything and yet still out of touch with
           ourselves.
         </p>
-        <p className="">
+        <p className="mt-1.5">
           Social media edits our personalities. Perfection is curated. Every
           scroll says: Do more. Be better. Glow up. Heal. Repeat.
         </p>
-        <p className="">It's all so... loud.</p>
-        <p className="">What if all you needed was space?</p>
-        <p className="">
+        <p className="mt-1.5">It's all so... loud.</p>
+        <p className="mt-1.5">What if all you needed was space?</p>
+        <p className="mt-1.5">
           To actually hear yourself. To break the loops. To practice who you're
           becoming, not just talk about her.
         </p>
-        <Link href="#section3">
+        <Link className="mt-2" href="#section3">
           <Button
-            className="mt-2 sm:text-xl h-[53px] w-[143px] sm:h-[58px] sm:w-[163px] gap-1.5"
+            className="text-xl h-[58px] w-[165px] gap-1.5"
           >
             I'm so in
-            <Image
-              src="/arrow.png"
-              width={24}
-              height={24}
-              className="size-3 sm:size-4.5"
-              alt="Arrow"
-            />
+            <ArrowIcon className="size-5" />
           </Button>
         </Link>
       </div>
