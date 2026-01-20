@@ -120,7 +120,7 @@ const Section3 = () => {
       <div className="flex-1 bg-white rounded-2xl flex flex-col w-full items-center justify-center gap-6 p-6 sm:p-8">
         <h2 className="text-xl sm:text-2xl font-semibold text-[#2A2A2A]">
           If this sounds like your kind of vibe, the waitlist is open. You'll
-          fit right <br /> in.
+          fit right in.
         </h2>
 
         {/* Form */}
