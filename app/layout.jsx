@@ -10,7 +10,7 @@ const dmSans = DM_Sans({
 export const metadata = {
   title: "Sunday Girl",
   description:
-    "Sunday Girl is a platform for girls to find their perfect outfit",
+    "A cozy corner of the internet where you slow down, choose yourself, and step into the life you want.",
 };
 
 export default function RootLayout({ children }) {

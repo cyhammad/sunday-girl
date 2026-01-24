@@ -5,7 +5,32 @@ const KLAVIYO_REVISION = "2024-02-15";
 
 export async function POST(request) {
     try {
-        const { email, firstName, phone, wantMore } = await request.json();
+        const { email, firstName, phone, wantMore, recaptchaToken } = await request.json();
+
+        // Validate reCAPTCHA
+        if (!recaptchaToken) {
+            return NextResponse.json(
+                { error: "reCAPTCHA token is missing" },
+                { status: 400 }
+            );
+        }
+
+        const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
+        if (recaptchaSecret) {
+            const recaptchaResponse = await fetch(
+                `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${recaptchaToken}`,
+                { method: "POST" }
+            );
+
+            const recaptchaData = await recaptchaResponse.json();
+
+            if (!recaptchaData.success) {
+                return NextResponse.json(
+                    { error: "reCAPTCHA verification failed" },
+                    { status: 400 }
+                );
+            }
+        }
 
         // Validate required fields
         if (!email) {

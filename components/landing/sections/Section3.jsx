@@ -1,7 +1,8 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
+import ReCAPTCHA from "react-google-recaptcha";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -25,6 +26,7 @@ const Section3 = () => {
     consent: false,
   });
   const [isLoading, setIsLoading] = useState(false);
+  const recaptchaRef = useRef(null);
 
   const resetForm = () => {
     setFormData({
@@ -34,6 +36,9 @@ const Section3 = () => {
       wantMore: "",
       consent: false,
     });
+    if (recaptchaRef.current) {
+      recaptchaRef.current.reset();
+    }
   };
 
   const handleInputChange = (e) => {
@@ -63,6 +68,12 @@ const Section3 = () => {
       return;
     }
 
+    const recaptchaToken = recaptchaRef.current.getValue();
+    if (!recaptchaToken) {
+      toast.error("Please complete the reCAPTCHA");
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -76,6 +87,7 @@ const Section3 = () => {
           firstName: formData.firstName,
           phone: formData.phone,
           wantMore: formData.wantMore,
+          recaptchaToken,
         }),
       });
 
@@ -205,6 +217,14 @@ const Section3 = () => {
               can opt out anytime — reply STOP to texts or Unsubscribe via
               email.
             </label>
+          </div>
+
+          {/* reCAPTCHA */}
+          <div className="mt-2">
+            <ReCAPTCHA
+              ref={recaptchaRef}
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+            />
           </div>
 
           {/* Submit Button */}

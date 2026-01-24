@@ -9,7 +9,7 @@ import { ArrowIcon } from "@/icons/landing-icons";
 const Section2 = () => {
   return (
     <div className="grid lg:grid-cols-2 sm:gap-8 gap-4 self-center max-w-360 bg-white sm:bg-transparent p-5 sm:p-0 rounded-[16px] sm:rounded-2xl overflow-hidden">
-      <div className="flex-1 order-2 lg:order-1 text-xl text-[#2A2A2A] bg-white rounded-2xl flex flex-col w-full items-start gap-4 p-0 sm:p-8 lg:p-8 xl:p-10">
+      <div className="flex-1 order-2 lg:order-1 text-lg md:text-xl text-[#2A2A2A] bg-white rounded-2xl flex flex-col w-full items-start gap-4 p-0 sm:p-8 lg:p-8 xl:p-10">
         {/* Title */}
         <h1 className="text-2xl md:text-3xl font-bold leading-tight text-primary">
           What This Space Would Give
