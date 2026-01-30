@@ -16,6 +16,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { ArrowIcon } from "@/icons/landing-icons";
+import Link from "next/link";
 
 const Section3 = () => {
   const [formData, setFormData] = useState({
@@ -211,11 +212,7 @@ const Section3 = () => {
               className="mt-0.75"
             />
             <label htmlFor="consent" className="text-[14px] leading-tight text-[#414141] font-normal">
-              By clicking <strong>Submit</strong>, you confirm you're{" "}
-              <strong>13 or older</strong> and agree to receive emails and text
-              messages from us with updates, content, and community news. You
-              can opt out anytime — reply STOP to texts or Unsubscribe via
-              email.
+              By clicking <b>Submit</b>, you confirm to <Link className="text-primary hover:font-bold transition-all ease-in-out duration-300" href="/privacy-policy">Terms & Privacy</Link> that you’re 13 or older and agree to receive emails and text messages from us with updates, content, and community news. You can opt out anytime — reply STOP to texts or Unsubscribe via email.
             </label>
           </div>
 
