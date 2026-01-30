@@ -1,14 +1,15 @@
 import { Dot } from 'lucide-react'
+import Link from 'next/link'
 import React from 'react'
 
 const PrivacyPolicyPage = () => {
     return (
         <div className="flex flex-col w-full justify-center items-center px-6">
             <div className="flex flex-col w-full max-w-[1272px] items-center gap-6 py-6 md:py-9">
-                <button className="flex justify-center items-center self-start text-primary bg-primary/20 gap-1 md:w-[132.5px] w-[100.5px] rounded-full md:h-[58px] h-[48px]">
+                <Link href="/" className="flex justify-center items-center self-start text-primary bg-primary/20 gap-1 md:w-[132.5px] w-[100.5px] rounded-full md:h-[58px] h-[48px]">
                     {chevronBackIcon}
                     <span className="text-xl font-medium">Back</span>
-                </button>
+                </Link>
                 <div className="flex flex-col justify-center items-center gap-4">
                     <h1 className="md:text-[52px] text-[32px] font-bold leading-[100%] tracking-tighter">Privacy Policy</h1>
                     <span className="text-lg md:text-2xl text-[#8F8F8F]">Last Updated: 01/01/2026</span>
@@ -162,7 +163,7 @@ const PrivacyPolicyPage = () => {
 }
 
 const chevronBackIcon = (<svg width="19" height="18" viewBox="0 0 19 18" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M11.5 4C11.5 4 7.00001 7.31418 7 8.5C6.99999 9.6859 11.5 13 11.5 13" stroke="#E07386" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+    <path d="M11.5 4C11.5 4 7.00001 7.31418 7 8.5C6.99999 9.6859 11.5 13 11.5 13" stroke="#E07386" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
 </svg>
 )
 

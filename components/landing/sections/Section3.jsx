@@ -26,8 +26,16 @@ const Section3 = () => {
     wantMore: "",
     consent: false,
   });
+  const [errors, setErrors] = useState({
+    email: "",
+    phone: "",
+    consent: "",
+    recaptcha: "",
+  });
   const [isLoading, setIsLoading] = useState(false);
   const recaptchaRef = useRef(null);
+  const emailInputRef = useRef(null);
+  const phoneInputRef = useRef(null);
 
   const resetForm = () => {
     setFormData({
@@ -37,13 +45,74 @@ const Section3 = () => {
       wantMore: "",
       consent: false,
     });
+    setErrors({
+      email: "",
+      phone: "",
+      consent: "",
+      recaptcha: "",
+    });
     if (recaptchaRef.current) {
       recaptchaRef.current.reset();
     }
   };
 
+  const validateEmail = (rawEmail) => {
+    const email = String(rawEmail ?? "").trim().toLowerCase();
+
+    if (!email) return "What’s your email? We’ll send your waitlist updates there.";
+    if (email.length > 254) return "That email looks too long. Please double-check it.";
+
+    const atParts = email.split("@");
+    if (atParts.length !== 2) return "That email doesn’t look right (try name@domain.com).";
+
+    const [local, domain] = atParts;
+    if (!local || !domain) return "That email doesn’t look right (try name@domain.com).";
+    if (local.startsWith(".") || local.endsWith(".")) return "That email doesn’t look right (try name@domain.com).";
+    if (local.includes("..")) return "That email doesn’t look right (try name@domain.com).";
+
+    // Domain must include a dot + a real-ish TLD (blocks missing extensions like name@domain)
+    if (!domain.includes(".")) return "Please include a full domain (like gmail.com).";
+    if (domain.startsWith(".") || domain.endsWith(".")) return "Please include a full domain (like gmail.com).";
+    if (domain.includes("..")) return "Please include a full domain (like gmail.com).";
+
+    const labels = domain.split(".");
+    if (labels.some((l) => !l)) return "Please include a full domain (like gmail.com).";
+
+    const tld = labels[labels.length - 1];
+    if (!/^[a-z]{2,24}$/.test(tld)) return "Please include a valid domain extension (like .com).";
+
+    const labelOk = (label) => /^[a-z0-9-]+$/.test(label) && !label.startsWith("-") && !label.endsWith("-");
+    if (!labels.every(labelOk)) return "That email domain doesn’t look right. Please double-check it.";
+
+    return "";
+  };
+
+  const normalizePhoneDigits = (rawPhone) => String(rawPhone ?? "").replace(/\D/g, "");
+
+  const validatePhone = (rawPhone) => {
+    const digits = normalizePhoneDigits(rawPhone);
+    if (!digits) return ""; // phone is optional
+    if (digits.length < 10) return "That phone number is too short — please enter 10 digits.";
+    if (digits.length > 10) return "That phone number looks too long — please enter 10 digits.";
+    return "";
+  };
+
   const handleInputChange = (e) => {
     const { id, value } = e.target;
+
+    if (id === "phone") {
+      const digitsOnly = normalizePhoneDigits(value);
+      setFormData((prev) => ({ ...prev, phone: digitsOnly }));
+      if (errors.phone) setErrors((prev) => ({ ...prev, phone: "" }));
+      return;
+    }
+
+    if (id === "email") {
+      setFormData((prev) => ({ ...prev, email: value }));
+      if (errors.email) setErrors((prev) => ({ ...prev, email: "" }));
+      return;
+    }
+
     setFormData((prev) => ({ ...prev, [id]: value }));
   };
 
@@ -53,25 +122,28 @@ const Section3 = () => {
 
   const handleConsentChange = (checked) => {
     setFormData((prev) => ({ ...prev, consent: checked }));
+    if (errors.consent) setErrors((prev) => ({ ...prev, consent: "" }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation
-    if (!formData.email) {
-      toast.error("Please enter your email address");
-      return;
-    }
-
-    if (!formData.consent) {
-      toast.error("Please agree to the terms to continue");
-      return;
-    }
-
     const recaptchaToken = recaptchaRef.current.getValue();
-    if (!recaptchaToken) {
-      toast.error("Please complete the reCAPTCHA");
+
+    // Validation (show inline errors on submit)
+    const nextErrors = {
+      email: validateEmail(formData.email),
+      phone: validatePhone(formData.phone),
+      consent: formData.consent ? "" : "Please check the box to agree to Terms & Privacy.",
+      recaptcha: recaptchaToken ? "" : "Please complete the reCAPTCHA to submit.",
+    };
+
+    const hasErrors = Object.values(nextErrors).some(Boolean);
+    if (hasErrors) {
+      setErrors(nextErrors);
+      toast.error("Please fix the highlighted fields and try again.");
+      if (nextErrors.email) emailInputRef.current?.focus();
+      else if (nextErrors.phone) phoneInputRef.current?.focus();
       return;
     }
 
@@ -95,6 +167,24 @@ const Section3 = () => {
       const data = await response.json();
 
       if (!response.ok) {
+        // Specific, inline feedback for common cases
+        if (response.status === 409) {
+          setErrors((prev) => ({
+            ...prev,
+            email: data.error || "Looks like you’re already on the waitlist with this email.",
+          }));
+          emailInputRef.current?.focus();
+          return;
+        }
+
+        // Field-level errors (if API returns them)
+        if (response.status === 400 && data?.field) {
+          setErrors((prev) => ({ ...prev, [data.field]: data.error || "Please double-check this field." }));
+          if (data.field === "email") emailInputRef.current?.focus();
+          if (data.field === "phone") phoneInputRef.current?.focus();
+          return;
+        }
+
         throw new Error(data.error || "Something went wrong");
       }
 
@@ -124,7 +214,7 @@ const Section3 = () => {
           alt="Lifestyle photograph"
           width={618}
           height={736}
-          className="w-full h-full object-cover"
+          className="w-full h-full max-h-[826px] object-cover rounded-2xl"
           loading="lazy"
           sizes="(max-width: 1024px) 100vw, 50vw"
         />
@@ -163,8 +253,17 @@ const Section3 = () => {
               value={formData.email}
               onChange={handleInputChange}
               disabled={isLoading}
+              ref={emailInputRef}
+              autoComplete="email"
+              aria-invalid={!!errors.email}
+              aria-describedby={errors.email ? "email-error" : undefined}
               className="w-full rounded-md placeholder:text-[#999DA0]"
             />
+            {errors.email ? (
+              <p id="email-error" className="text-sm text-red-600">
+                {errors.email}
+              </p>
+            ) : null}
           </div>
 
           {/* Phone Number */}
@@ -177,8 +276,19 @@ const Section3 = () => {
               value={formData.phone}
               onChange={handleInputChange}
               disabled={isLoading}
+              ref={phoneInputRef}
+              inputMode="numeric"
+              pattern="[0-9]*"
+              autoComplete="tel"
+              aria-invalid={!!errors.phone}
+              aria-describedby={errors.phone ? "phone-error" : undefined}
               className="w-full rounded-md placeholder:text-[#999DA0]"
             />
+            {errors.phone ? (
+              <p id="phone-error" className="text-sm text-red-600">
+                {errors.phone}
+              </p>
+            ) : null}
           </div>
 
           {/* Dropdown */}
@@ -203,25 +313,42 @@ const Section3 = () => {
           </div>
 
           {/* Consent Checkbox */}
-          <div className="flex items-start gap-2">
-            <Checkbox
-              id="consent"
-              checked={formData.consent}
-              onCheckedChange={handleConsentChange}
-              disabled={isLoading}
-              className="mt-0.75"
-            />
-            <label htmlFor="consent" className="text-[14px] leading-tight text-[#414141] font-normal">
-              By clicking <b>Submit</b>, you confirm to <Link className="text-primary hover:font-bold transition-all ease-in-out duration-300" href="/privacy-policy">Terms & Privacy</Link> that you’re 13 or older and agree to receive emails and text messages from us with updates, content, and community news. You can opt out anytime — reply STOP to texts or Unsubscribe via email.
-            </label>
+          <div className="space-y-2">
+            <div className="flex items-start gap-2">
+              <Checkbox
+                id="consent"
+                checked={formData.consent}
+                onCheckedChange={handleConsentChange}
+                disabled={isLoading}
+                aria-invalid={!!errors.consent}
+                aria-describedby={errors.consent ? "consent-error" : undefined}
+                className="mt-0.75"
+              />
+              <label htmlFor="consent" className="text-[14px] leading-tight text-[#414141] font-normal">
+                By clicking <b>Submit</b>, you confirm to{" "}
+                <Link className="text-primary hover:font-bold transition-all ease-in-out duration-300" href="/privacy-policy">
+                  Terms & Privacy
+                </Link>{" "}
+                that you’re 13 or older and agree to receive emails and text messages from us with updates, content, and community news. You can
+                opt out anytime — reply STOP to texts or Unsubscribe via email.
+              </label>
+            </div>
+            {errors.consent ? (
+              <p id="consent-error" className="text-sm text-red-600">
+                {errors.consent}
+              </p>
+            ) : null}
           </div>
 
           {/* reCAPTCHA */}
-          <div className="mt-2">
+          <div className="mt-2 space-y-2">
             <ReCAPTCHA
               ref={recaptchaRef}
               sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
             />
+            {errors.recaptcha ? (
+              <p className="text-sm text-red-600">{errors.recaptcha}</p>
+            ) : null}
           </div>
 
           {/* Submit Button */}
