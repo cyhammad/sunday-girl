@@ -128,7 +128,7 @@ const Section3 = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const recaptchaToken = recaptchaRef.current.getValue();
+    const recaptchaToken = recaptchaRef.current?.getValue?.();
 
     // Validation (show inline errors on submit)
     const nextErrors = {
@@ -138,9 +138,11 @@ const Section3 = () => {
       recaptcha: recaptchaToken ? "" : "Please complete the reCAPTCHA to submit.",
     };
 
+    // Always refresh errors so stale messages (e.g. reCAPTCHA) don't linger
+    setErrors(nextErrors);
+
     const hasErrors = Object.values(nextErrors).some(Boolean);
     if (hasErrors) {
-      setErrors(nextErrors);
       toast.error("Please fix the highlighted fields and try again.");
       if (nextErrors.email) emailInputRef.current?.focus();
       else if (nextErrors.phone) phoneInputRef.current?.focus();
@@ -345,6 +347,9 @@ const Section3 = () => {
             <ReCAPTCHA
               ref={recaptchaRef}
               sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+              onChange={() => {
+                if (errors.recaptcha) setErrors((prev) => ({ ...prev, recaptcha: "" }));
+              }}
             />
             {errors.recaptcha ? (
               <p className="text-sm text-red-600">{errors.recaptcha}</p>
