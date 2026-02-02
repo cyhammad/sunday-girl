@@ -27,7 +27,7 @@ const Section2 = () => {
           day.
         </p>
         <p className="">That's exactly what this space is for.</p>
-        <Link href="#section3">
+        <Link href="/#section3">
         <Button
           className="mt-2 text-xl h-[58px] md:h-[58px] w-[165px] gap-1.5"
         >

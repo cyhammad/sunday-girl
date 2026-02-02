@@ -63,7 +63,7 @@ const Section1 = () => {
           To actually hear yourself. To break the loops. To practice who you're
           becoming, not just talk about her.
         </p>
-        <Link className="mt-2" href="#section3">
+        <Link className="mt-2" href="/#section3">
           <Button
             className="text-xl h-[58px] w-[165px] gap-1.5"
           >
