@@ -38,14 +38,28 @@ function normalizePhoneDigits(rawPhone) {
 }
 
 function normalizePhoneForKlaviyo(rawPhone) {
-    const digits = normalizePhoneDigits(rawPhone);
-    if (!digits) return { value: null, error: "" }; // optional
+    const raw = String(rawPhone ?? "").trim();
+    if (!raw) return { value: null, extension: "", error: "" }; // optional
 
-    // US-only normalization (10-digit). Keeps the list clean and predictable.
-    if (digits.length < 10) return { value: null, error: "That phone number is too short — please enter 10 digits." };
-    if (digits.length > 10) return { value: null, error: "That phone number looks too long — please enter 10 digits." };
+    // Extract extension patterns at end: x123 / ext 123 / extension: 123 / #123
+    const extMatch = raw.match(/(?:^|\s)(?:ext\.?|extension|x|#)\s*[:.\-]?\s*(\d{1,10})\s*$/i);
+    const extension = extMatch?.[1] ?? "";
+    const mainPart = extMatch ? raw.slice(0, extMatch.index).trim() : raw;
 
-    return { value: `+1${digits}`, error: "" };
+    let digits = normalizePhoneDigits(mainPart);
+
+    // Allow optional US country code
+    if (digits.length === 11 && digits.startsWith("1")) digits = digits.slice(1);
+
+    if (digits.length !== 10) {
+        return {
+            value: null,
+            extension,
+            error: "Please enter a valid US phone number (10 digits). Extensions like “x123” are ok.",
+        };
+    }
+
+    return { value: `+1${digits}`, extension, error: "" };
 }
 
 export async function POST(request) {
@@ -87,7 +101,7 @@ export async function POST(request) {
         }
 
         const normalizedEmail = String(email).trim().toLowerCase();
-        const { value: normalizedPhone, error: phoneError } = normalizePhoneForKlaviyo(phone);
+        const { value: normalizedPhone, extension: phoneExtension, error: phoneError } = normalizePhoneForKlaviyo(phone);
         if (phoneError) {
             return NextResponse.json(
                 { field: "phone", error: phoneError },
@@ -112,6 +126,7 @@ export async function POST(request) {
             ...(normalizedPhone && { phone_number: normalizedPhone }),
             properties: {
                 ...(wantMore && { want_more_of: wantMore }),
+                ...(phoneExtension && { phone_extension: phoneExtension }),
                 source: "website_waitlist",
             },
         };

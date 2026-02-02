@@ -87,22 +87,40 @@ const Section3 = () => {
     return "";
   };
 
-  const normalizePhoneDigits = (rawPhone) => String(rawPhone ?? "").replace(/\D/g, "");
+  const parseUsPhone = (rawPhone) => {
+    const raw = String(rawPhone ?? "").trim();
+    if (!raw) return { digits10: "", e164: "", extension: "" };
+
+    // Extract common extension patterns at end: "x123", "ext 123", "ext.123", "extension: 123", "#123"
+    const extMatch = raw.match(/(?:^|\s)(?:ext\.?|extension|x|#)\s*[:.\-]?\s*(\d{1,10})\s*$/i);
+    const extension = extMatch?.[1] ?? "";
+    const mainPart = extMatch ? raw.slice(0, extMatch.index).trim() : raw;
+
+    // Keep digits from the main phone number only
+    let digits = mainPart.replace(/\D/g, "");
+
+    // Allow optional US country code
+    if (digits.length === 11 && digits.startsWith("1")) digits = digits.slice(1);
+
+    if (digits.length !== 10) {
+      return { digits10: "", e164: "", extension, error: "Please enter a valid US phone number (10 digits). Extensions like “x123” are ok." };
+    }
+
+    return { digits10: digits, e164: `+1${digits}`, extension };
+  };
 
   const validatePhone = (rawPhone) => {
-    const digits = normalizePhoneDigits(rawPhone);
-    if (!digits) return ""; // phone is optional
-    if (digits.length < 10) return "That phone number is too short — please enter 10 digits.";
-    if (digits.length > 10) return "That phone number looks too long — please enter 10 digits.";
-    return "";
+    const raw = String(rawPhone ?? "").trim();
+    if (!raw) return ""; // phone is optional
+    return parseUsPhone(raw).error || "";
   };
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
 
     if (id === "phone") {
-      const digitsOnly = normalizePhoneDigits(value);
-      setFormData((prev) => ({ ...prev, phone: digitsOnly }));
+      // Keep raw text so users can type (555) 555-5555 ext 123, etc.
+      setFormData((prev) => ({ ...prev, phone: value }));
       if (errors.phone) setErrors((prev) => ({ ...prev, phone: "" }));
       return;
     }
@@ -279,8 +297,7 @@ const Section3 = () => {
               onChange={handleInputChange}
               disabled={isLoading}
               ref={phoneInputRef}
-              inputMode="numeric"
-              pattern="[0-9]*"
+              inputMode="tel"
               autoComplete="tel"
               aria-invalid={!!errors.phone}
               aria-describedby={errors.phone ? "phone-error" : undefined}
@@ -327,12 +344,11 @@ const Section3 = () => {
                 className="mt-0.75"
               />
               <label htmlFor="consent" className="text-[14px] leading-tight text-[#414141] font-normal">
-                By clicking <b>Submit</b>, you confirm to{" "}
+                By clicking <b>Submit</b>, you confirm to that you’re 13 or older and agree to receive emails and text messages from us with updates, content, and community news. You can
+                opt out anytime — reply STOP to texts or Unsubscribe via email. <br />
                 <Link className="text-primary hover:font-bold transition-all ease-in-out duration-300" href="/privacy-policy">
                   Terms & Privacy
-                </Link>{" "}
-                that you’re 13 or older and agree to receive emails and text messages from us with updates, content, and community news. You can
-                opt out anytime — reply STOP to texts or Unsubscribe via email.
+                </Link>
               </label>
             </div>
             {errors.consent ? (
