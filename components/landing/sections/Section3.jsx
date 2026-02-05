@@ -242,7 +242,7 @@ const Section3 = () => {
           alt="Lifestyle photograph"
           width={618}
           height={736}
-          className="w-full h-full max-h-[826px] object-cover rounded-2xl"
+          className="w-full h-full lg:h-[826px] object-cover rounded-2xl"
           loading="lazy"
           sizes="(max-width: 1024px) 100vw, 50vw"
         />
