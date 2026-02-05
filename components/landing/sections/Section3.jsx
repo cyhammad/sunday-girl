@@ -111,15 +111,23 @@ const Section3 = () => {
 
   const validatePhone = (rawPhone) => {
     const raw = String(rawPhone ?? "").trim();
-    if (!raw) return ""; // phone is optional
-    return parseUsPhone(raw).error || "";
+
+    // Phone is optional
+    if (!raw) return "";
+
+    // Only allow 10 or 11 digit numerical phone numbers
+    if (!/^\d{10,11}$/.test(raw)) {
+      return "Please enter a valid phone number with 10 or 11 digits (numbers only).";
+    }
+
+    return "";
   };
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
 
     if (id === "phone") {
-      // Keep raw text so users can type (555) 555-5555 ext 123, etc.
+      // Keep raw text so users can type freely; validation runs on submit.
       setFormData((prev) => ({ ...prev, phone: value }));
       if (errors.phone) setErrors((prev) => ({ ...prev, phone: "" }));
       return;
