@@ -352,7 +352,7 @@ const Section3 = () => {
                 className="mt-0.75"
               />
               <label htmlFor="consent" className="text-[14px] leading-tight text-[#414141] font-normal">
-                By clicking <b>Submit</b>, you confirm to that you’re 13 or older and agree to receive emails and text messages from us with updates, content, and community news. You can
+                By clicking <b>Submit</b>, you confirm that you’re 13 or older and agree to receive emails and text messages from us with updates, content, and community news. You can
                 opt out anytime — reply STOP to texts or Unsubscribe via email. <br />
                 <Link className="text-primary hover:font-bold transition-all ease-in-out duration-300" href="/privacy-policy">
                   Terms & Privacy
