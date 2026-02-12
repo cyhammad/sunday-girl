@@ -57,32 +57,49 @@ const Section3 = () => {
   };
 
   const validateEmail = (rawEmail) => {
-    const email = String(rawEmail ?? "").trim().toLowerCase();
+    const email = String(rawEmail ?? "")
+      .trim()
+      .toLowerCase();
 
-    if (!email) return "What’s your email? We’ll send your waitlist updates there.";
-    if (email.length > 254) return "That email looks too long. Please double-check it.";
+    if (!email)
+      return "What’s your email? We’ll send your waitlist updates there.";
+    if (email.length > 254)
+      return "That email looks too long. Please double-check it.";
 
     const atParts = email.split("@");
-    if (atParts.length !== 2) return "That email doesn’t look right (try name@domain.com).";
+    if (atParts.length !== 2)
+      return "That email doesn’t look right (try name@domain.com).";
 
     const [local, domain] = atParts;
-    if (!local || !domain) return "That email doesn’t look right (try name@domain.com).";
-    if (local.startsWith(".") || local.endsWith(".")) return "That email doesn’t look right (try name@domain.com).";
-    if (local.includes("..")) return "That email doesn’t look right (try name@domain.com).";
+    if (!local || !domain)
+      return "That email doesn’t look right (try name@domain.com).";
+    if (local.startsWith(".") || local.endsWith("."))
+      return "That email doesn’t look right (try name@domain.com).";
+    if (local.includes(".."))
+      return "That email doesn’t look right (try name@domain.com).";
 
     // Domain must include a dot + a real-ish TLD (blocks missing extensions like name@domain)
-    if (!domain.includes(".")) return "Please include a full domain (like gmail.com).";
-    if (domain.startsWith(".") || domain.endsWith(".")) return "Please include a full domain (like gmail.com).";
-    if (domain.includes("..")) return "Please include a full domain (like gmail.com).";
+    if (!domain.includes("."))
+      return "Please include a full domain (like gmail.com).";
+    if (domain.startsWith(".") || domain.endsWith("."))
+      return "Please include a full domain (like gmail.com).";
+    if (domain.includes(".."))
+      return "Please include a full domain (like gmail.com).";
 
     const labels = domain.split(".");
-    if (labels.some((l) => !l)) return "Please include a full domain (like gmail.com).";
+    if (labels.some((l) => !l))
+      return "Please include a full domain (like gmail.com).";
 
     const tld = labels[labels.length - 1];
-    if (!/^[a-z]{2,24}$/.test(tld)) return "Please include a valid domain extension (like .com).";
+    if (!/^[a-z]{2,24}$/.test(tld))
+      return "Please include a valid domain extension (like .com).";
 
-    const labelOk = (label) => /^[a-z0-9-]+$/.test(label) && !label.startsWith("-") && !label.endsWith("-");
-    if (!labels.every(labelOk)) return "That email domain doesn’t look right. Please double-check it.";
+    const labelOk = (label) =>
+      /^[a-z0-9-]+$/.test(label) &&
+      !label.startsWith("-") &&
+      !label.endsWith("-");
+    if (!labels.every(labelOk))
+      return "That email domain doesn’t look right. Please double-check it.";
 
     return "";
   };
@@ -92,7 +109,9 @@ const Section3 = () => {
     if (!raw) return { digits10: "", e164: "", extension: "" };
 
     // Extract common extension patterns at end: "x123", "ext 123", "ext.123", "extension: 123", "#123"
-    const extMatch = raw.match(/(?:^|\s)(?:ext\.?|extension|x|#)\s*[:.\-]?\s*(\d{1,10})\s*$/i);
+    const extMatch = raw.match(
+      /(?:^|\s)(?:ext\.?|extension|x|#)\s*[:.\-]?\s*(\d{1,10})\s*$/i,
+    );
     const extension = extMatch?.[1] ?? "";
     const mainPart = extMatch ? raw.slice(0, extMatch.index).trim() : raw;
 
@@ -100,10 +119,17 @@ const Section3 = () => {
     let digits = mainPart.replace(/\D/g, "");
 
     // Allow optional US country code
-    if (digits.length === 11 && digits.startsWith("1")) digits = digits.slice(1);
+    if (digits.length === 11 && digits.startsWith("1"))
+      digits = digits.slice(1);
 
     if (digits.length !== 10) {
-      return { digits10: "", e164: "", extension, error: "Please enter a valid US phone number (10 digits). Extensions like “x123” are ok." };
+      return {
+        digits10: "",
+        e164: "",
+        extension,
+        error:
+          "Please enter a valid US phone number (10 digits). Extensions like “x123” are ok.",
+      };
     }
 
     return { digits10: digits, e164: `+1${digits}`, extension };
@@ -160,8 +186,12 @@ const Section3 = () => {
     const nextErrors = {
       email: validateEmail(formData.email),
       phone: validatePhone(formData.phone),
-      consent: formData.consent ? "" : "Please check the box to agree to Terms & Privacy.",
-      recaptcha: recaptchaToken ? "" : "Please complete the reCAPTCHA to submit.",
+      consent: formData.consent
+        ? ""
+        : "Please check the box to agree to Terms & Privacy.",
+      recaptcha: recaptchaToken
+        ? ""
+        : "Please complete the reCAPTCHA to submit.",
     };
 
     // Always refresh errors so stale messages (e.g. reCAPTCHA) don't linger
@@ -199,7 +229,9 @@ const Section3 = () => {
         if (response.status === 409) {
           setErrors((prev) => ({
             ...prev,
-            email: data.error || "Looks like you’re already on the waitlist with this email.",
+            email:
+              data.error ||
+              "Looks like you’re already on the waitlist with this email.",
           }));
           emailInputRef.current?.focus();
           return;
@@ -207,7 +239,10 @@ const Section3 = () => {
 
         // Field-level errors (if API returns them)
         if (response.status === 400 && data?.field) {
-          setErrors((prev) => ({ ...prev, [data.field]: data.error || "Please double-check this field." }));
+          setErrors((prev) => ({
+            ...prev,
+            [data.field]: data.error || "Please double-check this field.",
+          }));
           if (data.field === "email") emailInputRef.current?.focus();
           if (data.field === "phone") phoneInputRef.current?.focus();
           return;
@@ -235,7 +270,10 @@ const Section3 = () => {
     { value: "other", label: "Other" },
   ];
   return (
-    <div id="section3" className="grid lg:grid-cols-2 sm:gap-9 gap-4 self-center max-w-360">
+    <div
+      id="section3"
+      className="grid lg:grid-cols-2 sm:gap-9 gap-4 self-center max-w-360"
+    >
       <div className="relative rounded-2xl min-h-[389px] sm:min-h-auto overflow-hidden">
         <Image
           src="/sect-3.png"
@@ -351,10 +389,18 @@ const Section3 = () => {
                 aria-describedby={errors.consent ? "consent-error" : undefined}
                 className="mt-0.75"
               />
-              <label htmlFor="consent" className="text-[14px] leading-tight text-[#414141] font-normal">
-                By clicking <b>Submit</b>, you confirm that you’re 13 or older and agree to receive emails and text messages from us with updates, content, and community news. You can
-                opt out anytime — reply STOP to texts or Unsubscribe via email. <br />
-                <Link className="text-primary hover:font-bold transition-all ease-in-out duration-300" href="/privacy-policy">
+              <label
+                htmlFor="consent"
+                className="text-[14px] leading-tight text-[#414141] font-normal"
+              >
+                By clicking <b>Submit</b>, you confirm that you’re 13 or older
+                and agree to receive emails and text messages from us with
+                updates, content, and community news. You can opt out anytime —
+                reply STOP to texts or Unsubscribe via email. <br />
+                <Link
+                  className="text-primary hover:font-bold transition-all ease-in-out duration-300"
+                  href="/privacy-policy"
+                >
                   Terms & Privacy
                 </Link>
               </label>
@@ -372,7 +418,8 @@ const Section3 = () => {
               ref={recaptchaRef}
               sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
               onChange={() => {
-                if (errors.recaptcha) setErrors((prev) => ({ ...prev, recaptcha: "" }));
+                if (errors.recaptcha)
+                  setErrors((prev) => ({ ...prev, recaptcha: "" }));
               }}
             />
             {errors.recaptcha ? (
@@ -389,9 +436,25 @@ const Section3 = () => {
           >
             {isLoading ? (
               <span className="flex items-center gap-2">
-                <svg className="animate-spin h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                  <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4"></circle>
-                  <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                <svg
+                  className="animate-spin h-5 w-5"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
                 </svg>
               </span>
             ) : (
@@ -408,4 +471,3 @@ const Section3 = () => {
 };
 
 export default Section3;
-
