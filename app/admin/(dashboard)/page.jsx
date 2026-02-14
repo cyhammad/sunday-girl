@@ -2,13 +2,36 @@
 
 import React from "react";
 import localFont from "next/font/local";
-import KpiCards from "./_components/KpiCards";
+import KpiCards from "@/components/dashboard/KpiCards";
 import DashboardCharts from "./_components/DashboardCharts";
 import DateRangePicker from "./_components/DateRangePicker";
 
 const degular = localFont({
   src: "../../../components/fonts/degular/DegularDemo-Semibold.otf",
 });
+
+const dashboardKpiData = [
+  {
+    title: "Soft Spark Video",
+    value: "850",
+    suffix: "Views",
+  },
+  {
+    title: "Welcome to Sunday Girl",
+    value: "900",
+    suffix: "Views",
+  },
+  {
+    title: "This Week's Practice",
+    value: "120",
+    suffix: "Users Joined",
+  },
+  {
+    title: "Subscription Revenue",
+    value: "$ 3,000",
+    suffix: "",
+  },
+];
 
 const DashboardPage = () => {
   return (
@@ -21,7 +44,7 @@ const DashboardPage = () => {
         <DateRangePicker />
       </div>
 
-      <KpiCards />
+      <KpiCards data={dashboardKpiData} />
 
       <DashboardCharts />
     </div>

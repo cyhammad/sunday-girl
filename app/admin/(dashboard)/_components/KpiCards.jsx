@@ -35,14 +35,14 @@ const kpiData = [
 
 const KpiCards = () => {
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mt-8">
+    <div className="flex flex-wrap gap-[40px] mt-6">
       {kpiData.map((item, index) => {
         return (
           <div
             key={index}
-            className="bg-white p-8 rounded-[20px] border border-[#F2F2F2] shadow-[0px_4px_20px_0px_rgba(0,0,0,0.02)] flex flex-col justify-center min-h-[140px]"
+            className="bg-white p-[20px] rounded-[10px] border border-[#F2F2F2] shadow-[0px_4px_20px_0px_rgba(0,0,0,0.02)] flex flex-col justify-between w-[245px] h-[118px]"
           >
-            <p className="text-[#6C6C6C] text-[15px] font-medium mb-4">
+            <p className="text-[#6C6C6C] text-[15px] font-medium">
               {item.title}
             </p>
             <div className="flex items-baseline gap-2">

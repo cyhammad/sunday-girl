@@ -6,6 +6,11 @@ import { ChartContainer, ChartTooltip } from "@/components/ui/chart";
 import localFont from "next/font/local";
 import { Inter } from "next/font/google";
 import { ChevronDown } from "lucide-react";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -102,7 +107,20 @@ const CustomTooltip = ({ active, payload, label }) => {
   return null;
 };
 
+const ranges = [
+  "Today",
+  "Last 7 days",
+  "Last 14 days",
+  "This Month",
+  "Last 3 Months",
+  "Last 6 Months",
+  "Last Year",
+  "Custom",
+];
+
 const StatisticsChart = ({ title, data }) => {
+  const [selectedRange, setSelectedRange] = React.useState("This Month");
+
   return (
     <div className="mt-8">
       <h2 className={`${degular.className} text-[22px] text-[#24282E] mb-4`}>
@@ -116,12 +134,33 @@ const StatisticsChart = ({ title, data }) => {
           >
             Statistics
           </p>
-          <button
-            className={`${inter.className} flex items-center gap-1.5 px-4 py-2 rounded-[10px] border border-[#E5E5E5] text-[13px] text-[#6C6C6C] font-medium bg-white hover:bg-gray-50 transition-colors`}
-          >
-            Jan 2026
-            <ChevronDown className="w-3.5 h-3.5 text-[#6C6C6C]" />
-          </button>
+          <Popover>
+            <PopoverTrigger asChild>
+              <button
+                className={`${inter.className} flex items-center gap-1.5 px-4 py-2 rounded-[10px] border border-[#E5E5E5] text-[13px] text-[#6C6C6C] font-medium bg-white hover:bg-gray-50 transition-colors`}
+              >
+                {selectedRange}
+                <ChevronDown className="w-3.5 h-3.5 text-[#6C6C6C]" />
+              </button>
+            </PopoverTrigger>
+            <PopoverContent
+              className="w-[200px] p-2 bg-white rounded-[20px] border border-[#F2F2F2] shadow-[0px_10px_40px_rgba(0,0,0,0.08)]"
+              align="end"
+              sideOffset={8}
+            >
+              <div className="flex flex-col gap-0.5">
+                {ranges.map((range) => (
+                  <button
+                    key={range}
+                    onClick={() => setSelectedRange(range)}
+                    className={`${degular.className} text-left px-4 py-2 text-[16px] text-[#525252] hover:text-[#E07386] hover:bg-[#F9F9F9] rounded-[14px] transition-all duration-200`}
+                  >
+                    {range}
+                  </button>
+                ))}
+              </div>
+            </PopoverContent>
+          </Popover>
         </div>
 
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
