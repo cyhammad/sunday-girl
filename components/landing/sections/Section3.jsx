@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
 import ReCAPTCHA from "react-google-recaptcha";
 import { Input } from "@/components/ui/input";
@@ -36,6 +36,11 @@ const Section3 = () => {
   const recaptchaRef = useRef(null);
   const emailInputRef = useRef(null);
   const phoneInputRef = useRef(null);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const resetForm = () => {
     setFormData({
@@ -305,6 +310,7 @@ const Section3 = () => {
               value={formData.firstName}
               onChange={handleInputChange}
               disabled={isLoading}
+              suppressHydrationWarning={true}
               className="w-full rounded-md placeholder:text-[#999DA0]"
             />
           </div>
@@ -323,6 +329,7 @@ const Section3 = () => {
               autoComplete="email"
               aria-invalid={!!errors.email}
               aria-describedby={errors.email ? "email-error" : undefined}
+              suppressHydrationWarning={true}
               className="w-full rounded-md placeholder:text-[#999DA0]"
             />
             {errors.email ? (
@@ -347,6 +354,7 @@ const Section3 = () => {
               autoComplete="tel"
               aria-invalid={!!errors.phone}
               aria-describedby={errors.phone ? "phone-error" : undefined}
+              suppressHydrationWarning={true}
               className="w-full rounded-md placeholder:text-[#999DA0]"
             />
             {errors.phone ? (
@@ -364,7 +372,11 @@ const Section3 = () => {
               onValueChange={handleSelectChange}
               disabled={isLoading}
             >
-              <SelectTrigger className="w-full text-sm">
+              <SelectTrigger
+                id="heart"
+                className="w-full text-sm"
+                suppressHydrationWarning={true}
+              >
                 <SelectValue placeholder="Choose one" />
               </SelectTrigger>
               <SelectContent>
@@ -388,6 +400,7 @@ const Section3 = () => {
                 aria-invalid={!!errors.consent}
                 aria-describedby={errors.consent ? "consent-error" : undefined}
                 className="mt-0.75"
+                suppressHydrationWarning={true}
               />
               <label
                 htmlFor="consent"
@@ -414,14 +427,16 @@ const Section3 = () => {
 
           {/* reCAPTCHA */}
           <div className="mt-2 space-y-2">
-            <ReCAPTCHA
-              ref={recaptchaRef}
-              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-              onChange={() => {
-                if (errors.recaptcha)
-                  setErrors((prev) => ({ ...prev, recaptcha: "" }));
-              }}
-            />
+            {isMounted && (
+              <ReCAPTCHA
+                ref={recaptchaRef}
+                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+                onChange={() => {
+                  if (errors.recaptcha)
+                    setErrors((prev) => ({ ...prev, recaptcha: "" }));
+                }}
+              />
+            )}
             {errors.recaptcha ? (
               <p className="text-sm text-red-600">{errors.recaptcha}</p>
             ) : null}
@@ -432,6 +447,7 @@ const Section3 = () => {
             type="submit"
             size="xl"
             disabled={isLoading}
+            suppressHydrationWarning={true}
             className="mt-2 text-xl h-[58px] md:h-[58px] w-[165px] gap-1.5"
           >
             {isLoading ? (

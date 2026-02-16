@@ -1,5 +1,6 @@
 "use client";
 
+import React from "react";
 import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import Link from "next/link";
@@ -74,6 +75,26 @@ const menuItems = [
 
 // Reusable navigation component
 const SidebarNav = ({ currentPath, onNavigate }) => {
+  const [isMounted, setIsMounted] = React.useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return (
+      <div className="flex flex-col h-full justify-between">
+        <div className="flex flex-col w-full">
+          <div className="mb-8 flex items-center justify-center">
+            <h1 className={`${canela.className} text-[42px] text-[#FF007A]`}>
+              Sunday Girl
+            </h1>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
   return (
     <div className="flex flex-col h-full justify-between">
       <div className="flex flex-col w-full">

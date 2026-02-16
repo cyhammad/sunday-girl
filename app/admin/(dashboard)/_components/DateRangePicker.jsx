@@ -87,6 +87,23 @@ const DateRangePicker = () => {
   const [startDate, setStartDate] = useState(null);
   const [endDate, setEndDate] = useState(null);
   const [selecting, setSelecting] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  React.useEffect(() => {
+    setIsMounted(true);
+  }, []);
+
+  if (!isMounted) {
+    return (
+      <Button
+        variant="outline"
+        className="bg-white border-[#E5E5E5] text-[#6C6C6C] font-medium rounded-[12px] h-[44px] px-4 shadow-sm"
+      >
+        <Calendar className="w-4 h-4 mr-2" />
+        Date Range
+      </Button>
+    );
+  }
 
   const daysInMonth = getDaysInMonth(currentYear, currentMonth);
   const firstDay = getFirstDayOfMonth(currentYear, currentMonth);
