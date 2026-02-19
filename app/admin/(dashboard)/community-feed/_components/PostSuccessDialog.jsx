@@ -1,0 +1,67 @@
+"use client";
+
+import React from "react";
+import localFont from "next/font/local";
+import { Inter } from "next/font/google";
+import {
+  Dialog,
+  DialogContent,
+  DialogClose,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import { X, CheckCheck } from "lucide-react";
+
+const inter = Inter({ subsets: ["latin"] });
+const degular = localFont({
+  src: "../../../../../components/fonts/degular/DegularDemo-Semibold.otf",
+});
+
+const PostSuccessDialog = ({ isOpen, onOpenChange, onAddNewPost }) => {
+  return (
+    <Dialog open={isOpen} onOpenChange={onOpenChange}>
+      <DialogContent
+        showCloseButton={false}
+        className="sm:max-w-[500px] p-0 overflow-hidden bg-white border-none rounded-[32px] shadow-[0px_10px_50px_rgba(0,0,0,0.1)]"
+      >
+        <div className="p-10 flex flex-col items-center text-center relative">
+          <DialogClose className="p-2 transition-colors rounded-full hover:bg-gray-100 absolute top-6 right-6">
+            <X className="w-6 h-6 text-[#757575]" />
+          </DialogClose>
+
+          {/* Success Icon */}
+          <div className="w-[100px] h-[100px] bg-[#FAFAFA] rounded-full flex items-center justify-center mb-6 mt-4">
+            <CheckCheck className="w-10 h-10 text-[#24282E]" />
+          </div>
+
+          <DialogTitle
+            className={`${degular.className} text-[32px] text-[#24282E] mb-3`}
+          >
+            Post Added
+          </DialogTitle>
+          <p className={`${inter.className} text-[18px] text-[#757575] mb-10`}>
+            Your post has been added successfully.
+          </p>
+
+          <div className="flex gap-4">
+            <button
+              onClick={onAddNewPost}
+              className={`${inter.className} h-[56px] px-8 rounded-full border border-[#E07386] text-[#E07386] text-[18px] font-semibold hover:bg-[#FFF5F7] transition-all`}
+            >
+              Add New Post
+            </button>
+            <DialogClose asChild>
+              <button
+                className={`${inter.className} h-[56px] px-12 rounded-full bg-[#E07386] text-white text-[18px] font-semibold hover:bg-[#D06376] transition-all shadow-[0px_4px_15px_rgba(224,115,134,0.3)]`}
+              >
+                Home
+              </button>
+            </DialogClose>
+          </div>
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
+
+export default PostSuccessDialog;

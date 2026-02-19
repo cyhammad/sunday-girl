@@ -7,36 +7,42 @@ import { Inter } from "next/font/google";
 const inter = Inter({ subsets: ["latin"] });
 
 const degular = localFont({
-    src: "../fonts/degular/DegularDemo-Semibold.otf",
+  src: "../fonts/degular/DegularDemo-Semibold.otf",
 });
 
 const KpiCards = ({ data }) => {
-    return (
-        <div className="flex flex-wrap gap-[40px] mt-6">
-            {data?.map((item, index) => {
-                return (
-                    <div
-                        key={index}
-                        className="bg-white p-[20px] rounded-[10px] border border-[#F2F2F2] shadow-[0px_4px_20px_0px_rgba(0,0,0,0.02)] flex flex-col justify-between w-[245px] h-[118px]"
-                    >
-                        <p className="text-[#6C6C6C] text-[15px] font-medium">
-                            {item.title}
-                        </p>
-                        <div className="flex items-baseline gap-2">
-                            <h3 className={`${degular.className} text-[32px] text-[#24282E]`}>
-                                {item.value}
-                            </h3>
-                            {item.suffix && (
-                                <span className="text-[#8F8F8F] text-[13px] font-normal">
-                                    {item.suffix}
-                                </span>
-                            )}
-                        </div>
-                    </div>
-                );
-            })}
-        </div>
-    );
+  return (
+    <div className="flex flex-wrap gap-[40px] mt-6">
+      {data?.map((item, index) => {
+        return (
+          <div
+            key={index}
+            className="bg-white p-[20px] rounded-[10px] border border-[#EEEEEE] shadow-[0px_2px_6px_0px_#90929433] flex flex-col justify-between w-fit min-w-[245px] h-[118px]"
+          >
+            <p
+              className={`${inter.className} text-[#7A7C7F] text-[16px] font-medium leading-[1]`}
+            >
+              {item.title}
+            </p>
+            <div className="flex items-baseline gap-2">
+              <h3
+                className={`${degular.className} text-[32px] font-extrabold text-[#4D5154] leading-[1]`}
+              >
+                {item.value}
+              </h3>
+              {item.suffix && (
+                <span
+                  className={`${inter.className} text-[#7A7C7F] text-[12px] font-normal leading-[1]`}
+                >
+                  {item.suffix}
+                </span>
+              )}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  );
 };
 
 export default KpiCards;
