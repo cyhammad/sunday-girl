@@ -1,4 +1,4 @@
-    "use client";
+"use client";
 
 import React, { useState } from "react";
 import localFont from "next/font/local";
@@ -57,7 +57,7 @@ Our policy is periodically reviewed and updated to reflect changes in our practi
 
   return (
     <div className={`p-6 lg:p-10 min-h-screen bg-[#FFFFFF] ${inter.className}`}>
-      <div className="flex items-center justify-between mb-12">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
         <h1 className={`${degular.className} text-[32px] text-[#24282E]`}>
           Privacy Policy
         </h1>

@@ -69,12 +69,12 @@ const NotificationsPage = () => {
   };
 
   return (
-    <div className={`p-4 lg:p-10 min-h-screen bg-[#FFFFFF] ${inter.className}`}>
-      <h1
-        className={`${degular.className} text-[32px] lg:text-[40px] text-[#24282E] mb-8`}
-      >
-        Notifications
-      </h1>
+    <div className={`p-6 lg:p-10 min-h-screen bg-[#FFFFFF] ${inter.className}`}>
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
+        <h1 className={`${degular.className} text-[32px] text-[#24282E]`}>
+          Notifications
+        </h1>
+      </div>
 
       <div className="grid grid-cols-1 xl:grid-cols-[1fr_420px] gap-8">
         {/* Left Column - Create Notification */}
@@ -133,7 +133,7 @@ const NotificationsPage = () => {
             <h2 className="text-[18px] font-bold text-[#24282E] mb-6">
               Scheduled Dates
             </h2>
-            <div className="flex justify-center bg-[#FFF5F7] rounded-[24px] p-4 relative">
+            <div className="flex justify-center bg-[#FFF5F7] rounded-[24px] p-4 relative w-fit mx-auto">
               <Calendar
                 mode="single"
                 selected={date}

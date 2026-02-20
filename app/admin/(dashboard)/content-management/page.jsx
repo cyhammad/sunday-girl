@@ -143,14 +143,14 @@ const ContentManagementPage = () => {
 
   return (
     <div className="p-6 lg:p-10 min-h-screen bg-[#FFFFFF]">
-      <div className="flex items-center justify-between mb-10">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
         <h1 className={`${degular.className} text-[32px] text-[#24282E]`}>
           Content Management
         </h1>
 
         <Button
           onClick={() => setIsUploadPracticeOpen(true)}
-          className="bg-[#E07386] hover:bg-[#d06376] text-white rounded-[10px] h-12 px-6 shadow-sm flex items-center gap-2 font-medium"
+          className="bg-[#E07386] hover:bg-[#d06376] text-white rounded-[10px] h-12 px-6 shadow-sm flex items-center gap-2 font-medium w-fit"
         >
           <Plus className="w-5 h-5 stroke-[2.5px]" />
           Create New Practice
@@ -165,93 +165,97 @@ const ContentManagementPage = () => {
         </h2>
 
         {/* Tabs */}
-        <div className="inline-flex p-1.5 bg-[#F9F9F9] rounded-[30px] mb-8 border border-[#F2F2F2]">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-7 py-2.5 rounded-[25px] text-[15px] font-medium transition-all duration-200 ${
-                activeTab === tab
-                  ? "bg-white text-[#E07386] shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#F2F2F2]"
-                  : "text-[#8F8F8F] hover:text-[#6C6C6C]"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
+        <div className="overflow-x-auto -mx-6 px-6 lg:mx-0 lg:px-0">
+          <div className="inline-flex p-1.5 bg-[#F9F9F9] rounded-[30px] mb-8 border border-[#F2F2F2]">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                className={`px-5 py-2 rounded-[25px] text-[14px] font-medium transition-all duration-200 ${
+                  activeTab === tab
+                    ? "text-[#E07386] shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#F2F2F2]"
+                    : "text-[#8F8F8F] hover:text-[#6C6C6C]"
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Table Container */}
         <div className="bg-white rounded-[20px] border border-[#F2F2F2] overflow-hidden shadow-[0px_4px_30px_rgba(0,0,0,0.03)] flex flex-col min-h-[500px]">
-          <Table>
-            <TableHeader className="bg-[#F9F9F9]/50 border-b border-[#F2F2F2]">
-              <TableRow className="hover:bg-transparent border-none">
-                {currentColumns.map((col) => (
-                  <TableHead
-                    key={col}
-                    className="px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto uppercase tracking-wide"
-                  >
-                    {col}
-                  </TableHead>
-                ))}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {currentData.map((row, index) => (
-                <TableRow
-                  key={index}
-                  className="border-b border-[#F2F2F2] last:border-0 hover:bg-gray-50/30 transition-colors"
-                >
-                  <TableCell className="px-8 py-7 text-[16px] text-[#525252] font-medium">
-                    {row.name}
-                  </TableCell>
-                  {activeTab === "Weekly Practice Videos" ? (
-                    <>
-                      <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
-                        {row.description}
-                      </TableCell>
-                      <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
-                        {row.peopleJoined}
-                      </TableCell>
-                      <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
-                        {row.dateCreated}
-                      </TableCell>
-                    </>
-                  ) : (
-                    <>
-                      <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
-                        {row.status}
-                      </TableCell>
-                      <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
-                        {row.peopleWatched}
-                      </TableCell>
-                      <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
-                        {row.date}
-                      </TableCell>
-                    </>
-                  )}
-                  <TableCell className="px-8 py-7">
-                    <button
-                      onClick={() => {
-                        setSelectedVideo(row);
-                        setIsDetailsOpen(true);
-                      }}
-                      className="text-[#E07386] text-[15px] font-bold flex items-center gap-1.5 group transition-colors"
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader className="bg-[#F9F9F9]/50 border-b border-[#F2F2F2]">
+                <TableRow className="hover:bg-transparent border-none">
+                  {currentColumns.map((col) => (
+                    <TableHead
+                      key={col}
+                      className={`${inter.className} px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto`}
                     >
-                      View Details
-                      <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                    </button>
-                  </TableCell>
+                      {col}
+                    </TableHead>
+                  ))}
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {currentData.map((row, index) => (
+                  <TableRow
+                    key={index}
+                    className="border-b border-[#F2F2F2] last:border-0 hover:bg-gray-50/30 transition-colors"
+                  >
+                    <TableCell className="px-8 py-7 text-[16px] text-[#525252] font-medium">
+                      {row.name}
+                    </TableCell>
+                    {activeTab === "Weekly Practice Videos" ? (
+                      <>
+                        <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
+                          {row.description}
+                        </TableCell>
+                        <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
+                          {row.peopleJoined}
+                        </TableCell>
+                        <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
+                          {row.dateCreated}
+                        </TableCell>
+                      </>
+                    ) : (
+                      <>
+                        <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
+                          {row.status}
+                        </TableCell>
+                        <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
+                          {row.peopleWatched}
+                        </TableCell>
+                        <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
+                          {row.date}
+                        </TableCell>
+                      </>
+                    )}
+                    <TableCell className="px-8 py-7">
+                      <button
+                        onClick={() => {
+                          setSelectedVideo(row);
+                          setIsDetailsOpen(true);
+                        }}
+                        className="text-[#E07386] text-[15px] font-bold flex items-center gap-1.5 group transition-colors"
+                      >
+                        View Details
+                        <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                      </button>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </div>
 
           {/* Add New Video CTA Section for Soft Spark/Welcome tabs */}
           {activeTab !== "Weekly Practice Videos" && (
             <div className="flex-1 flex flex-col items-center justify-center py-20 bg-white">
               <h3
-                className={`${degular.className} text-[28px] text-[#24282E] mb-3`}
+                className={`${degular.className} text-[22px] sm:text-[28px] text-[#24282E] mb-3`}
               >
                 {activeTab === "Welcome To SundayGirl"
                   ? "Add New Welcome Video"

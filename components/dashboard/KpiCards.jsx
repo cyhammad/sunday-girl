@@ -12,12 +12,12 @@ const degular = localFont({
 
 const KpiCards = ({ data }) => {
   return (
-    <div className="flex flex-wrap gap-[40px] mt-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-wrap gap-4 lg:gap-[40px] mt-6">
       {data?.map((item, index) => {
         return (
           <div
             key={index}
-            className="bg-white p-[20px] rounded-[10px] border border-[#EEEEEE] shadow-[0px_2px_6px_0px_#90929433] flex flex-col justify-between w-fit min-w-[245px] h-[118px]"
+            className="bg-white p-[20px] rounded-[10px] border border-[#EEEEEE] shadow-[0px_2px_6px_0px_#90929433] flex flex-col justify-between w-full lg:w-fit lg:min-w-[245px] h-[118px]"
           >
             <p
               className={`${inter.className} text-[#7A7C7F] text-[16px] font-medium leading-[1]`}

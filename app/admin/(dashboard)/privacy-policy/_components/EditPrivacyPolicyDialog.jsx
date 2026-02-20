@@ -42,7 +42,7 @@ const EditPrivacyPolicyDialog = ({
         <div className="p-8">
           <DialogHeader className="flex flex-row items-center justify-between mb-6 space-y-0">
             <DialogTitle
-              className={`${degular.className} text-[24px] text-[#24282E]`}
+              className={`${degular.className} text-[22px] text-[#24282E]`}
             >
               Edit Privacy Policy
             </DialogTitle>

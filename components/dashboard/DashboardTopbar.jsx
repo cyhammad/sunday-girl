@@ -120,7 +120,7 @@ const DashboardTopbar = () => {
 
           {/* Dropdown */}
           {isOpen && (
-            <div className="absolute top-full right-0 mt-2 w-[420px] bg-white rounded-[20px] shadow-[0px_10px_50px_rgba(0,0,0,0.12)] z-50 overflow-hidden">
+            <div className="absolute top-full right-0 mt-2 w-[calc(100vw-2rem)] sm:w-[420px] bg-white rounded-[20px] shadow-[0px_10px_50px_rgba(0,0,0,0.12)] z-50 overflow-hidden sm:right-0 -right-2">
               {/* Header */}
               <div className="flex items-center justify-between px-6 pt-6 pb-4">
                 <h3
