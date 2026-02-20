@@ -31,11 +31,9 @@ const SettingsPage = () => {
   }
 
   return (
-    <div className="p-4 lg:p-8 min-h-full bg-[#FFFFFF]">
+    <div className="p-6 lg:p-10 min-h-screen bg-[#FFFFFF]">
       <div className="w-full max-w-[800px]">
-        <h1
-          className={`${degular.className} text-[32px] lg:text-[36px] text-[#24282E] mb-8`}
-        >
+        <h1 className={`${degular.className} text-[32px] text-[#24282E] mb-10`}>
           Settings
         </h1>
 

@@ -22,7 +22,7 @@ const PostSuccessDialog = ({ isOpen, onOpenChange, onAddNewPost }) => {
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
-        className="sm:max-w-[500px] p-0 overflow-hidden bg-white border-none rounded-[32px] shadow-[0px_10px_50px_rgba(0,0,0,0.1)]"
+        className="sm:max-w-[450px] p-0 overflow-hidden bg-white border-none rounded-[24px] shadow-[0px_10px_50px_rgba(0,0,0,0.1)]"
       >
         <div className="p-10 flex flex-col items-center text-center relative">
           <DialogClose className="p-2 transition-colors rounded-full hover:bg-gray-100 absolute top-6 right-6">
@@ -30,29 +30,29 @@ const PostSuccessDialog = ({ isOpen, onOpenChange, onAddNewPost }) => {
           </DialogClose>
 
           {/* Success Icon */}
-          <div className="w-[100px] h-[100px] bg-[#FAFAFA] rounded-full flex items-center justify-center mb-6 mt-4">
+          <div className="w-[80px] h-[80px] bg-[#FAFAFA] rounded-full flex items-center justify-center mb-6 mt-4">
             <CheckCheck className="w-10 h-10 text-[#24282E]" />
           </div>
 
           <DialogTitle
-            className={`${degular.className} text-[32px] text-[#24282E] mb-3`}
+            className={`${degular.className} text-[26px] text-[#24282E] mb-3`}
           >
             Post Added
           </DialogTitle>
-          <p className={`${inter.className} text-[18px] text-[#757575] mb-10`}>
+          <p className={`${inter.className} text-[16px] text-[#757575] mb-10`}>
             Your post has been added successfully.
           </p>
 
           <div className="flex gap-4">
             <button
               onClick={onAddNewPost}
-              className={`${inter.className} h-[56px] px-8 rounded-full border border-[#E07386] text-[#E07386] text-[18px] font-semibold hover:bg-[#FFF5F7] transition-all`}
+              className={`${inter.className} h-14 px-8 rounded-[16px] border border-[#E07386] text-[#E07386] text-[16px] font-semibold hover:bg-[#FFF5F7] transition-all`}
             >
               Add New Post
             </button>
             <DialogClose asChild>
               <button
-                className={`${inter.className} h-[56px] px-12 rounded-full bg-[#E07386] text-white text-[18px] font-semibold hover:bg-[#D06376] transition-all shadow-[0px_4px_15px_rgba(224,115,134,0.3)]`}
+                className={`${inter.className} h-14 px-10 rounded-[16px] bg-[#E07386] text-white text-[16px] font-semibold hover:bg-[#D06376] transition-all shadow-[0px_4px_15px_rgba(224,115,134,0.3)]`}
               >
                 Home
               </button>

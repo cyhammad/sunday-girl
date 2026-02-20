@@ -106,23 +106,21 @@ const UserManagementPage = () => {
   }
 
   return (
-    <div className="p-4 lg:p-8 min-h-full bg-[#FFFFFF]">
+    <div className="p-6 lg:p-10 min-h-screen bg-[#FFFFFF]">
       <div className="w-full">
-        <h1
-          className={`${degular.className} text-[32px] lg:text-[36px] text-[#24282E] mb-8`}
-        >
+        <h1 className={`${degular.className} text-[32px] text-[#24282E] mb-10`}>
           User Management
         </h1>
 
         {/* Tabs Container */}
-        <div className="inline-flex p-1 bg-[#F5F5F5] rounded-full mb-10 border border-[#EEEEEE]">
+        <div className="inline-flex p-1.5 bg-[#F9F9F9] rounded-[30px] mb-8 border border-[#F2F2F2]">
           {tabs.map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-6 lg:px-8 py-2.5 rounded-full text-[14px] lg:text-[15px] font-semibold transition-all duration-300 ${
+              className={`px-5 py-2 rounded-[25px] text-[14px] font-medium transition-all duration-200 ${
                 activeTab === tab
-                  ? "bg-white text-[#E07386] shadow-sm border border-[#EEEEEE]"
+                  ? "text-[#E07386] shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#F2F2F2]"
                   : "text-[#8F8F8F] hover:text-[#6C6C6C]"
               }`}
             >
@@ -132,86 +130,102 @@ const UserManagementPage = () => {
         </div>
 
         {/* Table Container */}
-        <div className="bg-white rounded-[20px] border border-[#F2F2F2] shadow-[0px_4px_30px_rgba(0,0,0,0.02)] overflow-x-auto">
-          <Table className="min-w-[1000px] lg:min-w-full">
-            <TableHeader className="bg-[#F9F9F9]">
-              <TableRow className="hover:bg-transparent border-none h-[72px]">
-                {activeTab === "Emails" ? (
-                  <TableHead className="px-6 lg:px-10 text-[15px] lg:text-[16px] font-bold text-[#24282E] h-auto">
-                    Emails
-                  </TableHead>
-                ) : (
-                  <>
-                    <TableHead className="px-6 lg:px-10 text-[15px] lg:text-[16px] font-bold text-[#24282E] h-auto">
-                      Name
-                    </TableHead>
-                    <TableHead className="px-6 lg:px-10 text-[15px] lg:text-[16px] font-bold text-[#24282E] h-auto">
-                      Phone
-                    </TableHead>
-                    <TableHead className="px-6 lg:px-10 text-[15px] lg:text-[16px] font-bold text-[#24282E] h-auto">
-                      Account Status
-                    </TableHead>
-                    <TableHead className="px-6 lg:px-10 text-[15px] lg:text-[16px] font-bold text-[#24282E] h-auto">
-                      Date Joined
-                    </TableHead>
-                    <TableHead className="px-6 lg:px-10 text-[15px] lg:text-[16px] font-bold text-[#24282E] h-auto">
-                      Practices Joined
-                    </TableHead>
-                    <TableHead className="px-6 lg:px-10 text-[15px] lg:text-[16px] font-bold text-[#24282E] h-auto">
-                      Action
-                    </TableHead>
-                  </>
-                )}
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {activeTab === "Emails"
-                ? emailData.map((email, index) => (
-                    <TableRow
-                      key={index}
-                      className="border-b border-[#F2F2F2] last:border-0 hover:bg-gray-50/40 transition-colors h-[76px]"
+        <div className="bg-white rounded-[20px] border border-[#F2F2F2] overflow-hidden shadow-[0px_4px_30px_rgba(0,0,0,0.03)]">
+          <div className="overflow-x-auto">
+            <Table>
+              <TableHeader className="bg-[#F9F9F9]/50 border-b border-[#F2F2F2]">
+                <TableRow className="hover:bg-transparent border-none">
+                  {activeTab === "Emails" ? (
+                    <TableHead
+                      className={`${inter.className} px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto`}
                     >
-                      <TableCell className="px-6 lg:px-10 py-4 text-[15px] lg:text-[16px] text-[#525252] font-medium">
-                        {email}
-                      </TableCell>
-                    </TableRow>
-                  ))
-                : usersData.map((user, index) => (
-                    <TableRow
-                      key={index}
-                      className="border-b border-[#F2F2F2] last:border-0 hover:bg-gray-50/40 transition-colors h-[86px]"
-                    >
-                      <TableCell className="px-6 lg:px-10 py-4 text-[15px] lg:text-[16px] text-[#24282E] font-medium opacity-90">
-                        {user.name}
-                      </TableCell>
-                      <TableCell className="px-6 lg:px-10 py-4 text-[15px] lg:text-[16px] text-[#6C6C6C]">
-                        {user.phone}
-                      </TableCell>
-                      <TableCell className="px-6 lg:px-10 py-4 text-[15px] lg:text-[16px] text-[#6C6C6C]">
-                        {user.status}
-                      </TableCell>
-                      <TableCell className="px-6 lg:px-10 py-4 text-[15px] lg:text-[16px] text-[#6C6C6C]">
-                        {user.dateJoined}
-                      </TableCell>
-                      <TableCell className="px-6 lg:px-10 py-4 text-[15px] lg:text-[16px] text-[#6C6C6C]">
-                        {user.practices}
-                      </TableCell>
-                      <TableCell className="px-6 lg:px-10 py-4 text-[15px] lg:text-[16px]">
-                        <button
-                          onClick={() => {
-                            setSelectedUser(user);
-                            setIsDetailsOpen(true);
-                          }}
-                          className="flex items-center gap-2 text-[#E07386] font-semibold text-[13px] lg:text-[14px] hover:underline transition-all group whitespace-nowrap"
-                        >
-                          View Details
-                          <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
-                        </button>
-                      </TableCell>
-                    </TableRow>
-                  ))}
-            </TableBody>
-          </Table>
+                      Emails
+                    </TableHead>
+                  ) : (
+                    <>
+                      <TableHead
+                        className={`${inter.className} px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto`}
+                      >
+                        Name
+                      </TableHead>
+                      <TableHead
+                        className={`${inter.className} px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto`}
+                      >
+                        Phone
+                      </TableHead>
+                      <TableHead
+                        className={`${inter.className} px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto`}
+                      >
+                        Account Status
+                      </TableHead>
+                      <TableHead
+                        className={`${inter.className} px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto`}
+                      >
+                        Date Joined
+                      </TableHead>
+                      <TableHead
+                        className={`${inter.className} px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto`}
+                      >
+                        Practices Joined
+                      </TableHead>
+                      <TableHead
+                        className={`${inter.className} px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto`}
+                      >
+                        Action
+                      </TableHead>
+                    </>
+                  )}
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {activeTab === "Emails"
+                  ? emailData.map((email, index) => (
+                      <TableRow
+                        key={index}
+                        className="border-b border-[#F2F2F2] last:border-0 hover:bg-gray-50/30 transition-colors"
+                      >
+                        <TableCell className="px-8 py-7 text-[16px] text-[#525252] font-medium">
+                          {email}
+                        </TableCell>
+                      </TableRow>
+                    ))
+                  : usersData.map((user, index) => (
+                      <TableRow
+                        key={index}
+                        className="border-b border-[#F2F2F2] last:border-0 hover:bg-gray-50/30 transition-colors"
+                      >
+                        <TableCell className="px-8 py-7 text-[16px] text-[#525252] font-medium">
+                          {user.name}
+                        </TableCell>
+                        <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
+                          {user.phone}
+                        </TableCell>
+                        <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
+                          {user.status}
+                        </TableCell>
+                        <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
+                          {user.dateJoined}
+                        </TableCell>
+                        <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
+                          {user.practices}
+                        </TableCell>
+                        <TableCell className="px-8 py-7">
+                          <button
+                            onClick={() => {
+                              setSelectedUser(user);
+                              setIsDetailsOpen(true);
+                            }}
+                            className="text-[#E07386] text-[15px] font-bold flex items-center gap-1.5 group transition-colors"
+                          >
+                            View Details
+                            <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
+                          </button>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+              </TableBody>
+            </Table>
+          </div>
         </div>
       </div>
 

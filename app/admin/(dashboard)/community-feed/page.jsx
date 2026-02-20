@@ -248,13 +248,11 @@ const CommunityFeedPage = () => {
   };
 
   return (
-    <div className={`p-4 lg:p-10 min-h-screen bg-[#FFFFFF] ${inter.className}`}>
+    <div className={`p-6 lg:p-10 min-h-screen bg-[#FFFFFF] ${inter.className}`}>
       <div className="w-full">
         {/* Title & Upload Button */}
-        <div className="flex items-center justify-between mb-8">
-          <h1
-            className={`${degular.className} text-[32px] lg:text-[40px] text-[#24282E]`}
-          >
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
+          <h1 className={`${degular.className} text-[32px] text-[#24282E]`}>
             Community Feed
           </h1>
           <button
@@ -266,14 +264,14 @@ const CommunityFeedPage = () => {
         </div>
 
         {/* Tabs */}
-        <div className="inline-flex p-1 bg-[#F5F5F5] rounded-full mb-10 border border-[#EEEEEE]">
+        <div className="inline-flex p-1.5 bg-[#F9F9F9] rounded-[30px] mb-8 border border-[#F2F2F2]">
           {["All", "Flagged"].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-8 py-2.5 rounded-full text-[14px] font-semibold transition-all duration-300 ${
+              className={`px-5 py-2 rounded-[25px] text-[14px] font-medium transition-all duration-200 ${
                 activeTab === tab
-                  ? "bg-white text-[#E07386] shadow-sm border border-[#EEEEEE]"
+                  ? "text-[#E07386] shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#F2F2F2]"
                   : "text-[#8F8F8F] hover:text-[#6C6C6C]"
               }`}
             >

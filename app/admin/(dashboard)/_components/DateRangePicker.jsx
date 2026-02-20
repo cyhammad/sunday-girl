@@ -186,13 +186,12 @@ const DateRangePicker = () => {
         </Button>
       </PopoverTrigger>
       <PopoverContent
-        className="w-[422px] p-0 border-0 shadow-[0px_10px_40px_rgba(0,0,0,0.1)]"
+        className="w-[calc(100vw-2rem)] sm:w-[422px] p-0 border-0 shadow-[0px_10px_40px_rgba(0,0,0,0.1)]"
         align="end"
         sideOffset={8}
       >
         <div
-          className={`${inter.className} bg-white rounded-[10px] p-5`}
-          style={{ width: 422 }}
+          className={`${inter.className} bg-white rounded-[10px] p-5 w-full`}
         >
           {/* Title */}
           <h3

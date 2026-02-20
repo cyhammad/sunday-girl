@@ -24,13 +24,13 @@ const ViewPostDetailsDialog = ({ isOpen, onOpenChange, post, onRemove }) => {
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
-        className="fixed top-6 left-auto right-6 translate-x-0 translate-y-0 sm:max-w-[420px] p-0 overflow-hidden bg-white border-none rounded-[24px] shadow-[0px_10px_50px_rgba(0,0,0,0.12)] duration-300"
+        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:left-auto lg:right-6 lg:top-6 lg:translate-x-0 lg:translate-y-0 w-[calc(100%-2rem)] sm:max-w-[420px] p-0 overflow-hidden bg-white border-none rounded-[24px] shadow-[0px_10px_50px_rgba(0,0,0,0.12)] duration-300"
       >
         <div className="flex flex-col h-full">
           {/* Header */}
           <div className="px-8 py-5 border-b border-[#F2F2F2] flex items-center justify-between">
             <DialogTitle
-              className={`${degular.className} text-[24px] text-[#24282E]`}
+              className={`${degular.className} text-[22px] text-[#24282E]`}
             >
               View Post
             </DialogTitle>
@@ -116,13 +116,13 @@ const ViewPostDetailsDialog = ({ isOpen, onOpenChange, post, onRemove }) => {
                 onRemove?.(post.id);
                 onOpenChange(false);
               }}
-              className={`${inter.className} h-[48px] px-6 rounded-[12px] border border-[#E07386] text-[#E07386] text-[15px] font-semibold hover:bg-[#FFF5F7] transition-all`}
+              className={`${inter.className} h-11 px-6 rounded-[12px] border border-[#E07386] text-[#E07386] text-[15px] font-semibold hover:bg-[#FFF5F7] transition-all`}
             >
               Remove Post
             </button>
             <DialogClose asChild>
               <button
-                className={`${inter.className} h-[48px] px-8 rounded-[12px] bg-[#E07386] text-white text-[15px] font-semibold hover:bg-[#D06376] transition-all shadow-[0px_4px_15px_rgba(224,115,134,0.3)]`}
+                className={`${inter.className} h-11 px-8 rounded-[12px] bg-[#E07386] text-white text-[15px] font-semibold hover:bg-[#D06376] transition-all shadow-[0px_4px_15px_rgba(224,115,134,0.3)]`}
               >
                 Done
               </button>
