@@ -207,16 +207,18 @@ const Section3 = () => {
     try {
       const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LcXg1QsAAAAAIp1hCVoRpSImef0rbKSJFq9Nvc5";
 
-      // Retry logic: Wait up to 2 seconds for grecaptcha to appear
+      // Intensive retry logic: Try 10 times (5 seconds total)
       let captcha = window.grecaptcha?.enterprise || window.grecaptcha;
-      if (!captcha) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+      let retries = 0;
+      while (!captcha && retries < 10) {
+        await new Promise(resolve => setTimeout(resolve, 500));
         captcha = window.grecaptcha?.enterprise || window.grecaptcha;
+        retries++;
       }
 
       if (!captcha) {
-        console.error("reCAPTCHA library not found on window after retry.");
-        throw new Error("reCAPTCHA library not loaded. Please wait a moment and try again.");
+        console.error("reCAPTCHA library not found on window after 5 seconds.");
+        throw new Error("Unable to load security verification. If you have an ad-blocker, please disable it for this site and try again.");
       }
 
       recaptchaToken = await new Promise((resolve, reject) => {
