@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { ArrowIcon } from "@/icons/landing-icons";
 import Link from "next/link";
+import { useRecaptcha } from "@/components/RecaptchaProvider";
 
 const Section3 = () => {
   const [formData, setFormData] = useState({
@@ -34,6 +35,7 @@ const Section3 = () => {
   const [isLoading, setIsLoading] = useState(false);
   const emailInputRef = useRef(null);
   const phoneInputRef = useRef(null);
+  const { executeRecaptcha } = useRecaptcha();
 
   // No longer needs manual script injection, handled by layout Script tag
   useEffect(() => {
@@ -202,45 +204,17 @@ const Section3 = () => {
       return;
     }
 
-    // Execute reCAPTCHA Enterprise (invisible — no widget needed)
+    // Execute reCAPTCHA Enterprise
     let recaptchaToken = "";
     try {
-      const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LcXg1QsAAAAAIp1hCVoRpSImef0rbKSJFq9Nvc5";
-
-      // Intensive retry logic: Try 10 times (5 seconds total)
-      let captcha = window.grecaptcha?.enterprise || window.grecaptcha;
-      let retries = 0;
-      while (!captcha && retries < 10) {
-        await new Promise(resolve => setTimeout(resolve, 500));
-        captcha = window.grecaptcha?.enterprise || window.grecaptcha;
-        retries++;
-      }
-
-      if (!captcha) {
-        console.error("reCAPTCHA library not found on window after 5 seconds.");
-        throw new Error("Unable to load security verification. If you have an ad-blocker, please disable it for this site and try again.");
-      }
-
-      recaptchaToken = await new Promise((resolve, reject) => {
-        captcha.ready(async () => {
-          try {
-            const token = await captcha.execute(siteKey, {
-              action: "WAITLIST_SUBMIT",
-            });
-            resolve(token);
-          } catch (err) {
-            console.error("Execute Error:", err);
-            reject(err);
-          }
-        });
-      });
+      recaptchaToken = await executeRecaptcha("WAITLIST_SUBMIT");
     } catch (err) {
-      console.error("reCAPTCHA Error:", err);
+      console.error("reCAPTCHA Error Details:", err);
       setErrors((prev) => ({
         ...prev,
-        recaptcha: "reCAPTCHA could not be loaded. Please refresh and try again.",
+        recaptcha: "reCAPTCHA could not be verified. If you have an ad blocker, try disabling it.",
       }));
-      toast.error("reCAPTCHA could not be loaded. Please refresh and try again.");
+      toast.error("reCAPTCHA verification failed. Please try again.");
       return;
     }
 

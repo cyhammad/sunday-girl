@@ -1,7 +1,7 @@
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import Script from "next/script";
+import RecaptchaProvider from "@/components/RecaptchaProvider";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -14,20 +14,14 @@ export const metadata = {
     "A cozy corner of the internet where you slow down, choose yourself, and step into the life you want.",
 };
 
-
 export default function RootLayout({ children }) {
-  // Use the hardcoded key as a fallback if the env var is missing on live
-  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LcXg1QsAAAAAIp1hCVoRpSImef0rbKSJFq9Nvc5";
-
   return (
     <html lang="en">
       <body className={`${dmSans.className} flex flex-col w-full h-full`}>
-        <Script
-          src={`https://www.google.com/recaptcha/enterprise.js?render=${siteKey}`}
-          strategy="afterInteractive"
-        />
-        {children}
-        <Toaster position="top-center" richColors />
+        <RecaptchaProvider>
+          {children}
+          <Toaster position="top-center" richColors />
+        </RecaptchaProvider>
       </body>
     </html>
   );
