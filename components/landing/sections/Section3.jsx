@@ -265,18 +265,6 @@ const Section3 = () => {
       const data = await response.json();
 
       if (!response.ok) {
-        // Specific, inline feedback for common cases
-        if (response.status === 409) {
-          setErrors((prev) => ({
-            ...prev,
-            email:
-              data.error ||
-              "Looks like you’re already on the waitlist with this email.",
-          }));
-          emailInputRef.current?.focus();
-          return;
-        }
-
         // Field-level errors (if API returns them)
         if (response.status === 400 && data?.field) {
           setErrors((prev) => ({

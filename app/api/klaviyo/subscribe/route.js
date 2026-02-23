@@ -77,9 +77,9 @@ export async function POST(request) {
         // Verify with reCAPTCHA Enterprise Assessment API
         const recaptchaApiKey = process.env.RECAPTCHA_API_KEY;
         const recaptchaProjectId = process.env.RECAPTCHA_PROJECT_ID;
-        const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+        const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LcXg1QsAAAAAIp1hCVoRpSImef0rbKSJFq9Nvc5";
 
-        if (recaptchaApiKey && recaptchaProjectId && recaptchaSiteKey) {
+        if (recaptchaApiKey && recaptchaProjectId) {
             const assessmentUrl = `https://recaptchaenterprise.googleapis.com/v1/projects/${recaptchaProjectId}/assessments?key=${recaptchaApiKey}`;
 
             const assessmentBody = {
@@ -122,9 +122,9 @@ export async function POST(request) {
                 );
             }
 
-            // Score: 1.0 = very likely human, 0.0 = very likely bot. Reject below 0.5.
+            // Score: 1.0 = very likely human, 0.0 = very likely bot. Reject below 0.3 (more lenient)
             const score = assessmentData?.riskAnalysis?.score ?? 0;
-            if (score < 0.5) {
+            if (score < 0.3) {
                 return NextResponse.json(
                     { error: "reCAPTCHA score too low. Please try again." },
                     { status: 400 }
@@ -188,13 +188,24 @@ export async function POST(request) {
             }),
         });
 
-        // Handle duplicate profile (409 conflict) - reject duplicate submissions
         let profileId;
         if (profileResponse.status === 409) {
-            return NextResponse.json(
-                { error: "This email is already on the waitlist!" },
-                { status: 409 }
-            );
+            // Duplicate profile - fetch the existing profile ID to proceed
+            const errorData = await profileResponse.json();
+            // Klaviyo errors for 409 usually include the ID in the error meta/detail
+            profileId = errorData.errors?.[0]?.meta?.duplicate_profile_id;
+
+            // If ID wasn't in the error, we try to fetch it by email
+            if (!profileId) {
+                const searchResponse = await fetch(`${KLAVIYO_API_URL}/profiles/?filter=equals(email,"${normalizedEmail}")`, {
+                    headers: {
+                        Authorization: `Klaviyo-API-Key ${privateKey}`,
+                        revision: KLAVIYO_REVISION,
+                    }
+                });
+                const searchData = await searchResponse.json();
+                profileId = searchData.data?.[0]?.id;
+            }
         } else if (!profileResponse.ok) {
             const errorData = await profileResponse.json();
             console.error("Klaviyo API error:", errorData);
