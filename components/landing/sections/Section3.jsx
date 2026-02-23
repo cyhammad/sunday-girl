@@ -2,7 +2,6 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Image from "next/image";
-import ReCAPTCHA from "react-google-recaptcha";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -33,13 +32,19 @@ const Section3 = () => {
     recaptcha: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const recaptchaRef = useRef(null);
   const emailInputRef = useRef(null);
   const phoneInputRef = useRef(null);
-  const [isMounted, setIsMounted] = useState(false);
 
+  // Load reCAPTCHA Enterprise script once on mount
   useEffect(() => {
-    setIsMounted(true);
+    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+    if (!siteKey || document.getElementById("recaptcha-enterprise-script")) return;
+    const script = document.createElement("script");
+    script.id = "recaptcha-enterprise-script";
+    script.src = `https://www.google.com/recaptcha/enterprise.js?render=${siteKey}`;
+    script.async = true;
+    script.defer = true;
+    document.head.appendChild(script);
   }, []);
 
   const resetForm = () => {
@@ -56,9 +61,6 @@ const Section3 = () => {
       consent: "",
       recaptcha: "",
     });
-    if (recaptchaRef.current) {
-      recaptchaRef.current.reset();
-    }
   };
 
   const validateEmail = (rawEmail) => {
@@ -185,30 +187,51 @@ const Section3 = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const recaptchaToken = recaptchaRef.current?.getValue?.();
-
-    // Validation (show inline errors on submit)
-    const nextErrors = {
+    // Validate form fields first (before awaiting reCAPTCHA)
+    const fieldErrors = {
       email: validateEmail(formData.email),
       phone: validatePhone(formData.phone),
       consent: formData.consent
         ? ""
         : "Please check the box to agree to Terms & Privacy.",
-      recaptcha: recaptchaToken
-        ? ""
-        : "Please complete the reCAPTCHA to submit.",
+      recaptcha: "",
     };
 
-    // Always refresh errors so stale messages (e.g. reCAPTCHA) don't linger
-    setErrors(nextErrors);
-
-    const hasErrors = Object.values(nextErrors).some(Boolean);
-    if (hasErrors) {
+    const hasFieldErrors = Object.values(fieldErrors).some(Boolean);
+    if (hasFieldErrors) {
+      setErrors(fieldErrors);
       toast.error("Please fix the highlighted fields and try again.");
-      if (nextErrors.email) emailInputRef.current?.focus();
-      else if (nextErrors.phone) phoneInputRef.current?.focus();
+      if (fieldErrors.email) emailInputRef.current?.focus();
+      else if (fieldErrors.phone) phoneInputRef.current?.focus();
       return;
     }
+
+    // Execute reCAPTCHA Enterprise (invisible — no widget needed)
+    let recaptchaToken = "";
+    try {
+      const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+      recaptchaToken = await window.grecaptcha.enterprise.execute(siteKey, {
+        action: "WAITLIST_SUBMIT",
+      });
+    } catch (err) {
+      setErrors((prev) => ({
+        ...prev,
+        recaptcha: "reCAPTCHA could not be loaded. Please refresh and try again.",
+      }));
+      toast.error("reCAPTCHA could not be loaded. Please refresh and try again.");
+      return;
+    }
+
+    if (!recaptchaToken) {
+      setErrors((prev) => ({
+        ...prev,
+        recaptcha: "reCAPTCHA verification failed. Please try again.",
+      }));
+      toast.error("reCAPTCHA verification failed. Please try again.");
+      return;
+    }
+
+    setErrors({ email: "", phone: "", consent: "", recaptcha: "" });
 
     setIsLoading(true);
 
@@ -425,22 +448,10 @@ const Section3 = () => {
             ) : null}
           </div>
 
-          {/* reCAPTCHA */}
-          <div className="mt-2 space-y-2">
-            {isMounted && (
-              <ReCAPTCHA
-                ref={recaptchaRef}
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                onChange={() => {
-                  if (errors.recaptcha)
-                    setErrors((prev) => ({ ...prev, recaptcha: "" }));
-                }}
-              />
-            )}
-            {errors.recaptcha ? (
-              <p className="text-sm text-red-600">{errors.recaptcha}</p>
-            ) : null}
-          </div>
+          {/* reCAPTCHA Enterprise — invisible, no widget rendered */}
+          {errors.recaptcha ? (
+            <p className="text-sm text-red-600">{errors.recaptcha}</p>
+          ) : null}
 
           {/* Submit Button */}
           <Button

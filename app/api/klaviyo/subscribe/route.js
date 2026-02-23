@@ -74,18 +74,59 @@ export async function POST(request) {
             );
         }
 
-        const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
-        if (recaptchaSecret) {
-            const recaptchaResponse = await fetch(
-                `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${recaptchaToken}`,
-                { method: "POST" }
-            );
+        // Verify with reCAPTCHA Enterprise Assessment API
+        const recaptchaApiKey = process.env.RECAPTCHA_API_KEY;
+        const recaptchaProjectId = process.env.RECAPTCHA_PROJECT_ID;
+        const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
 
-            const recaptchaData = await recaptchaResponse.json();
+        if (recaptchaApiKey && recaptchaProjectId && recaptchaSiteKey) {
+            const assessmentUrl = `https://recaptchaenterprise.googleapis.com/v1/projects/${recaptchaProjectId}/assessments?key=${recaptchaApiKey}`;
 
-            if (!recaptchaData.success) {
+            const assessmentBody = {
+                event: {
+                    token: recaptchaToken,
+                    expectedAction: "WAITLIST_SUBMIT",
+                    siteKey: recaptchaSiteKey,
+                },
+            };
+
+            const recaptchaResponse = await fetch(assessmentUrl, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(assessmentBody),
+            });
+
+            if (!recaptchaResponse.ok) {
+                console.error("reCAPTCHA Enterprise API error:", recaptchaResponse.status);
                 return NextResponse.json(
                     { error: "reCAPTCHA verification failed" },
+                    { status: 400 }
+                );
+            }
+
+            const assessmentData = await recaptchaResponse.json();
+
+            // tokenProperties.valid must be true and the action must match
+            if (!assessmentData?.tokenProperties?.valid) {
+                console.error("reCAPTCHA token invalid:", assessmentData?.tokenProperties?.invalidReason);
+                return NextResponse.json(
+                    { error: "reCAPTCHA token is invalid or expired. Please try again." },
+                    { status: 400 }
+                );
+            }
+
+            if (assessmentData?.tokenProperties?.action !== "WAITLIST_SUBMIT") {
+                return NextResponse.json(
+                    { error: "reCAPTCHA action mismatch." },
+                    { status: 400 }
+                );
+            }
+
+            // Score: 1.0 = very likely human, 0.0 = very likely bot. Reject below 0.5.
+            const score = assessmentData?.riskAnalysis?.score ?? 0;
+            if (score < 0.5) {
+                return NextResponse.json(
+                    { error: "reCAPTCHA score too low. Please try again." },
                     { status: 400 }
                 );
             }
