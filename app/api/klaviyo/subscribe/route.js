@@ -73,42 +73,34 @@ export async function POST(request) {
                 { status: 400 }
             );
         }
+        const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY || process.env.RECAPTCHA_API_KEY; // Re-use API key for v3 secret locally
+        // Verify with standard reCAPTCHA v3
+        if (recaptchaSecret) {
+            const formData = new URLSearchParams();
+            formData.append("secret", recaptchaSecret);
+            formData.append("response", recaptchaToken);
 
-        const recaptchaApiKey = process.env.RECAPTCHA_API_KEY;
-        const recaptchaProjectId = process.env.RECAPTCHA_PROJECT_ID; // Keeping RECAPTCHA_PROJECT_ID to match .env
-        const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LcXg1QsAAAAAIp1hCVoRpSImef0rbKSJFq9Nvc5";
-
-        if (recaptchaApiKey && recaptchaProjectId) {
-            // Call reCAPTCHA Enterprise Assessment API
-            const assessmentUrl = `https://recaptchaenterprise.googleapis.com/v1/projects/${recaptchaProjectId}/assessments?key=${recaptchaApiKey}`;
-
-            const verifyRes = await fetch(assessmentUrl, {
+            const verifyRes = await fetch("https://www.google.com/recaptcha/api/siteverify", {
                 method: "POST",
-                headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({
-                    event: {
-                        token: recaptchaToken,
-                        siteKey: recaptchaSiteKey,
-                        expectedAction: "WAITLIST_SUBMIT", // must match what you passed on frontend
-                    }
-                }),
+                headers: { "Content-Type": "application/x-www-form-urlencoded" },
+                body: formData.toString()
             });
 
             const assessment = await verifyRes.json();
 
             // Check token validity
-            if (!assessment.tokenProperties?.valid) {
-                console.error("Invalid token:", assessment.tokenProperties?.invalidReason);
+            if (!assessment.success) {
+                console.error("Invalid token:", assessment["error-codes"]);
                 return NextResponse.json({ error: "Invalid reCAPTCHA token" }, { status: 400 });
             }
 
             // Check action matches
-            if (assessment.tokenProperties.action !== "WAITLIST_SUBMIT") {
+            if (assessment.action !== "WAITLIST_SUBMIT") {
                 return NextResponse.json({ error: "Action mismatch" }, { status: 400 });
             }
 
             // Check score (0.0 = likely bot, 1.0 = likely human)
-            const score = assessment.riskAnalysis?.score;
+            const score = assessment.score ?? 0;
             if (score < 0.3) {
                 return NextResponse.json({ error: "Suspected bot activity" }, { status: 400 });
             }

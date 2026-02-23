@@ -1,7 +1,7 @@
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
-import RecaptchaProvider from "@/components/RecaptchaProvider";
+import { RecaptchaProvider } from "@/components/RecaptchaProvider";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
