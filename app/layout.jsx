@@ -21,11 +21,14 @@ export default function RootLayout({ children }) {
 
   return (
     <html lang="en">
-      <body className={`${dmSans.className} flex flex-col w-full h-full`}>
-        <Script
+      <head>
+        <script
           src={`https://www.google.com/recaptcha/enterprise.js?render=${siteKey}`}
-          strategy="afterInteractive"
+          async
+          defer
         />
+      </head>
+      <body className={`${dmSans.className} flex flex-col w-full h-full`}>
         {children}
         <Toaster position="top-center" richColors />
       </body>

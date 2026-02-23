@@ -207,12 +207,16 @@ const Section3 = () => {
     try {
       const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LcXg1QsAAAAAIp1hCVoRpSImef0rbKSJFq9Nvc5";
 
-      // Ensure grecaptcha is available
-      const captcha = window.grecaptcha?.enterprise || window.grecaptcha;
+      // Retry logic: Wait up to 2 seconds for grecaptcha to appear
+      let captcha = window.grecaptcha?.enterprise || window.grecaptcha;
+      if (!captcha) {
+        await new Promise(resolve => setTimeout(resolve, 1000));
+        captcha = window.grecaptcha?.enterprise || window.grecaptcha;
+      }
 
       if (!captcha) {
-        console.error("reCAPTCHA library not found on window.");
-        throw new Error("reCAPTCHA library not loaded");
+        console.error("reCAPTCHA library not found on window after retry.");
+        throw new Error("reCAPTCHA library not loaded. Please wait a moment and try again.");
       }
 
       recaptchaToken = await new Promise((resolve, reject) => {
