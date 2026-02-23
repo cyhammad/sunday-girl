@@ -23,7 +23,7 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body className={`${dmSans.className} flex flex-col w-full h-full`}>
         <Script
-          src={`https://www.google.com/recaptcha/enterprise.js?render=${siteKey}`}
+          src={`https://www.recaptcha.net/recaptcha/enterprise.js?render=${siteKey}`}
           strategy="beforeInteractive"
         />
         {children}
