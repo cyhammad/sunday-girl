@@ -205,21 +205,25 @@ const Section3 = () => {
     // Execute reCAPTCHA Enterprise (invisible — no widget needed)
     let recaptchaToken = "";
     try {
-      const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
+      const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "6LcXg1QsAAAAAIp1hCVoRpSImef0rbKSJFq9Nvc5";
 
-      // Ensure grecaptcha is available and ready
-      if (!window.grecaptcha?.enterprise) {
+      // Ensure grecaptcha is available
+      const captcha = window.grecaptcha?.enterprise || window.grecaptcha;
+
+      if (!captcha) {
+        console.error("reCAPTCHA library not found on window.");
         throw new Error("reCAPTCHA library not loaded");
       }
 
       recaptchaToken = await new Promise((resolve, reject) => {
-        window.grecaptcha.enterprise.ready(async () => {
+        captcha.ready(async () => {
           try {
-            const token = await window.grecaptcha.enterprise.execute(siteKey, {
+            const token = await captcha.execute(siteKey, {
               action: "WAITLIST_SUBMIT",
             });
             resolve(token);
           } catch (err) {
+            console.error("Execute Error:", err);
             reject(err);
           }
         });
