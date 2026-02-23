@@ -35,16 +35,12 @@ const Section3 = () => {
   const emailInputRef = useRef(null);
   const phoneInputRef = useRef(null);
 
-  // Load reCAPTCHA Enterprise script once on mount
+  // No longer needs manual script injection, handled by layout Script tag
   useEffect(() => {
-    const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-    if (!siteKey || document.getElementById("recaptcha-enterprise-script")) return;
-    const script = document.createElement("script");
-    script.id = "recaptcha-enterprise-script";
-    script.src = `https://www.google.com/recaptcha/enterprise.js?render=${siteKey}`;
-    script.async = true;
-    script.defer = true;
-    document.head.appendChild(script);
+    // Ensuring the environment variable is present for the component
+    if (!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
+      console.warn("NEXT_PUBLIC_RECAPTCHA_SITE_KEY is missing");
+    }
   }, []);
 
   const resetForm = () => {
@@ -210,10 +206,26 @@ const Section3 = () => {
     let recaptchaToken = "";
     try {
       const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-      recaptchaToken = await window.grecaptcha.enterprise.execute(siteKey, {
-        action: "WAITLIST_SUBMIT",
+
+      // Ensure grecaptcha is available and ready
+      if (!window.grecaptcha?.enterprise) {
+        throw new Error("reCAPTCHA library not loaded");
+      }
+
+      recaptchaToken = await new Promise((resolve, reject) => {
+        window.grecaptcha.enterprise.ready(async () => {
+          try {
+            const token = await window.grecaptcha.enterprise.execute(siteKey, {
+              action: "WAITLIST_SUBMIT",
+            });
+            resolve(token);
+          } catch (err) {
+            reject(err);
+          }
+        });
       });
     } catch (err) {
+      console.error("reCAPTCHA Error:", err);
       setErrors((prev) => ({
         ...prev,
         recaptcha: "reCAPTCHA could not be loaded. Please refresh and try again.",
