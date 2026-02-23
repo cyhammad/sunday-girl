@@ -13,6 +13,7 @@ export const metadata = {
     "A cozy corner of the internet where you slow down, choose yourself, and step into the life you want.",
 };
 
+
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
