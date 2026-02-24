@@ -1,6 +1,7 @@
 import { DM_Sans } from "next/font/google";
 import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
+import { RecaptchaProvider } from "@/components/RecaptchaProvider";
 
 const dmSans = DM_Sans({
   variable: "--font-dm-sans",
@@ -17,8 +18,10 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={`${dmSans.className} flex flex-col w-full h-full`}>
-        {children}
-        <Toaster position="top-center" richColors />
+        <RecaptchaProvider>
+          {children}
+          <Toaster position="top-center" richColors />
+        </RecaptchaProvider>
       </body>
     </html>
   );

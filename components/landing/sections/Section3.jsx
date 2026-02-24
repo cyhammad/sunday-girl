@@ -1,8 +1,7 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
-import ReCAPTCHA from "react-google-recaptcha";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import {
@@ -30,17 +29,10 @@ const Section3 = () => {
     email: "",
     phone: "",
     consent: "",
-    recaptcha: "",
   });
   const [isLoading, setIsLoading] = useState(false);
-  const recaptchaRef = useRef(null);
   const emailInputRef = useRef(null);
   const phoneInputRef = useRef(null);
-  const [isMounted, setIsMounted] = useState(false);
-
-  useEffect(() => {
-    setIsMounted(true);
-  }, []);
 
   const resetForm = () => {
     setFormData({
@@ -54,11 +46,7 @@ const Section3 = () => {
       email: "",
       phone: "",
       consent: "",
-      recaptcha: "",
     });
-    if (recaptchaRef.current) {
-      recaptchaRef.current.reset();
-    }
   };
 
   const validateEmail = (rawEmail) => {
@@ -185,30 +173,26 @@ const Section3 = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const recaptchaToken = recaptchaRef.current?.getValue?.();
-
-    // Validation (show inline errors on submit)
-    const nextErrors = {
+    // Validate form fields first
+    const fieldErrors = {
       email: validateEmail(formData.email),
       phone: validatePhone(formData.phone),
       consent: formData.consent
         ? ""
         : "Please check the box to agree to Terms & Privacy.",
-      recaptcha: recaptchaToken
-        ? ""
-        : "Please complete the reCAPTCHA to submit.",
     };
 
-    // Always refresh errors so stale messages (e.g. reCAPTCHA) don't linger
-    setErrors(nextErrors);
-
-    const hasErrors = Object.values(nextErrors).some(Boolean);
-    if (hasErrors) {
+    const hasFieldErrors = Object.values(fieldErrors).some(Boolean);
+    if (hasFieldErrors) {
+      setErrors(fieldErrors);
       toast.error("Please fix the highlighted fields and try again.");
-      if (nextErrors.email) emailInputRef.current?.focus();
-      else if (nextErrors.phone) phoneInputRef.current?.focus();
+      if (fieldErrors.email) emailInputRef.current?.focus();
+      else if (fieldErrors.phone) phoneInputRef.current?.focus();
       return;
     }
+
+    // Clear any existing field errors before submitting
+    setErrors({ email: "", phone: "", consent: "" });
 
     setIsLoading(true);
 
@@ -223,25 +207,12 @@ const Section3 = () => {
           firstName: formData.firstName,
           phone: formData.phone,
           wantMore: formData.wantMore,
-          recaptchaToken,
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        // Specific, inline feedback for common cases
-        if (response.status === 409) {
-          setErrors((prev) => ({
-            ...prev,
-            email:
-              data.error ||
-              "Looks like you’re already on the waitlist with this email.",
-          }));
-          emailInputRef.current?.focus();
-          return;
-        }
-
         // Field-level errors (if API returns them)
         if (response.status === 400 && data?.field) {
           setErrors((prev) => ({
@@ -422,23 +393,6 @@ const Section3 = () => {
               <p id="consent-error" className="text-sm text-red-600">
                 {errors.consent}
               </p>
-            ) : null}
-          </div>
-
-          {/* reCAPTCHA */}
-          <div className="mt-2 space-y-2">
-            {isMounted && (
-              <ReCAPTCHA
-                ref={recaptchaRef}
-                sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
-                onChange={() => {
-                  if (errors.recaptcha)
-                    setErrors((prev) => ({ ...prev, recaptcha: "" }));
-                }}
-              />
-            )}
-            {errors.recaptcha ? (
-              <p className="text-sm text-red-600">{errors.recaptcha}</p>
             ) : null}
           </div>
 

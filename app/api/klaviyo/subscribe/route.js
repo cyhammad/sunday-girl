@@ -1,7 +1,8 @@
 import { NextResponse } from "next/server";
 
 const KLAVIYO_API_URL = "https://a.klaviyo.com/api";
-const KLAVIYO_REVISION = "2024-02-15";
+// Use the latest Klaviyo API revision so we can call the bulk subscribe endpoint
+const KLAVIYO_REVISION = "2026-01-15";
 
 function validateEmail(rawEmail) {
     const email = String(rawEmail ?? "").trim().toLowerCase();
@@ -64,32 +65,7 @@ function normalizePhoneForKlaviyo(rawPhone) {
 
 export async function POST(request) {
     try {
-        const { email, firstName, phone, wantMore, recaptchaToken } = await request.json();
-
-        // Validate reCAPTCHA
-        if (!recaptchaToken) {
-            return NextResponse.json(
-                { error: "reCAPTCHA token is missing" },
-                { status: 400 }
-            );
-        }
-
-        const recaptchaSecret = process.env.RECAPTCHA_SECRET_KEY;
-        if (recaptchaSecret) {
-            const recaptchaResponse = await fetch(
-                `https://www.google.com/recaptcha/api/siteverify?secret=${recaptchaSecret}&response=${recaptchaToken}`,
-                { method: "POST" }
-            );
-
-            const recaptchaData = await recaptchaResponse.json();
-
-            if (!recaptchaData.success) {
-                return NextResponse.json(
-                    { error: "reCAPTCHA verification failed" },
-                    { status: 400 }
-                );
-            }
-        }
+        const { email, firstName, phone, wantMore } = await request.json();
 
         // Validate required fields
         const emailError = validateEmail(email);
@@ -119,7 +95,7 @@ export async function POST(request) {
             );
         }
 
-        // Build profile attributes
+        // Build profile attributes (general profile data + custom properties)
         const profileAttributes = {
             email: normalizedEmail,
             ...(firstName && { first_name: firstName }),
@@ -147,15 +123,81 @@ export async function POST(request) {
             }),
         });
 
-        // Handle duplicate profile (409 conflict) - reject duplicate submissions
         let profileId;
         if (profileResponse.status === 409) {
-            return NextResponse.json(
-                { error: "This email is already on the waitlist!" },
-                { status: 409 }
-            );
-        } else if (!profileResponse.ok) {
+            // Profile already exists — resolve the existing profile and update it
             const errorData = await profileResponse.json();
+            profileId = errorData.errors?.[0]?.meta?.duplicate_profile_id;
+
+            // Fallback: look up profile by email if ID is not in the error meta
+            if (!profileId) {
+                const searchResponse = await fetch(
+                    `${KLAVIYO_API_URL}/profiles/?filter=equals(email,"${normalizedEmail}")`,
+                    {
+                        headers: {
+                            Authorization: `Klaviyo-API-Key ${privateKey}`,
+                            revision: KLAVIYO_REVISION,
+                        },
+                    }
+                );
+                const searchData = await searchResponse.json();
+                profileId = searchData.data?.[0]?.id;
+            }
+
+            if (!profileId) {
+                console.error("Unable to resolve duplicate Klaviyo profile for email", normalizedEmail);
+                return NextResponse.json(
+                    { error: "Failed to resolve existing profile" },
+                    { status: 500 }
+                );
+            }
+
+            // Properly update the existing profile instead of trying to recreate it
+            const updateResponse = await fetch(`${KLAVIYO_API_URL}/profiles/${profileId}/`, {
+                method: "PATCH",
+                headers: {
+                    Authorization: `Klaviyo-API-Key ${privateKey}`,
+                    "Content-Type": "application/json",
+                    revision: KLAVIYO_REVISION,
+                },
+                body: JSON.stringify({
+                    data: {
+                        type: "profile",
+                        id: profileId,
+                        attributes: profileAttributes,
+                    },
+                }),
+            });
+
+            if (!updateResponse.ok) {
+                const updateError = await updateResponse.json().catch(() => null);
+                console.error("Klaviyo update profile error:", updateError);
+
+                const klaviyoDetail = updateError?.errors?.[0]?.detail;
+                if (updateResponse.status === 400 && klaviyoDetail) {
+                    // Map Klaviyo's technical SMS error to a user-friendly message
+                    let message = klaviyoDetail;
+                    if (
+                        klaviyoDetail.includes("ChannelType.SMS") ||
+                        klaviyoDetail.includes("does not exist or is ineligible")
+                    ) {
+                        message =
+                            "The phone number provided either does not exist or cannot receive text messages. Please double-check the number or use a different one.";
+                    }
+
+                    return NextResponse.json(
+                        { error: message },
+                        { status: 400 }
+                    );
+                }
+
+                return NextResponse.json(
+                    { error: "Failed to update profile" },
+                    { status: 500 }
+                );
+            }
+        } else if (!profileResponse.ok) {
+            const errorData = await profileResponse.json().catch(() => null);
             console.error("Klaviyo API error:", errorData);
             return NextResponse.json(
                 { error: "Failed to subscribe" },
@@ -166,25 +208,78 @@ export async function POST(request) {
             profileId = profileData.data.id;
         }
 
-        // Subscribe to email list if KLAVIYO_LIST_ID is configured
+        // Use Klaviyo's bulk_subscribe_profiles endpoint so profiles are actually SUBSCRIBED
         const listId = process.env.KLAVIYO_LIST_ID;
-        if (listId && profileId) {
-            await fetch(`${KLAVIYO_API_URL}/lists/${listId}/relationships/profiles/`, {
+
+        // Build subscription channels: always subscribe to email marketing,
+        // and to SMS marketing only if we have a valid E.164 phone number.
+        const subscriptions = {
+            email: {
+                marketing: {
+                    consent: "SUBSCRIBED",
+                },
+            },
+        };
+
+        if (normalizedPhone) {
+            subscriptions.sms = {
+                marketing: {
+                    consent: "SUBSCRIBED",
+                },
+            };
+        }
+
+        const bulkSubscribeBody = {
+            data: {
+                type: "profile-subscription-bulk-create-job",
+                attributes: {
+                    custom_source: "Website Waitlist",
+                    profiles: {
+                        data: [
+                            {
+                                type: "profile",
+                                attributes: {
+                                    email: normalizedEmail,
+                                    ...(normalizedPhone && { phone_number: normalizedPhone }),
+                                    subscriptions,
+                                },
+                            },
+                        ],
+                    },
+                },
+                ...(listId && {
+                    relationships: {
+                        list: {
+                            data: {
+                                type: "list",
+                                id: listId,
+                            },
+                        },
+                    },
+                }),
+            },
+        };
+
+        const bulkSubscribeResponse = await fetch(
+            `${KLAVIYO_API_URL}/profile-subscription-bulk-create-jobs`,
+            {
                 method: "POST",
                 headers: {
                     Authorization: `Klaviyo-API-Key ${privateKey}`,
-                    "Content-Type": "application/json",
+                    "Content-Type": "application/vnd.api+json",
                     revision: KLAVIYO_REVISION,
                 },
-                body: JSON.stringify({
-                    data: [
-                        {
-                            type: "profile",
-                            id: profileId,
-                        },
-                    ],
-                }),
-            });
+                body: JSON.stringify(bulkSubscribeBody),
+            }
+        );
+
+        if (!bulkSubscribeResponse.ok) {
+            const bulkError = await bulkSubscribeResponse.json().catch(() => null);
+            console.error("Klaviyo bulk subscribe error:", bulkError);
+            return NextResponse.json(
+                { error: "Failed to subscribe profile to marketing" },
+                { status: 500 }
+            );
         }
 
         return NextResponse.json(
