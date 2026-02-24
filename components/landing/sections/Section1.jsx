@@ -24,6 +24,7 @@ const Section1 = () => {
           <button
             className="size-[70px] sm:size-24 rounded-full bg-white/16 border border-white/25 hover:bg-white transition-colors flex items-center justify-center shadow-lg"
             aria-label="Play video"
+            suppressHydrationWarning
           >
             <svg
               width="48"
@@ -63,14 +64,12 @@ const Section1 = () => {
           To actually hear yourself. To break the loops. To practice who you're
           becoming, not just talk about her.
         </p>
-        <Link className="mt-2" href="/#section3">
-          <Button
-            className="text-xl h-[58px] w-[165px] gap-1.5"
-          >
+        <Button asChild className="mt-2 text-xl h-[58px] w-[165px] gap-1.5">
+          <Link href="/#section3">
             I'm so in
             <ArrowIcon className="size-5" />
-          </Button>
-        </Link>
+          </Link>
+        </Button>
       </div>
     </div>
   );

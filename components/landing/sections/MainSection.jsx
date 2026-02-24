@@ -25,19 +25,23 @@ const MainSection = () => {
         sizes="100vw"
         className="object-cover object-bottom hidden sm:block"
       />
-      <h1 className="text-[42px] md:text-[52px] tracking-tight font-bold pt-2 relative z-10">This one's for us.</h1>
+      <h1 className="text-[42px] md:text-[52px] tracking-tight font-bold pt-2 relative z-10">
+        This one's for us.
+      </h1>
       <p className="text-[25px] leading-[30px] sm:text-[40px] max-w-[362px] sm:max-w-none tracking-normal font-light text-[#ECECEC] relative z-10">
         The space we've craved but never quite found.
       </p>
-      <Link href="/#section3">
-        <Button className="mt-5.5 text-xl tracking-normal h-[58px] w-[165px] relative z-10 gap-1">
+      <Button
+        asChild
+        className="mt-5.5 text-xl tracking-normal h-[58px] w-[165px] relative z-10 gap-1"
+      >
+        <Link href="/#section3">
           I'm so in
           <ArrowIcon className="size-5" />
-        </Button>
-      </Link>
+        </Link>
+      </Button>
     </div>
   );
 };
 
 export default MainSection;
-

@@ -1,7 +1,8 @@
 "use client";
 
 import React, { useState, useMemo } from "react";
-import { ChevronLeft, ChevronRight, Calendar } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { CalendarIcon } from "@/components/icons/icons";
 import localFont from "next/font/local";
 import { Inter } from "next/font/google";
 import {
@@ -99,7 +100,7 @@ const DateRangePicker = () => {
         variant="outline"
         className="bg-white border-[#E5E5E5] text-[#6C6C6C] font-medium rounded-[12px] h-[44px] px-4 shadow-sm"
       >
-        <Calendar className="w-4 h-4 mr-2" />
+        <CalendarIcon className="w-4 h-4 mr-2" />
         Date Range
       </Button>
     );
@@ -179,9 +180,9 @@ const DateRangePicker = () => {
       <PopoverTrigger asChild>
         <Button
           variant="outline"
-          className="bg-white border-[#E5E5E5] text-[#6C6C6C] font-medium rounded-[12px] h-[44px] px-4 shadow-sm"
+          className="bg-white border-2 border-[#EFEFEF] text-[#6C6C6C] font-medium rounded-[12px] h-[44px] px-4"
         >
-          <Calendar className="w-4 h-4 mr-2" />
+          <CalendarIcon className="w-5 h-5 mr-2" />
           Date Range
         </Button>
       </PopoverTrigger>

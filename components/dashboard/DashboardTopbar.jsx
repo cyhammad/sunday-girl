@@ -144,7 +144,7 @@ const DashboardTopbar = () => {
                 {notifications.map((notif, index) => (
                   <div
                     key={index}
-                    className="px-6 py-4 hover:bg-[#FAFAFA] transition-colors cursor-pointer"
+                    className="px-6 py-2 hover:bg-[#FAFAFA] transition-colors cursor-pointer"
                   >
                     <div className="flex items-start gap-4">
                       {/* Avatar */}

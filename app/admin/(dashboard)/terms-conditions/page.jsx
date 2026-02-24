@@ -45,7 +45,7 @@ Our policy is periodically reviewed and updated to reflect changes in our practi
 
       return (
         <div key={index}>
-          <h2 className="text-[16px] font-bold text-[#24282E] mb-2">{title}</h2>
+          <h2 className="text-[16px] font-bold text-[#24282E] mb-1">{title}</h2>
           {text && (
             <p className="text-[15px] text-[#757575] leading-relaxed">{text}</p>
           )}
@@ -56,7 +56,7 @@ Our policy is periodically reviewed and updated to reflect changes in our practi
 
   return (
     <div className={`p-6 lg:p-10 min-h-screen bg-[#FFFFFF] ${inter.className}`}>
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <h1 className={`${degular.className} text-[32px] text-[#24282E]`}>
           Terms & Conditions
         </h1>
@@ -70,9 +70,9 @@ Our policy is periodically reviewed and updated to reflect changes in our practi
       </div>
 
       <div className="max-w-[900px]">
-        <div className="space-y-8">
+        <div className="space-y-4">
           <div>
-            <h2 className="text-[16px] font-bold text-[#24282E] mb-2">
+            <h2 className="text-[16px] font-bold text-[#24282E] mb-1">
               Introduction
             </h2>
           </div>

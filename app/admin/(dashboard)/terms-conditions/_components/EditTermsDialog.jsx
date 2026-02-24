@@ -33,9 +33,12 @@ const EditTermsDialog = ({ isOpen, onOpenChange, initialContent, onSave }) => {
 
   return (
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
-      <DialogContent className="sm:max-w-[550px] p-0 overflow-hidden bg-white border-none rounded-[24px] shadow-[0px_10px_50px_rgba(0,0,0,0.1)]">
+      <DialogContent
+        className="sm:max-w-[550px] p-0 overflow-hidden bg-white border-none rounded-[24px] shadow-[0px_10px_50px_rgba(0,0,0,0.1)]"
+        showCloseButton={false}
+      >
         <div className="p-8">
-          <DialogHeader className="flex flex-row items-center justify-between mb-6 space-y-0">
+          <DialogHeader className="flex flex-row items-center justify-between mb-4 space-y-0">
             <DialogTitle
               className={`${degular.className} text-[22px] text-[#24282E]`}
             >
@@ -46,9 +49,9 @@ const EditTermsDialog = ({ isOpen, onOpenChange, initialContent, onSave }) => {
             </DialogClose>
           </DialogHeader>
 
-          <div className="mb-8">
+          <div className="mb-6">
             <label
-              className={`${inter.className} block text-[18px] text-[#8F8F8F] mb-3`}
+              className={`${inter.className} block text-[18px] text-[#8F8F8F] mb-1.5`}
             >
               Description
             </label>

@@ -14,7 +14,9 @@ const Section2 = () => {
         <h1 className="text-2xl md:text-3xl font-bold leading-tight text-primary">
           What This Space Would Give
         </h1>
-        <p className="">It's not another "soft girl era" with a never-ending to do list.</p>
+        <p className="">
+          It's not another "soft girl era" with a never-ending to do list.
+        </p>
         <p>
           It's just space. <br /> To share the wins, the progress, the awkward
           stuff, and the off-days. To feel seen without needing to explain
@@ -27,14 +29,15 @@ const Section2 = () => {
           day.
         </p>
         <p className="">That's exactly what this space is for.</p>
-        <Link href="/#section3">
         <Button
+          asChild
           className="mt-2 text-xl h-[58px] md:h-[58px] w-[165px] gap-1.5"
         >
-          I'm so in
-          <ArrowIcon className="size-5" />
+          <Link href="/#section3">
+            I'm so in
+            <ArrowIcon className="size-5" />
+          </Link>
         </Button>
-        </Link>
       </div>
       <div className="relative order-1 lg:order-2 rounded-2xl min-h-[390px] sm:min-h-auto overflow-hidden">
         <Image

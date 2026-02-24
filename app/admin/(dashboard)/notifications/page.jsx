@@ -3,13 +3,8 @@
 import React, { useState, useEffect } from "react";
 import localFont from "next/font/local";
 import { Inter } from "next/font/google";
-import {
-  Calendar as LucideCalendar,
-  Check,
-  ChevronLeft,
-  ChevronRight,
-  Trash2,
-} from "lucide-react";
+import { Check, ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
+import { CalendarIcon } from "@/components/icons/icons";
 import { Calendar } from "@/components/ui/calendar";
 import NotificationSuccessDialog from "./_components/NotificationSuccessDialog";
 import DeleteNotificationDialog from "./_components/DeleteNotificationDialog";
@@ -185,7 +180,7 @@ const NotificationsPage = () => {
             <h2 className="text-[18px] font-bold text-[#24282E] mb-6">
               Scheduled Notifications
             </h2>
-            <div className="space-y-8">
+            <div className="space-y-4">
               {scheduledNotifications.map((notif) => (
                 <div key={notif.id} className="space-y-2 group relative">
                   <button
@@ -204,13 +199,13 @@ const NotificationsPage = () => {
                     {notif.description}
                   </p>
                   <div className="flex items-center gap-2 text-[#E07386] pt-1">
-                    <LucideCalendar className="w-4 h-4" />
+                    <CalendarIcon className="w-4 h-4" />
                     <span className="text-[14px] font-medium">
                       {notif.date}
                     </span>
                   </div>
                   {notif.id !== scheduledNotifications.length && (
-                    <div className="h-[1px] bg-[#F2F2F2] mt-6" />
+                    <div className="h-[1px] bg-[#F2F2F2] mt-4" />
                   )}
                 </div>
               ))}

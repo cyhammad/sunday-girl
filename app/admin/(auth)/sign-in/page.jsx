@@ -48,7 +48,7 @@ const SignInPage = () => {
         {/* Forgot Password Link */}
         <Link
           href="/admin/forgot-password"
-          className="text-[#E07386] font-medium text-[12px] ml-[20px] hover:text-[#c96576] transition-colors self-start"
+          className="text-[#E07386] font-medium text-[12px] ml-[12px] hover:text-[#c96576] transition-colors self-start"
         >
           Forgot Password?
         </Link>
@@ -57,7 +57,7 @@ const SignInPage = () => {
         <button
           type="button"
           onClick={() => router.push("/admin")}
-          className="w-full mt-12 bg-[#E07386] hover:bg-[#c96576] text-white font-normal text-[16px] py-4 rounded-2xl transition-all shadow-[0_4px_14px_0_rgba(224,115,134,0.39)] hover:shadow-[0_6px_20px_rgba(224,115,134,0.23)] active:scale-[0.98]"
+          className="w-full mt-12 bg-[#E07386] hover:bg-[#c96576] text-white font-light text-[16px] py-4 rounded-2xl transition-all shadow-[0_4px_14px_0_rgba(224,115,134,0.39)] hover:shadow-[0_6px_20px_rgba(224,115,134,0.23)] active:scale-[0.98]"
         >
           Continue
         </button>

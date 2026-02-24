@@ -3,14 +3,8 @@
 import React, { useState, useEffect } from "react";
 import localFont from "next/font/local";
 import { Inter } from "next/font/google";
-import {
-  MoreVertical,
-  Calendar,
-  Heart,
-  MessageCircle,
-  Play,
-  Flag,
-} from "lucide-react";
+import { MoreVertical, Heart, MessageCircle, Play, Flag } from "lucide-react";
+import { CalendarIcon } from "@/components/icons/icons";
 import KpiCards from "@/components/dashboard/KpiCards";
 import UploadPostDialog from "./_components/UploadPostDialog";
 import PostSuccessDialog from "./_components/PostSuccessDialog";
@@ -199,7 +193,7 @@ const FeedCard = ({ post, showFlag, onClick }) => {
       {/* Footer - Stats */}
       <div className="flex items-center justify-between pt-1">
         <div className="flex items-center gap-2 text-[#8F8F8F]">
-          <Calendar className="w-4 h-4" />
+          <CalendarIcon className="w-4 h-4" />
           <span className="text-[13px]">{post.date}</span>
         </div>
         <div className="flex items-center gap-4">
@@ -269,7 +263,7 @@ const CommunityFeedPage = () => {
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`px-5 py-2 rounded-[25px] text-[14px] font-medium transition-all duration-200 ${
+              className={`px-4 py-2 rounded-[25px] text-[14px] font-medium transition-all duration-200 ${
                 activeTab === tab
                   ? "text-[#E07386] shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#F2F2F2]"
                   : "text-[#8F8F8F] hover:text-[#6C6C6C]"

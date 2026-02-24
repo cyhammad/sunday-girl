@@ -99,7 +99,7 @@ const UserManagementPage = () => {
     setIsMounted(true);
   }, []);
 
-  const tabs = ["All Users", "Emails"];
+  const tabs = ["All Users", "Mail"];
 
   if (!isMounted) {
     return null; // Or a loading skeleton
@@ -108,12 +108,12 @@ const UserManagementPage = () => {
   return (
     <div className="p-6 lg:p-10 min-h-screen bg-[#FFFFFF]">
       <div className="w-full">
-        <h1 className={`${degular.className} text-[32px] text-[#24282E] mb-10`}>
+        <h1 className={`${degular.className} text-[32px] text-[#24282E] mb-8`}>
           User Management
         </h1>
 
         {/* Tabs Container */}
-        <div className="inline-flex p-1.5 bg-[#F9F9F9] rounded-[30px] mb-8 border border-[#F2F2F2]">
+        <div className="inline-flex p-1.5 bg-[#F9F9F9] rounded-[30px] mb-6 border border-[#F2F2F2]">
           {tabs.map((tab) => (
             <button
               key={tab}
@@ -129,47 +129,55 @@ const UserManagementPage = () => {
           ))}
         </div>
 
+        {activeTab === "Mail" && (
+          <h2
+            className={`${degular.className} text-[28px] text-[#24282E] mb-6`}
+          >
+            New signed up users emails
+          </h2>
+        )}
+
         {/* Table Container */}
         <div className="bg-white rounded-[20px] border border-[#F2F2F2] overflow-hidden shadow-[0px_4px_30px_rgba(0,0,0,0.03)]">
           <div className="overflow-x-auto">
             <Table>
-              <TableHeader className="bg-[#F9F9F9]/50 border-b border-[#F2F2F2]">
+              <TableHeader className="bg-[#F6F6F6]/50 border-b border-[#F2F2F2]">
                 <TableRow className="hover:bg-transparent border-none">
-                  {activeTab === "Emails" ? (
+                  {activeTab === "Mail" ? (
                     <TableHead
-                      className={`${inter.className} px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto`}
+                      className={`${inter.className} px-6 py-6 text-[15px] font-semibold text-[#24282E] h-auto`}
                     >
                       Emails
                     </TableHead>
                   ) : (
                     <>
                       <TableHead
-                        className={`${inter.className} px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto`}
+                        className={`${inter.className} px-6 py-6 text-[15px] font-semibold text-[#24282E] h-auto`}
                       >
                         Name
                       </TableHead>
                       <TableHead
-                        className={`${inter.className} px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto`}
+                        className={`${inter.className} px-6 py-6 text-[15px] font-semibold text-[#24282E] h-auto`}
                       >
                         Phone
                       </TableHead>
                       <TableHead
-                        className={`${inter.className} px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto`}
+                        className={`${inter.className} px-6 py-6 text-[15px] font-semibold text-[#24282E] h-auto`}
                       >
                         Account Status
                       </TableHead>
                       <TableHead
-                        className={`${inter.className} px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto`}
+                        className={`${inter.className} px-6 py-6 text-[15px] font-semibold text-[#24282E] h-auto`}
                       >
                         Date Joined
                       </TableHead>
                       <TableHead
-                        className={`${inter.className} px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto`}
+                        className={`${inter.className} px-6 py-6 text-[12px] font-semibold text-[#24282E] h-auto`}
                       >
                         Practices Joined
                       </TableHead>
                       <TableHead
-                        className={`${inter.className} px-8 py-5 text-[15px] font-semibold text-[#24282E] h-auto`}
+                        className={`${inter.className} px-6 py-6 text-[12px] font-semibold text-[#24282E] h-auto`}
                       >
                         Action
                       </TableHead>
@@ -178,13 +186,13 @@ const UserManagementPage = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {activeTab === "Emails"
+                {activeTab === "Mail"
                   ? emailData.map((email, index) => (
                       <TableRow
                         key={index}
                         className="border-b border-[#F2F2F2] last:border-0 hover:bg-gray-50/30 transition-colors"
                       >
-                        <TableCell className="px-8 py-7 text-[16px] text-[#525252] font-medium">
+                        <TableCell className="px-6 py-6 text-[16px] text-[#525252] font-medium">
                           {email}
                         </TableCell>
                       </TableRow>
@@ -194,28 +202,28 @@ const UserManagementPage = () => {
                         key={index}
                         className="border-b border-[#F2F2F2] last:border-0 hover:bg-gray-50/30 transition-colors"
                       >
-                        <TableCell className="px-8 py-7 text-[16px] text-[#525252] font-medium">
+                        <TableCell className="px-6 py-6 text-[14px] text-[#525252] font-medium">
                           {user.name}
                         </TableCell>
-                        <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
+                        <TableCell className="px-6 py-6 text-[14px] text-[#6C6C6C]">
                           {user.phone}
                         </TableCell>
-                        <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
+                        <TableCell className="px-6 py-6 text-[14px] text-[#6C6C6C]">
                           {user.status}
                         </TableCell>
-                        <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
+                        <TableCell className="px-6 py-6 text-[14px] text-[#6C6C6C]">
                           {user.dateJoined}
                         </TableCell>
-                        <TableCell className="px-8 py-7 text-[16px] text-[#6C6C6C]">
+                        <TableCell className="px-6 py-6 text-[14px] text-[#6C6C6C]">
                           {user.practices}
                         </TableCell>
-                        <TableCell className="px-8 py-7">
+                        <TableCell className="px-6 py-4">
                           <button
                             onClick={() => {
                               setSelectedUser(user);
                               setIsDetailsOpen(true);
                             }}
-                            className="text-[#E07386] text-[15px] font-bold flex items-center gap-1.5 group transition-colors"
+                            className="text-[#E07386] text-[15px] flex items-center gap-1.5 group transition-colors"
                           >
                             View Details
                             <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />

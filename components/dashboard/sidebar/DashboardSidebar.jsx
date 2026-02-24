@@ -173,7 +173,7 @@ export default function DashboardSidebar() {
   const pathname = usePathname();
 
   return (
-    <aside className="hidden lg:flex flex-col w-[340px] h-full bg-white p-6 justify-between shrink-0">
+    <aside className="hidden lg:flex flex-col w-[340px] h-full bg-white p-6 justify-between shrink-0 border-r border-[#FCFCFC]">
       <SidebarNav currentPath={pathname} />
     </aside>
   );

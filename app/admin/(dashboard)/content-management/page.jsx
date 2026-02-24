@@ -16,7 +16,8 @@ import {
 import { Button } from "@/components/ui/button";
 import VideoDetailsDialog from "./_components/VideoDetailsDialog";
 import EditPracticeDialog from "./_components/EditPracticeDialog";
-import UploadVideoDialog from "./_components/UploadVideoDialog";
+import UploadSoftSparkVideoDialog from "./_components/UploadSoftSparkVideoDialog";
+import UploadWelcomeVideoDialog from "./_components/UploadWelcomeVideoDialog";
 import UploadPracticeVideoDialog from "./_components/UploadPracticeVideoDialog";
 import EditPracticeVideoDialog from "./_components/EditPracticeVideoDialog";
 import DeletePracticeVideoDialog from "./_components/DeletePracticeVideoDialog";
@@ -143,7 +144,7 @@ const ContentManagementPage = () => {
 
   return (
     <div className="p-6 lg:p-10 min-h-screen bg-[#FFFFFF]">
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
         <h1 className={`${degular.className} text-[32px] text-[#24282E]`}>
           Content Management
         </h1>
@@ -157,23 +158,26 @@ const ContentManagementPage = () => {
         </Button>
       </div>
 
-      <KpiCards data={contentKpiData} />
+      <KpiCards
+        data={contentKpiData}
+        cardClassName="lg:w-[351px] lg:flex-none"
+      />
 
-      <div className="mt-14">
-        <h2 className={`${degular.className} text-[24px] text-[#24282E] mb-8`}>
+      <div className="mt-8">
+        <h2 className={`${degular.className} text-[24px] text-[#24282E] mb-5`}>
           Practice Videos
         </h2>
 
         {/* Tabs */}
         <div className="overflow-x-auto -mx-6 px-6 lg:mx-0 lg:px-0">
-          <div className="inline-flex p-1.5 bg-[#F9F9F9] rounded-[30px] mb-8 border border-[#F2F2F2]">
+          <div className="inline-flex p-1.5 bg-[#F9F9F9] rounded-[30px] mb-6 border border-[#E2E8F0]">
             {tabs.map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`px-5 py-2 rounded-[25px] text-[14px] font-medium transition-all duration-200 ${
                   activeTab === tab
-                    ? "text-[#E07386] shadow-[0px_2px_8px_rgba(0,0,0,0.04)] border border-[#F2F2F2]"
+                    ? "text-[#E07386]"
                     : "text-[#8F8F8F] hover:text-[#6C6C6C]"
                 }`}
               >
@@ -261,7 +265,7 @@ const ContentManagementPage = () => {
                   ? "Add New Welcome Video"
                   : `Add New ${activeTab} Video`}
               </h3>
-              <p className="text-[#8F8F8F] text-[16px] text-center mb-10 max-w-[450px] leading-relaxed">
+              <p className="text-[#8F8F8F] text-[16px] text-center mb-6 max-w-[450px] leading-relaxed">
                 {activeTab === "Welcome To SundayGirl"
                   ? "Add new Welcome to SundayGirl video. Adding new video will replace the previous one."
                   : `Add new ${activeTab.toLowerCase()} video. Adding new video will replace the previous one.`}
@@ -330,10 +334,14 @@ const ContentManagementPage = () => {
         />
       )}
 
-      <UploadVideoDialog
-        isOpen={isUploadOpen}
+      <UploadSoftSparkVideoDialog
+        isOpen={isUploadOpen && activeTab === "Soft Spark"}
         onOpenChange={setIsUploadOpen}
-        type={activeTab}
+      />
+
+      <UploadWelcomeVideoDialog
+        isOpen={isUploadOpen && activeTab === "Welcome To SundayGirl"}
+        onOpenChange={setIsUploadOpen}
       />
 
       <UploadPracticeVideoDialog
