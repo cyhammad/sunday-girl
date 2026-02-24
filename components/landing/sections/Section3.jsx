@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef } from "react";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -16,7 +16,6 @@ import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
 import { ArrowIcon } from "@/icons/landing-icons";
 import Link from "next/link";
-import { useRecaptcha } from "@/components/RecaptchaProvider";
 
 const Section3 = () => {
   const [formData, setFormData] = useState({
@@ -30,20 +29,10 @@ const Section3 = () => {
     email: "",
     phone: "",
     consent: "",
-    recaptcha: "",
   });
   const [isLoading, setIsLoading] = useState(false);
   const emailInputRef = useRef(null);
   const phoneInputRef = useRef(null);
-  const { executeRecaptcha } = useRecaptcha();
-
-  // No longer needs manual script injection, handled by layout Script tag
-  useEffect(() => {
-    // Ensuring the environment variable is present for the component
-    if (!process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY) {
-      console.warn("NEXT_PUBLIC_RECAPTCHA_SITE_KEY is missing");
-    }
-  }, []);
 
   const resetForm = () => {
     setFormData({
@@ -57,7 +46,6 @@ const Section3 = () => {
       email: "",
       phone: "",
       consent: "",
-      recaptcha: "",
     });
   };
 
@@ -185,14 +173,13 @@ const Section3 = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validate form fields first (before awaiting reCAPTCHA)
+    // Validate form fields first
     const fieldErrors = {
       email: validateEmail(formData.email),
       phone: validatePhone(formData.phone),
       consent: formData.consent
         ? ""
         : "Please check the box to agree to Terms & Privacy.",
-      recaptcha: "",
     };
 
     const hasFieldErrors = Object.values(fieldErrors).some(Boolean);
@@ -204,30 +191,8 @@ const Section3 = () => {
       return;
     }
 
-    // Execute reCAPTCHA Enterprise
-    let recaptchaToken = "";
-    try {
-      recaptchaToken = await executeRecaptcha("WAITLIST_SUBMIT");
-    } catch (err) {
-      console.error("reCAPTCHA Error Details:", err);
-      setErrors((prev) => ({
-        ...prev,
-        recaptcha: "reCAPTCHA could not be verified. If you have an ad blocker, try disabling it.",
-      }));
-      toast.error("reCAPTCHA verification failed. Please try again.");
-      return;
-    }
-
-    if (!recaptchaToken) {
-      setErrors((prev) => ({
-        ...prev,
-        recaptcha: "reCAPTCHA verification failed. Please try again.",
-      }));
-      toast.error("reCAPTCHA verification failed. Please try again.");
-      return;
-    }
-
-    setErrors({ email: "", phone: "", consent: "", recaptcha: "" });
+    // Clear any existing field errors before submitting
+    setErrors({ email: "", phone: "", consent: "" });
 
     setIsLoading(true);
 
@@ -242,7 +207,6 @@ const Section3 = () => {
           firstName: formData.firstName,
           phone: formData.phone,
           wantMore: formData.wantMore,
-          recaptchaToken,
         }),
       });
 
@@ -431,11 +395,6 @@ const Section3 = () => {
               </p>
             ) : null}
           </div>
-
-          {/* reCAPTCHA Enterprise — invisible, no widget rendered */}
-          {errors.recaptcha ? (
-            <p className="text-sm text-red-600">{errors.recaptcha}</p>
-          ) : null}
 
           {/* Submit Button */}
           <Button
