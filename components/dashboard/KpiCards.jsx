@@ -11,9 +11,14 @@ const degular = localFont({
   src: "../fonts/degular/DegularDemo-Semibold.otf",
 });
 
-const KpiCards = ({ data, cardClassName }) => {
+const KpiCards = ({ data, cardClassName, className }) => {
   return (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-nowrap gap-4 lg:gap-[12px] mt-6">
+    <div
+      className={cn(
+        "grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-nowrap gap-4 lg:gap-[12px] mt-6",
+        className,
+      )}
+    >
       {data?.map((item, index) => {
         return (
           <div

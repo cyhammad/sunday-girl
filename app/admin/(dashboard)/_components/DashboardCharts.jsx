@@ -166,7 +166,7 @@ const StatisticsChart = ({ title, data }) => {
         <ChartContainer config={chartConfig} className="h-[300px] w-full">
           <AreaChart
             data={data}
-            margin={{ top: 10, right: 10, left: -10, bottom: 0 }}
+            margin={{ top: 10, right: 10, left: 0, bottom: 20 }}
           >
             <defs>
               <linearGradient
@@ -190,13 +190,30 @@ const StatisticsChart = ({ title, data }) => {
               axisLine={false}
               tickLine={false}
               tick={{ fontSize: 12, fill: "#ADADAD" }}
-              tickMargin={12}
+              tickMargin={18}
+              ticks={[
+                "01",
+                "04",
+                "06",
+                "08",
+                "10",
+                "12",
+                "14",
+                "16",
+                "18",
+                "20",
+                "22",
+                "24",
+                "26",
+                "28",
+                "30",
+              ]}
             />
             <YAxis
               axisLine={false}
               tickLine={false}
               tick={{ fontSize: 12, fill: "#ADADAD" }}
-              tickMargin={8}
+              tickMargin={15}
               ticks={[0, 50, 100, 500, 1000]}
             />
             <ChartTooltip

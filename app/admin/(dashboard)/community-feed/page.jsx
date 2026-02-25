@@ -3,8 +3,9 @@
 import React, { useState, useEffect } from "react";
 import localFont from "next/font/local";
 import { Inter } from "next/font/google";
-import { MoreVertical, Heart, MessageCircle, Play, Flag } from "lucide-react";
+import { Heart, MessageCircle, Play, Flag } from "lucide-react";
 import { CalendarIcon } from "@/components/icons/icons";
+import { DotsIcon } from "@/icons/dots-icon";
 import KpiCards from "@/components/dashboard/KpiCards";
 import UploadPostDialog from "./_components/UploadPostDialog";
 import PostSuccessDialog from "./_components/PostSuccessDialog";
@@ -137,7 +138,7 @@ const FeedCard = ({ post, showFlag, onClick }) => {
   return (
     <div
       onClick={onClick}
-      className="bg-white rounded-[24px] border border-[#EEEEEE] p-5 shadow-[0px_2px_12px_rgba(0,0,0,0.03)] flex flex-col gap-4 transition-all duration-300 hover:shadow-[0px_8px_24px_rgba(0,0,0,0.08)] hover:-translate-y-1 group cursor-pointer"
+      className="bg-white rounded-[24px] border border-[#EED9FF] p-4 flex flex-col gap-4 cursor-pointer"
     >
       {/* Header - User Info */}
       <div className="flex items-center justify-between">
@@ -164,13 +165,13 @@ const FeedCard = ({ post, showFlag, onClick }) => {
             onClick={(e) => e.stopPropagation()}
             className="text-[#757575] hover:bg-gray-100 p-2 rounded-full transition-colors"
           >
-            <MoreVertical className="w-5 h-5" />
+            <DotsIcon className="w-5 h-5" />
           </button>
         </div>
       </div>
 
       {/* Content Text */}
-      <p className="text-[#525252] text-[15px] leading-relaxed">
+      <p className="text-[#2B1E25] text-[12px] leading-relaxed">
         {post.content}
       </p>
 
@@ -258,7 +259,7 @@ const CommunityFeedPage = () => {
         </div>
 
         {/* Tabs */}
-        <div className="inline-flex p-1.5 bg-[#F9F9F9] rounded-[30px] mb-8 border border-[#F2F2F2]">
+        <div className="inline-flex p-1.5 bg-[#F9F9F9] rounded-[30px] mb-4 border border-[#F2F2F2]">
           {["All", "Flagged"].map((tab) => (
             <button
               key={tab}
@@ -276,15 +277,19 @@ const CommunityFeedPage = () => {
 
         {/* Flagged Section KPI Cards */}
         {activeTab === "Flagged" && (
-          <div className="mb-12">
-            <KpiCards data={flaggedKpis} />
+          <div className="mb-6">
+            <KpiCards
+              data={flaggedKpis}
+              className="mt-0"
+              cardClassName="lg:w-[351px] lg:flex-none"
+            />
           </div>
         )}
 
         {/* Posts Heading */}
         {activeTab === "Flagged" && (
           <h2
-            className={`${degular.className} text-[28px] text-[#24282E] mb-8`}
+            className={`${degular.className} text-[28px] text-[#24282E] mb-2`}
           >
             Posts
           </h2>

@@ -102,21 +102,21 @@ const VideoDetailsDialog = ({
         <div className="flex-1 overflow-y-auto p-2 bg-white">
           {/* Main Practice Card */}
           <div className="bg-white rounded-[24px] border border-[#F2F2F2] p-4 sm:p-8 shadow-[0px_4px_30px_rgba(0,0,0,0.01)] mb-8">
-            <div className="flex items-start justify-between mb-6">
-              <div>
+            <div className="flex items-start justify-between">
+              <div className="flex flex-col gap-4"> 
                 <h3
                   className={`${degular.className} text-[20px] text-[#24282E] mb-1`}
                 >
                   This Week's Practice
                 </h3>
-                <p className="text-[15px] font-medium text-[#E07386]">
+                <p className="text-[15px] font-medium text-[##24282E]">
                   {video.name}
                 </p>
               </div>
               <div className="flex gap-2">
                 <button
                   onClick={onEdit}
-                  className="w-10 h-10 rounded-full bg-white border border-[#F2F2F2] flex items-center justify-center text-[#525252] hover:bg-gray-50 transition-colors"
+                  className="w-10 h-10 rounded-full bg-white border border-[#F2F2F2] flex items-center justify-center text-[#24282E] hover:bg-gray-50 transition-colors"
                 >
                   <Edit3 className="w-[18px] h-[18px]" />
                 </button>
@@ -179,7 +179,7 @@ const VideoDetailsDialog = ({
           {/* Practice Feed Section */}
           <div className="bg-white rounded-[24px] border border-[#F2F2F2] p-4 sm:p-8 shadow-[0px_4px_30px_rgba(0,0,0,0.01)]">
             <h3
-              className={`${degular.className} text-[22px] text-[#24282E] mb-8`}
+              className={`${degular.className} text-[22px] text-[#24282E] mb-2`}
             >
               Practice Feed
             </h3>

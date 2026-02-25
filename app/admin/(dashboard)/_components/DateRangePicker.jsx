@@ -207,7 +207,7 @@ const DateRangePicker = () => {
               <label className="text-[13px] text-[#6C6C6C] font-medium block mb-2">
                 Date From
               </label>
-              <div className="w-full h-[48px] border border-[#E5E5E5] rounded-[24px] px-4 flex items-center">
+              <div className="w-full h-[48px] border border-[#E5E5E5] rounded-[16px] px-4 flex items-center">
                 <span className="text-[14px] text-[#B0B0B0]">
                   {startDate ? formatDate(startDate) : "dd/mm/yyyy"}
                 </span>
@@ -217,7 +217,7 @@ const DateRangePicker = () => {
               <label className="text-[13px] text-[#6C6C6C] font-medium block mb-2">
                 Date To
               </label>
-              <div className="w-full h-[48px] border border-[#E5E5E5] rounded-[24px] px-4 flex items-center">
+              <div className="w-full h-[48px] border border-[#E5E5E5] rounded-[16px] px-4 flex items-center">
                 <span className="text-[14px] text-[#B0B0B0]">
                   {endDate ? formatDate(endDate) : "dd/mm/yyyy"}
                 </span>
@@ -226,7 +226,7 @@ const DateRangePicker = () => {
           </div>
 
           {/* Calendar */}
-          <div className="border border-[#F2F2F2] rounded-[16px] p-5">
+          <div className="bg-[#FCF1F380] border border-[#F2F2F2] rounded-[16px] p-5">
             {/* Month Navigation */}
             <div className="flex items-center justify-between mb-5">
               <button
@@ -298,11 +298,8 @@ const DateRangePicker = () => {
                       }
                     }
 
-                    const textClass = isSelected
-                      ? "text-white"
-                      : inRange
-                        ? "text-[#E07386]"
-                        : "text-[#6C6C6C]";
+                    const textClass =
+                      isSelected || inRange ? "text-white" : "text-[#6C6C6C]";
 
                     return (
                       <div
@@ -312,16 +309,16 @@ const DateRangePicker = () => {
                         {/* Range bar background — stretches full cell width, low opacity */}
                         {isMiddle && (
                           <div
-                            className={`absolute inset-y-[6px] inset-x-0 bg-[#E07386]/20 ${barRounding}`}
+                            className={`absolute inset-y-[6px] inset-x-0 bg-[#E07386] ${barRounding}`}
                           />
                         )}
 
                         {/* Start/End connector bar — half-cell bar on the range side, low opacity */}
                         {isStart && inRange && !isEnd && (
-                          <div className="absolute inset-y-[6px] left-1/2 right-0 bg-[#E07386]/20" />
+                          <div className="absolute inset-y-[6px] left-1/2 right-0 bg-[#E07386]" />
                         )}
                         {isEnd && inRange && !isStart && (
-                          <div className="absolute inset-y-[6px] left-0 right-1/2 bg-[#E07386]/20" />
+                          <div className="absolute inset-y-[6px] left-0 right-1/2 bg-[#E07386]" />
                         )}
 
                         {/* Start/End circle — always fully round, full opacity */}
@@ -333,11 +330,10 @@ const DateRangePicker = () => {
                         {isTodayDate && !isSelected && !inRange && (
                           <div className="absolute top-[2px] w-[42px] h-[42px] rounded-full bg-[#E07386]" />
                         )}
-
                         {/* Day Button */}
                         <button
                           onClick={() => handleDayClick(day)}
-                          className={`relative z-10 w-full h-full flex flex-col items-center transition-colors ${
+                          className={`relative z-10 w-fit h-fit flex flex-col items-center transition-colors ${
                             isTodayDate && !isSelected && !inRange
                               ? "text-white"
                               : textClass
@@ -350,8 +346,8 @@ const DateRangePicker = () => {
                           <span>{day}</span>
                           {isTodayDate && !isSelected && !inRange && (
                             <>
-                              <span className="absolute top-[4px] right-[7px] w-[7px] h-[7px] bg-white rounded-full z-20" />
-                              <span className="text-[10px] text-[#24282E] font-semibold leading-none mt-[8px]">
+                              <span className="absolute top-[10px] right-[3px] w-[6px] h-[6px] bg-white rounded-full z-20" />
+                              <span className="text-[10px] text-white font-semibold leading-none mt-[10px]">
                                 Today
                               </span>
                             </>
