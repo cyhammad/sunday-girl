@@ -3,6 +3,7 @@
 import React from "react";
 import localFont from "next/font/local";
 import { X, LogOut } from "lucide-react";
+import { Inter } from "next/font/google";
 import {
   Dialog,
   DialogContent,
@@ -16,6 +17,8 @@ import { Button } from "@/components/ui/button";
 const degular = localFont({
   src: "../../../../../components/fonts/degular/DegularDemo-Semibold.otf",
 });
+
+const inter = Inter({ subsets: ["latin"] });
 
 const RestrictUserDialog = ({ isOpen, onOpenChange, user, onConfirm }) => {
   if (!user) return null;
@@ -50,7 +53,7 @@ const RestrictUserDialog = ({ isOpen, onOpenChange, user, onConfirm }) => {
 
         {/* Content */}
         <h2
-          className={`${degular.className} text-[26px] text-[#24282E] mb-3 text-center tracking-tight`}
+          className={`${inter.className} text-[26px] font-bold text-[#24282E] mb-3 text-center tracking-tight`}
         >
           Restrict {user.name}
         </h2>

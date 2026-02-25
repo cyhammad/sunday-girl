@@ -196,7 +196,7 @@ const DateRangePicker = () => {
         >
           {/* Title */}
           <h3
-            className={`${degular.className} text-[22px] text-[#24282E] mb-6`}
+            className={`${inter.className} text-[22px] font-bold text-[#24282E] mb-6`}
           >
             Select Date Range
           </h3>

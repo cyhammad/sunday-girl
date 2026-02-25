@@ -34,7 +34,7 @@ const DeleteNotificationDialog = ({ isOpen, onOpenChange, onConfirm }) => {
           </div>
 
           <DialogTitle
-            className={`${degular.className} text-[24px] text-[#24282E] mb-2`}
+            className={`${inter.className} text-[24px] font-bold text-[#24282E] mb-2`}
           >
             Delete Notification
           </DialogTitle>

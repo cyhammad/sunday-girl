@@ -57,7 +57,7 @@ const DeletePracticeVideoDialog = ({
           </div>
 
           <h2
-            className={`${degular.className} text-[18px] text-[#24282E] mb-2`}
+            className={`${inter.className} text-[18px] font-bold text-[#24282E] mb-2`}
           >
             Delete Practice Video
           </h2>

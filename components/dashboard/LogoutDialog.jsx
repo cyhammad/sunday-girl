@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { LogOut } from "lucide-react";
+import LogoutCustomIcon from "@/icons/logout-custom-icon";
 import {
   Dialog,
   DialogContent,
@@ -32,11 +32,11 @@ const LogoutDialog = ({ children }) => {
   return (
     <Dialog>
       <DialogTrigger asChild>{children}</DialogTrigger>
-      <DialogContent className="sm:max-w-[440px] p-0 gap-0 bg-white rounded-[24px] border-none shadow-[0px_4px_40px_0px_rgba(0,0,0,0.08)]">
+      <DialogContent className="sm:max-w-[480px] h-[310px] p-0 gap-0 bg-white rounded-[12px] border-none shadow-[0px_4px_40px_0px_rgba(0,0,0,0.08)]">
         <div className="flex flex-col items-center justify-center p-8 text-center">
           {/* Icon Circle */}
           <div className="w-[64px] h-[64px] rounded-full bg-[#FAFAFA] flex items-center justify-center mb-4">
-            <LogOut className="w-7 h-7 text-[#24282E]" strokeWidth={1.5} />
+            <LogoutCustomIcon className="w-7 h-7 text-[#24282E]" />
           </div>
 
           <DialogHeader className="mb-6 space-y-2">
@@ -62,7 +62,7 @@ const LogoutDialog = ({ children }) => {
             </DialogClose>
             <button
               onClick={handleLogout}
-              className={`${inter.className} flex-1 h-[48px] rounded-[14px] bg-[#E07386] text-white text-[15px] font-semibold hover:bg-[#D06376] transition-colors shadow-[0px_4px_12px_rgba(224,115,134,0.2)]`}
+              className={`${inter.className}  flex-1 h-[48px] rounded-[14px] bg-[#E07386] text-white text-[15px] font-semibold hover:bg-[#D06376] transition-colors shadow-[0px_4px_12px_rgba(224,115,134,0.2)]`}
             >
               Yes Logout
             </button>

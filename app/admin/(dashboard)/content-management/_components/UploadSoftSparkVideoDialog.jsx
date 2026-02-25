@@ -40,7 +40,9 @@ const UploadSoftSparkVideoDialog = ({ isOpen, onOpenChange }) => {
         </VisuallyHidden.Root>
 
         <div className="px-5 sm:px-8 py-5 sm:py-6 flex items-center justify-between bg-white shrink-0">
-          <h2 className={`${degular.className} text-[24px] text-[#24282E]`}>
+          <h2
+            className={`${inter.className} text-[24px] font-bold text-[#24282E]`}
+          >
             {title}
           </h2>
           <DialogClose asChild>
@@ -74,16 +76,16 @@ const UploadSoftSparkVideoDialog = ({ isOpen, onOpenChange }) => {
           </div>
         </div>
 
-        <div className="p-5 sm:p-8 bg-white flex items-center justify-end gap-3 shrink-0">
+        <div className="p-5 sm:p-8 bg-white flex items-center justify-center gap-3 shrink-0">
           <Button
             variant="outline"
-            className="bg-white hover:bg-[#FFF1F3] text-[#E07386] border-[#E07386] rounded-[12px] h-12 text-[15px] shadow-lg shadow-[#E07386]/20 transition-all min-w-[120px]"
+            className="bg-white hover:bg-[#FFF1F3] text-[#E07386] border-[#E07386] rounded-[12px] h-12 text-[15px]"
             onClick={() => onOpenChange(false)}
           >
             Cancel
           </Button>
           <Button
-            className="bg-[#E07386] hover:bg-[#d06376] text-white border-0 rounded-[12px] h-12 px-4 text-[15px] shadow-lg shadow-[#E07386]/20 transition-all min-w-[150px]"
+            className="bg-[#E07386] hover:bg-[#d06376] text-white border-0 rounded-[12px] h-12 px-4 text-[15px]"
             onClick={() => onOpenChange(false)}
           >
             Upload Video

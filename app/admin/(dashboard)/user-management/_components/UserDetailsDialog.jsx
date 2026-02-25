@@ -40,7 +40,9 @@ const UserDetailsDialog = ({ isOpen, onOpenChange, user, onRestrict }) => {
 
         {/* Header */}
         <div className="px-8 py-5 border-b border-[#F2F2F2] flex items-center justify-between bg-white shrink-0">
-          <h2 className={`${degular.className} text-[24px] text-[#24282E]`}>
+          <h2
+            className={`${inter.className} text-[24px] font-bold text-[#24282E]`}
+          >
             View Details
           </h2>
           <DialogClose asChild>
@@ -139,7 +141,7 @@ const UserDetailsDialog = ({ isOpen, onOpenChange, user, onRestrict }) => {
         </div>
 
         {/* Footer */}
-        <div className="px-10 pb-8 pt-0 bg-white flex items-center justify-end gap-3 shrink-0">
+        <div className="px-10 pb-8 pt-0 bg-white flex items-center justify-center gap-3 shrink-0">
           <Button
             variant="outline"
             className={`${inter.className} border-[#E07386] text-[#E07386] hover:bg-[#FFF5F6] rounded-[16px] h-[48px] px-8 font-semibold transition-all text-[15px]`}

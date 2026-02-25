@@ -35,7 +35,7 @@ const PostSuccessDialog = ({ isOpen, onOpenChange, onAddNewPost }) => {
           </div>
 
           <DialogTitle
-            className={`${degular.className} text-[26px] text-[#24282E] mb-3`}
+            className={`${inter.className} text-[26px] font-bold text-[#24282E] mb-3`}
           >
             Post Added
           </DialogTitle>

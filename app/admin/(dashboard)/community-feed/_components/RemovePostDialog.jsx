@@ -10,6 +10,8 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { X, Trash2 } from "lucide-react";
+import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
+import { DialogDescription } from "@/components/ui/dialog";
 
 const inter = Inter({ subsets: ["latin"] });
 const degular = localFont({
@@ -23,6 +25,12 @@ const RemovePostDialog = ({ isOpen, onOpenChange, onConfirm }) => {
         showCloseButton={false}
         className="sm:max-w-[450px] w-[calc(100%-2rem)] p-0 overflow-hidden bg-white border-none rounded-[24px] shadow-[0px_10px_50px_rgba(0,0,0,0.1)]"
       >
+        <VisuallyHidden.Root>
+          <DialogTitle>Remove Post</DialogTitle>
+          <DialogDescription>
+            Confirmation to remove the selected post.
+          </DialogDescription>
+        </VisuallyHidden.Root>
         <div className="p-6 sm:p-10 flex flex-col items-center text-center relative">
           <DialogClose className="p-2 transition-colors rounded-full hover:bg-gray-100 absolute top-6 right-6">
             <X className="w-6 h-6 text-[#757575]" />
@@ -34,7 +42,7 @@ const RemovePostDialog = ({ isOpen, onOpenChange, onConfirm }) => {
           </div>
 
           <DialogTitle
-            className={`${degular.className} text-[26px] text-[#24282E] mb-3`}
+            className={`${inter.className} text-[26px] font-bold text-[#24282E] mb-3`}
           >
             Remove Post
           </DialogTitle>

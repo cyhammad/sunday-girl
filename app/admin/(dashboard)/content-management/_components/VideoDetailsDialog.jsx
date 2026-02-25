@@ -88,7 +88,9 @@ const VideoDetailsDialog = ({
 
         {/* Header */}
         <div className="px-8 py-5 border-b border-[#F2F2F2] flex items-center justify-between bg-white shrink-0">
-          <h2 className={`${degular.className} text-[22px] text-[#24282E]`}>
+          <h2
+            className={`${inter.className} text-[22px] font-bold text-[#24282E]`}
+          >
             View Details
           </h2>
           <DialogClose asChild>
@@ -103,13 +105,13 @@ const VideoDetailsDialog = ({
           {/* Main Practice Card */}
           <div className="bg-white rounded-[24px] border border-[#F2F2F2] p-4 sm:p-8 shadow-[0px_4px_30px_rgba(0,0,0,0.01)] mb-8">
             <div className="flex items-start justify-between">
-              <div className="flex flex-col gap-4"> 
+              <div className="flex flex-col gap-4">
                 <h3
-                  className={`${degular.className} text-[20px] text-[#24282E] mb-1`}
+                  className={`${inter.className} text-[20px] font-bold text-[#24282E] mb-1`}
                 >
                   This Week's Practice
                 </h3>
-                <p className="text-[15px] font-medium text-[##24282E]">
+                <p className="text-[15px] font-medium text-[#24282E]">
                   {video.name}
                 </p>
               </div>
@@ -179,7 +181,7 @@ const VideoDetailsDialog = ({
           {/* Practice Feed Section */}
           <div className="bg-white rounded-[24px] border border-[#F2F2F2] p-4 sm:p-8 shadow-[0px_4px_30px_rgba(0,0,0,0.01)]">
             <h3
-              className={`${degular.className} text-[22px] text-[#24282E] mb-2`}
+              className={`${inter.className} text-[22px] font-bold text-[#24282E] mb-2`}
             >
               Practice Feed
             </h3>
@@ -261,7 +263,7 @@ const VideoDetailsDialog = ({
         </div>
 
         {/* Footer */}
-        <div className="px-8 py-5 border-t border-[#F2F2F2] bg-white flex justify-end shrink-0">
+        <div className="px-8 py-5 border-t border-[#F2F2F2] bg-white flex justify-center shrink-0">
           <Button
             className="bg-[#E07386] hover:bg-[#d06376] text-white rounded-[12px] h-11 px-10 font-bold shadow-sm"
             onClick={() => onOpenChange(false)}

@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 import { X, Play, Trash2, Check, X as XIcon } from "lucide-react";
 import {
   Dialog,
@@ -17,6 +18,8 @@ import { Button } from "@/components/ui/button";
 const degular = localFont({
   src: "../../../../../components/fonts/degular/DegularDemo-Semibold.otf",
 });
+
+const inter = Inter({ subsets: ["latin"] });
 
 const EditPracticeDialog = ({
   isOpen,
@@ -49,7 +52,9 @@ const EditPracticeDialog = ({
 
         {/* Header */}
         <div className="px-8 py-6 border-b border-[#F2F2F2] flex items-center justify-between bg-white shrink-0">
-          <h2 className={`${degular.className} text-[22px] text-[#24282E]`}>
+          <h2
+            className={`${inter.className} text-[22px] font-bold text-[#24282E]`}
+          >
             {title}
           </h2>
           <DialogClose asChild>
@@ -117,7 +122,7 @@ const EditPracticeDialog = ({
         </div>
 
         {/* Footer */}
-        <div className="px-8 py-6 border-t border-[#F2F2F2] bg-white flex items-center justify-end gap-3 shrink-0">
+        <div className="px-8 py-6 border-t border-[#F2F2F2] bg-white flex items-center justify-center gap-3 shrink-0">
           <Button
             variant="outline"
             className="bg-white hover:bg-gray-50 text-[#6C6C6C] border-[#F2F2F2] rounded-[14px] h-[54px] px-8 flex items-center gap-2 font-bold transition-all text-[16px]"

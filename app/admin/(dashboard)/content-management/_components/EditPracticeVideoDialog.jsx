@@ -2,6 +2,7 @@
 
 import React from "react";
 import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 import { X, Trash2 } from "lucide-react";
 import Image from "next/image";
 import {
@@ -17,6 +18,8 @@ import { Button } from "@/components/ui/button";
 const degular = localFont({
   src: "../../../../../components/fonts/degular/DegularDemo-Semibold.otf",
 });
+
+const inter = Inter({ subsets: ["latin"] });
 
 const EditPracticeVideoDialog = ({ isOpen, onOpenChange, video, onDelete }) => {
   return (
@@ -37,7 +40,9 @@ const EditPracticeVideoDialog = ({ isOpen, onOpenChange, video, onDelete }) => {
         {/* Header */}
         <div className="px-6 sm:px-10 py-6 sm:py-8 flex items-center justify-between bg-white shrink-0">
           <div className="flex items-center gap-4">
-            <h2 className={`${degular.className} text-[28px] text-[#24282E]`}>
+            <h2
+              className={`${inter.className} text-[28px] font-bold text-[#24282E]`}
+            >
               Edit Practice Video
             </h2>
           </div>
@@ -106,7 +111,7 @@ const EditPracticeVideoDialog = ({ isOpen, onOpenChange, video, onDelete }) => {
         </div>
 
         {/* Footer */}
-        <div className="p-6 sm:p-10 bg-white flex items-center justify-end gap-4 shrink-0">
+        <div className="p-6 sm:p-10 bg-white flex items-center justify-center gap-4 shrink-0">
           <Button
             variant="outline"
             className="bg-white hover:bg-[#FFF1F3] text-[#E07386] border-[#E07386] rounded-[16px] h-16 px-10 font-bold text-[18px] transition-all min-w-[140px]"

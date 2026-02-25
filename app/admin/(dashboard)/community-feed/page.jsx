@@ -304,7 +304,9 @@ const CommunityFeedPage = () => {
               showFlag={activeTab === "Flagged"}
               onClick={() => {
                 setSelectedPost(post);
-                setIsDetailsOpen(true);
+                setTimeout(() => {
+                  setIsDetailsOpen(true);
+                }, 50);
               }}
             />
           ))}
