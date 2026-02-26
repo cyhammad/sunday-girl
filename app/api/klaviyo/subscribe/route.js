@@ -4,6 +4,11 @@ const KLAVIYO_API_URL = "https://a.klaviyo.com/api";
 // Use the latest Klaviyo API revision so we can call the bulk subscribe endpoint
 const KLAVIYO_REVISION = "2026-01-15";
 
+const RECAPTCHA_SECRET_KEY = process.env.RECAPTCHA_SECRET_KEY;
+const RECAPTCHA_VERIFY_URL = "https://www.google.com/recaptcha/api/siteverify";
+const RECAPTCHA_MIN_SCORE = 0.3;
+const RECAPTCHA_EXPECTED_ACTION = "waitlist_submit";
+
 function validateEmail(rawEmail) {
     const email = String(rawEmail ?? "").trim().toLowerCase();
 
@@ -63,9 +68,74 @@ function normalizePhoneForKlaviyo(rawPhone) {
     return { value: `+1${digits}`, extension, error: "" };
 }
 
+async function verifyRecaptcha(token, remoteIp) {
+    if (!token) {
+        return { success: false, code: "missing-token" };
+    }
+
+    if (!RECAPTCHA_SECRET_KEY) {
+        console.error("RECAPTCHA_SECRET_KEY is not configured");
+        return { success: false, code: "missing-secret" };
+    }
+
+    const params = new URLSearchParams();
+    params.append("secret", RECAPTCHA_SECRET_KEY);
+    params.append("response", token);
+    if (remoteIp) params.append("remoteip", remoteIp);
+
+    try {
+        const response = await fetch(RECAPTCHA_VERIFY_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded",
+            },
+            body: params.toString(),
+        });
+
+        if (!response.ok) {
+            const text = await response.text().catch(() => "");
+            console.error("reCAPTCHA v3 verify error:", text);
+            return { success: false, code: "api-error" };
+        }
+
+        const data = await response.json();
+
+        if (!data.success) {
+            console.error("reCAPTCHA v3 invalid token:", data["error-codes"]);
+            return { success: false, code: "invalid-token" };
+        }
+
+        if (data.action && data.action !== RECAPTCHA_EXPECTED_ACTION) {
+            console.error(
+                "reCAPTCHA v3 action mismatch:",
+                data.action,
+                "!==",
+                RECAPTCHA_EXPECTED_ACTION,
+            );
+            return { success: false, code: "action-mismatch" };
+        }
+
+        const score = typeof data.score === "number" ? data.score : 0;
+        if (score < RECAPTCHA_MIN_SCORE) {
+            console.warn("Low reCAPTCHA v3 score:", score);
+            return { success: false, code: "low-score", score };
+        }
+
+        return { success: true, score };
+    } catch (error) {
+        console.error("Error verifying reCAPTCHA v3:", error);
+        return { success: false, code: "verification-error" };
+    }
+}
+
 export async function POST(request) {
     try {
-        const { email, firstName, phone, wantMore } = await request.json();
+        const { email, firstName, phone, wantMore, recaptchaToken } = await request.json();
+
+        const ip =
+            request.headers.get("x-forwarded-for")?.split(",")[0].trim() ||
+            request.headers.get("x-real-ip") ||
+            "";
 
         // Validate required fields
         const emailError = validateEmail(email);
@@ -81,6 +151,14 @@ export async function POST(request) {
         if (phoneError) {
             return NextResponse.json(
                 { field: "phone", error: phoneError },
+                { status: 400 }
+            );
+        }
+
+        const recaptchaResult = await verifyRecaptcha(recaptchaToken, ip);
+        if (!recaptchaResult.success) {
+            return NextResponse.json(
+                { error: "reCAPTCHA verification failed. Please try again." },
                 { status: 400 }
             );
         }
