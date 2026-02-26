@@ -7,10 +7,10 @@ import Link from "next/link";
 import { ArrowIcon } from "@/icons/landing-icons";
 
 const VIMEO_BASE_SRC =
-  "https://player.vimeo.com/video/1168114840?badge=0&autopause=1&player_id=0&app_id=58479&controls=0&title=0&byline=0&portrait=0";
+  "https://player.vimeo.com/video/1168114840?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1&background=1&controls=0&title=0&byline=0&portrait=0";
 
 const Section1 = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const playerRef = useRef(null);
 
   const ensurePlayer = () => {
