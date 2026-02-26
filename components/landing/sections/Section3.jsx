@@ -139,7 +139,6 @@ const Section3 = () => {
       return "What’s your phone number? We’ll text you updates there.";
     }
 
-    // Only allow 10 or 11 digit numerical phone numbers
     if (!/^\d{10,11}$/.test(raw)) {
       return "Please enter a valid phone number with 10 or 11 digits (numbers only).";
     }
