@@ -7,7 +7,7 @@ import Link from "next/link";
 import { ArrowIcon } from "@/icons/landing-icons";
 
 const VIMEO_BASE_SRC =
-  "https://player.vimeo.com/video/1168114840?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=0&loop=1&muted=0&controls=0&title=0&byline=0&portrait=0";
+  "https://player.vimeo.com/video/1168114840?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1&controls=0&title=0&byline=0&portrait=0";
 
 const Section1 = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -41,23 +41,16 @@ const Section1 = () => {
             if (!player) return;
 
             if (entry.isIntersecting) {
-              player.setMuted(false).catch(() => { });
               player.setVolume(1).catch(() => { });
               player
-                .play()
-                .then(() => {
-                  player.getMuted().then((muted) => {
-                    if (muted) {
-                      // Browser forced mute for autoplay.
-                      // Pause and let user click play to get sound.
-                      player.pause();
-                      setIsPlaying(false);
-                    } else {
-                      setIsPlaying(true);
-                    }
-                  });
-                })
-                .catch(() => setIsPlaying(false));
+                .setMuted(false)
+                .then(() => player.play())
+                .then(() => setIsPlaying(true))
+                .catch(() => {
+                  // If the browser blocks unmuted autoplay, we keep it paused and show the Play button.
+                  player.pause();
+                  setIsPlaying(false);
+                });
             } else {
               player
                 .pause()
@@ -77,8 +70,10 @@ const Section1 = () => {
     checkVimeo = setInterval(() => {
       if (window.Vimeo?.Player && document.getElementById("hero-vimeo-player")) {
         clearInterval(checkVimeo);
-        ensurePlayer(); // Initialize player
-        initObserver();
+        const player = ensurePlayer(); // Initialize player
+        player.ready().then(() => {
+          initObserver();
+        });
       }
     }, 500);
 
