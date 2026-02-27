@@ -109,7 +109,7 @@ const ViewPostDetailsDialog = ({ isOpen, onOpenChange, post, onRemove }) => {
             </div>
 
             {/* Footer */}
-            <div className="px-8 py-6 border-t border-[#F2F2F2] flex justify-center gap-4 bg-white">
+            <div className="px-8 py-6 border-t border-[#F2F2F2] flex justify-end gap-4 bg-white">
               <button
                 onClick={() => {
                   onRemove?.(post.id);

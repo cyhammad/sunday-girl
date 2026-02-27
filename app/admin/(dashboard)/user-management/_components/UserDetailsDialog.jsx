@@ -89,9 +89,9 @@ const UserDetailsDialog = ({ isOpen, onOpenChange, user, onRestrict }) => {
             <div className="hidden sm:block w-[1px] bg-[#E3F2EE] ml-2 mr-2 self-stretch my-6"></div>
 
             {/* Info Details Right */}
-            <div className="flex-1 pt-0">
+            <div className="flex-1 pt-6">
               <p
-                className={`${inter.className} text-[15px] font-bold text-[#24282e] mb-8 tracking-tight`}
+                className={`${inter.className} text-[14px] font-bold text-[#24282e] mb-8 tracking-tight`}
               >
                 Info Details
               </p>
@@ -141,7 +141,7 @@ const UserDetailsDialog = ({ isOpen, onOpenChange, user, onRestrict }) => {
         </div>
 
         {/* Footer */}
-        <div className="px-10 pb-8 pt-0 bg-white flex items-center justify-center gap-3 shrink-0">
+        <div className="px-10 pb-8 pt-0 bg-white flex items-center justify-end gap-3 shrink-0">
           <Button
             variant="outline"
             className={`${inter.className} border-[#E07386] text-[#E07386] hover:bg-[#FFF5F6] rounded-[16px] h-[48px] px-8 font-semibold transition-all text-[15px]`}

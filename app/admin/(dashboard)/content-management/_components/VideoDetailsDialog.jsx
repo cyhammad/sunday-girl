@@ -3,6 +3,7 @@
 import React from "react";
 import Image from "next/image";
 import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 import { X, Play, Edit3, Trash2, Heart, MessageSquare } from "lucide-react";
 import {
   Dialog,
@@ -13,6 +14,8 @@ import {
 } from "@/components/ui/dialog";
 import * as VisuallyHidden from "@radix-ui/react-visually-hidden";
 import { Button } from "@/components/ui/button";
+
+const inter = Inter({ subsets: ["latin"] });
 
 const degular = localFont({
   src: "../../../../../components/fonts/degular/DegularDemo-Semibold.otf",
