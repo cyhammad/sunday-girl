@@ -1,17 +1,18 @@
 "use client";
 
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Script from "next/script";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import { ArrowIcon } from "@/icons/landing-icons";
 
 const VIMEO_BASE_SRC =
-  "https://player.vimeo.com/video/1168114840?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=1&muted=1&background=1&controls=0&title=0&byline=0&portrait=0";
+  "https://player.vimeo.com/video/1168114840?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=0&loop=1&muted=0&controls=0&title=0&byline=0&portrait=0";
 
 const Section1 = () => {
-  const [isPlaying, setIsPlaying] = useState(true);
+  const [isPlaying, setIsPlaying] = useState(false);
   const playerRef = useRef(null);
+  const videoContainerRef = useRef(null);
 
   const ensurePlayer = () => {
     if (playerRef.current) return playerRef.current;
@@ -25,11 +26,69 @@ const Section1 = () => {
     const player = new window.Vimeo.Player(iframe);
     playerRef.current = player;
 
-    // Make sure we start paused even if background mode tries to autoplay.
-    player.pause().catch(() => {});
-
     return player;
   };
+
+  useEffect(() => {
+    let observer;
+    let checkVimeo;
+
+    const initObserver = () => {
+      observer = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const player = ensurePlayer();
+            if (!player) return;
+
+            if (entry.isIntersecting) {
+              player.setMuted(false).catch(() => { });
+              player.setVolume(1).catch(() => { });
+              player
+                .play()
+                .then(() => {
+                  player.getMuted().then((muted) => {
+                    if (muted) {
+                      // Browser forced mute for autoplay.
+                      // Pause and let user click play to get sound.
+                      player.pause();
+                      setIsPlaying(false);
+                    } else {
+                      setIsPlaying(true);
+                    }
+                  });
+                })
+                .catch(() => setIsPlaying(false));
+            } else {
+              player
+                .pause()
+                .then(() => setIsPlaying(false))
+                .catch(() => { });
+            }
+          });
+        },
+        { threshold: 0.99 } // using 0.99 to account for subpixel rounding boundaries
+      );
+
+      if (videoContainerRef.current) {
+        observer.observe(videoContainerRef.current);
+      }
+    };
+
+    checkVimeo = setInterval(() => {
+      if (window.Vimeo?.Player && document.getElementById("hero-vimeo-player")) {
+        clearInterval(checkVimeo);
+        ensurePlayer(); // Initialize player
+        initObserver();
+      }
+    }, 500);
+
+    return () => {
+      clearInterval(checkVimeo);
+      if (observer && videoContainerRef.current) {
+        observer.unobserve(videoContainerRef.current);
+      }
+    };
+  }, []);
 
   const handleTogglePlay = async () => {
     const player = ensurePlayer();
@@ -40,6 +99,8 @@ const Section1 = () => {
         await player.pause();
         setIsPlaying(false);
       } else {
+        await player.setMuted(false);
+        await player.setVolume(1);
         await player.play();
         setIsPlaying(true);
       }
@@ -56,7 +117,7 @@ const Section1 = () => {
       />
 
       <div className="grid lg:grid-cols-2 sm:gap-8 gap-4 w-full self-center bg-white sm:bg-transparent p-5 sm:p-0 max-w-360 rounded-[16px] sm:rounded-2xl overflow-hidden">
-        <div className="relative rounded-2xl overflow-hidden min-h-[458px] sm:min-h-auto">
+        <div ref={videoContainerRef} className="relative rounded-2xl overflow-hidden min-h-[458px] sm:min-h-auto">
           <div className="absolute inset-0 bg-white">
             <iframe
               id="hero-vimeo-player"
