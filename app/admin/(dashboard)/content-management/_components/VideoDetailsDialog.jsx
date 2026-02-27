@@ -108,13 +108,13 @@ const VideoDetailsDialog = ({
           {/* Main Practice Card */}
           <div className="bg-white rounded-[24px] border border-[#F2F2F2] p-4 sm:p-8 shadow-[0px_4px_30px_rgba(0,0,0,0.01)] mb-8">
             <div className="flex items-start justify-between">
-              <div className="flex flex-col gap-4">
+              <div className="flex flex-col">
                 <h3
-                  className={`${inter.className} text-[20px] font-bold text-[#24282E] mb-1`}
+                  className={`${inter.className} text-[20px] font-bold text-[#24282E] mb-10`}
                 >
                   This Week's Practice
                 </h3>
-                <p className="text-[15px] font-medium text-[#24282E]">
+                <p className="text-[15px] font-medium text-black">
                   {video.name}
                 </p>
               </div>
@@ -184,11 +184,11 @@ const VideoDetailsDialog = ({
           {/* Practice Feed Section */}
           <div className="bg-white rounded-[24px] border border-[#F2F2F2] p-4 sm:p-8 shadow-[0px_4px_30px_rgba(0,0,0,0.01)]">
             <h3
-              className={`${inter.className} text-[22px] font-bold text-[#24282E] mb-2`}
+              className={`${inter.className} text-[22px] font-bold text-[#24282E] mb-1`}
             >
               Practice Feed
             </h3>
-            <div className="flex flex-col gap-8">
+            <div className="flex flex-col gap-6">
               {practiceFeed.map((post) => (
                 <div
                   key={post.id}
@@ -198,8 +198,8 @@ const VideoDetailsDialog = ({
                     {/* Left Content */}
                     <div className="flex-1 min-w-0">
                       {/* Author Row */}
-                      <div className="flex items-center gap-3 mb-4">
-                        <div className="relative w-10 h-10 rounded-full overflow-hidden shrink-0">
+                      <div className="flex items-center gap-3 mb-2">
+                        <div className="relative w-11 h-11 rounded-full overflow-hidden shrink-0">
                           <Image
                             src={post.avatar}
                             alt={post.author}
@@ -208,10 +208,10 @@ const VideoDetailsDialog = ({
                           />
                         </div>
                         <div>
-                          <h4 className="text-[14px] font-bold text-[#24282E] leading-tight">
+                          <h4 className="text-[15px] font-bold text-[#24282E] leading-tight">
                             {post.author}
                           </h4>
-                          <p className="text-[12px] text-[#E07386]">
+                          <p className="text-[13px] text-[#8F8F8F]">
                             {post.time}
                           </p>
                         </div>
@@ -224,11 +224,11 @@ const VideoDetailsDialog = ({
 
                       {/* Likes & Comments */}
                       <div className="flex items-center gap-5">
-                        <button className="flex items-center gap-1.5 text-[14px] text-[#24282E] font-medium">
+                        <button className="flex items-center gap-1.5 text-[14px] text-[#757575] font-medium">
                           <Heart className="w-[18px] h-[18px]" />
                           {post.likes}
                         </button>
-                        <button className="flex items-center gap-1.5 text-[14px] text-[#24282E] font-medium">
+                        <button className="flex items-center gap-1.5 text-[14px] text-[#757575] font-medium">
                           <MessageSquare className="w-[18px] h-[18px]" />
                           {post.comments}
                         </button>
@@ -266,7 +266,7 @@ const VideoDetailsDialog = ({
         </div>
 
         {/* Footer */}
-        <div className="px-8 py-5 border-t border-[#F2F2F2] bg-white flex justify-center shrink-0">
+        <div className="px-8 py-5 border-t border-[#F2F2F2] bg-white flex justify-end shrink-0">
           <Button
             className="bg-[#E07386] hover:bg-[#d06376] text-white rounded-[12px] h-11 px-10 font-bold shadow-sm"
             onClick={() => onOpenChange(false)}
