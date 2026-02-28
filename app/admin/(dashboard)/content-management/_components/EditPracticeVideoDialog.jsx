@@ -93,7 +93,7 @@ const EditPracticeVideoDialog = ({ isOpen, onOpenChange, video, onDelete }) => {
           </div>
 
           {/* Preview Area */}
-          <div className="relative aspect-[16/9] rounded-[24px] overflow-hidden mb-8 border border-[#E5E7EB] group">
+          <div className="relative aspect-video rounded-[24px] overflow-hidden mb-8 border border-[#E5E7EB] group">
             <Image
               src="https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?fit=crop&w=1200&q=80"
               alt="Practice Video Thumbnail"
@@ -111,7 +111,7 @@ const EditPracticeVideoDialog = ({ isOpen, onOpenChange, video, onDelete }) => {
         </div>
 
         {/* Footer */}
-        <div className="p-6 sm:p-10 bg-white flex items-center justify-center gap-4 shrink-0">
+        <div className="p-6 sm:p-10 bg-white flex items-center justify-end gap-4 shrink-0">
           <Button
             variant="outline"
             className="bg-white hover:bg-[#FFF1F3] text-[#E07386] border-[#E07386] rounded-[16px] h-16 px-10 font-bold text-[18px] transition-all min-w-[140px]"

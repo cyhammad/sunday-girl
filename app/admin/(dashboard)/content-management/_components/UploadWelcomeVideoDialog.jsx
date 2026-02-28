@@ -76,7 +76,7 @@ const UploadWelcomeVideoDialog = ({ isOpen, onOpenChange }) => {
           </div>
         </div>
 
-        <div className="p-5 sm:p-8 bg-white flex items-center justify-center gap-3 shrink-0">
+        <div className="p-5 sm:p-8 bg-white flex items-center justify-end gap-3 shrink-0">
           <Button
             variant="outline"
             className="bg-white hover:bg-[#FFF1F3] text-[#E07386] border-[#E07386] rounded-[12px] h-12 text-[15px] shadow-lg shadow-[#E07386]/20 transition-all min-w-[120px]"

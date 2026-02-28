@@ -11,6 +11,7 @@ import UploadPostDialog from "./_components/UploadPostDialog";
 import PostSuccessDialog from "./_components/PostSuccessDialog";
 import ViewPostDetailsDialog from "./_components/ViewPostDetailsDialog";
 import RemovePostDialog from "./_components/RemovePostDialog";
+import RestrictUserDialog from "./_components/RestrictUserDialog";
 import PinPostDialog from "./_components/PinPostDialog";
 import {
   DropdownMenu,
@@ -263,6 +264,7 @@ const CommunityFeedPage = () => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isRemoveOpen, setIsRemoveOpen] = useState(false);
+  const [isRestrictOpen, setIsRestrictOpen] = useState(false);
   const [isPinOpen, setIsPinOpen] = useState(false);
 
   useEffect(() => {
@@ -292,7 +294,8 @@ const CommunityFeedPage = () => {
   };
 
   const handleRestrict = (post) => {
-    console.log("Restricting user:", post.user.name);
+    setSelectedPost(post);
+    setIsRestrictOpen(true);
   };
 
   const handleDelete = (post) => {
@@ -403,6 +406,15 @@ const CommunityFeedPage = () => {
         onConfirm={() => {
           console.log("Removing post:", selectedPost?.id);
           setIsDetailsOpen(false);
+        }}
+      />
+
+      {/* Restrict User Confirmation Dialog */}
+      <RestrictUserDialog
+        isOpen={isRestrictOpen}
+        onOpenChange={setIsRestrictOpen}
+        onConfirm={() => {
+          console.log("Restricting user:", selectedPost?.user?.name);
         }}
       />
 

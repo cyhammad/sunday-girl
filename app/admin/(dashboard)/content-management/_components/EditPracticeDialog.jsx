@@ -122,7 +122,7 @@ const EditPracticeDialog = ({
         </div>
 
         {/* Footer */}
-        <div className="px-8 py-6 border-t border-[#F2F2F2] bg-white flex items-center justify-center gap-3 shrink-0">
+        <div className="px-8 py-6 border-t border-[#F2F2F2] bg-white flex items-center justify-end gap-3 shrink-0">
           <Button
             variant="outline"
             className="bg-white hover:bg-gray-50 text-[#6C6C6C] border-[#F2F2F2] rounded-[14px] h-[54px] px-8 flex items-center gap-2 font-bold transition-all text-[16px]"
