@@ -23,7 +23,7 @@ const RemovePostDialog = ({ isOpen, onOpenChange, onConfirm }) => {
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
-        className="sm:max-w-[450px] w-[calc(100%-2rem)] p-0 overflow-hidden bg-white border-none rounded-[24px] shadow-[0px_10px_50px_rgba(0,0,0,0.1)]"
+        className="sm:max-w-[480px] w-[calc(100%-2rem)] p-0 overflow-hidden bg-white border-none rounded-[8px] shadow-[0px_10px_50px_rgba(0,0,0,0.1)]"
       >
         <VisuallyHidden.Root>
           <DialogTitle>Remove Post</DialogTitle>
@@ -37,8 +37,8 @@ const RemovePostDialog = ({ isOpen, onOpenChange, onConfirm }) => {
           </DialogClose>
 
           {/* Delete Icon */}
-          <div className="w-[80px] h-[80px] bg-[#FFF1F3] rounded-full flex items-center justify-center mb-6 mt-4">
-            <Trash2 className="w-10 h-10 text-[#FF4D4D]" />
+          <div className="w-[80px] h-[80px] bg-[#FAFAFA] rounded-full flex items-center justify-center mb-6">
+            <Trash2 className="w-6 h-6 text-[#24282E]" />
           </div>
 
           <DialogTitle

@@ -22,12 +22,12 @@ const ViewPostDetailsDialog = ({ isOpen, onOpenChange, post, onRemove }) => {
     <Dialog open={isOpen} onOpenChange={onOpenChange}>
       <DialogContent
         showCloseButton={false}
-        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[calc(100%-2rem)] sm:max-w-[420px] p-0 overflow-hidden bg-white border-none rounded-[4px] shadow-[0px_10px_50px_rgba(0,0,0,0.12)] duration-300"
+        className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 lg:left-auto lg:right-6 lg:top-6 lg:translate-x-0 lg:translate-y-0 w-[calc(100%-2rem)] lg:max-w-[600px] h-[95vh] p-0 overflow-hidden bg-white border-none rounded-[20px] shadow-[0px_10px_50px_rgba(0,0,0,0.12)] duration-300 flex flex-col"
       >
         {post && (
-          <div className="flex flex-col h-full">
+          <div className="flex flex-col h-full overflow-hidden">
             {/* Header */}
-            <div className="px-8 py-5 border-b border-[#F2F2F2] flex items-center justify-between">
+            <div className="px-8 py-5 border-b border-[#F2F2F2] flex items-center justify-between shrink-0">
               <DialogTitle
                 className={`${inter.className} text-[22px] font-bold text-[#24282E]`}
               >
@@ -38,7 +38,7 @@ const ViewPostDetailsDialog = ({ isOpen, onOpenChange, post, onRemove }) => {
               </DialogClose>
             </div>
 
-            <div className="p-8 space-y-6 overflow-y-auto max-h-[75vh]">
+            <div className="flex-1 px-8 py-5 space-y-6 overflow-y-auto">
               {/* User Info Card */}
               <div className="bg-white border border-[#EEEEEE] rounded-[16px] p-4 shadow-sm">
                 <div className="flex items-center gap-3 mb-4">
@@ -109,7 +109,7 @@ const ViewPostDetailsDialog = ({ isOpen, onOpenChange, post, onRemove }) => {
             </div>
 
             {/* Footer */}
-            <div className="px-8 py-6 border-t border-[#F2F2F2] flex justify-center gap-4 bg-white">
+            <div className="px-8 py-6 border-t border-[#F2F2F2] flex justify-end gap-4 bg-white">
               <button
                 onClick={() => {
                   onRemove?.(post.id);

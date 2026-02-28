@@ -11,6 +11,13 @@ import UploadPostDialog from "./_components/UploadPostDialog";
 import PostSuccessDialog from "./_components/PostSuccessDialog";
 import ViewPostDetailsDialog from "./_components/ViewPostDetailsDialog";
 import RemovePostDialog from "./_components/RemovePostDialog";
+import PinPostDialog from "./_components/PinPostDialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const inter = Inter({ subsets: ["latin"] });
 /* ... keep degular font definition ... */
@@ -134,7 +141,7 @@ const feedData = [
   },
 ];
 
-const FeedCard = ({ post, showFlag, onClick }) => {
+const FeedCard = ({ post, showFlag, onClick, onPin, onRestrict, onDelete }) => {
   return (
     <div
       onClick={onClick}
@@ -161,12 +168,48 @@ const FeedCard = ({ post, showFlag, onClick }) => {
           {showFlag && (
             <Flag className="w-5 h-5 text-[#FF5B5B] fill-[#FF5B5B]" />
           )}
-          <button
-            onClick={(e) => e.stopPropagation()}
-            className="text-[#757575] hover:bg-gray-100 p-2 rounded-full transition-colors"
-          >
-            <DotsIcon className="w-5 h-5" />
-          </button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <button
+                onClick={(e) => e.stopPropagation()}
+                className="text-[#757575] hover:bg-gray-100 p-2 rounded-full transition-colors outline-none"
+              >
+                <DotsIcon className="w-5 h-5" />
+              </button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent
+              align="end"
+              className="w-[200px] p-2 bg-white rounded-[16px] border border-[#F2F2F2] shadow-[0px_10px_40px_rgba(0,0,0,0.08)] z-50"
+            >
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onPin?.(post);
+                }}
+                className={`${inter.className} cursor-pointer py-3 px-4 text-[16px] text-[#24282E] font-medium hover:bg-[#FAFAFA] hover:text-[#E07386] rounded-[12px] transition-all duration-200 outline-none border-none`}
+              >
+                Pin as a Soft Spark
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onRestrict?.(post);
+                }}
+                className={`${inter.className} cursor-pointer py-3 px-4 text-[16px] text-[#24282E] font-medium hover:bg-[#FAFAFA] hover:text-[#E07386] rounded-[12px] transition-all duration-200 outline-none border-none`}
+              >
+                Restrict Member
+              </DropdownMenuItem>
+              <DropdownMenuItem
+                onClick={(e) => {
+                  e.stopPropagation();
+                  onDelete?.(post);
+                }}
+                className={`${inter.className} cursor-pointer py-3 px-4 text-[16px] text-[#24282E] font-medium hover:bg-[#FAFAFA] hover:text-[#E07386] rounded-[12px] transition-all duration-200 outline-none border-none`}
+              >
+                Delete
+              </DropdownMenuItem>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
 
@@ -220,6 +263,7 @@ const CommunityFeedPage = () => {
   const [selectedPost, setSelectedPost] = useState(null);
   const [isDetailsOpen, setIsDetailsOpen] = useState(false);
   const [isRemoveOpen, setIsRemoveOpen] = useState(false);
+  const [isPinOpen, setIsPinOpen] = useState(false);
 
   useEffect(() => {
     setIsMounted(true);
@@ -240,6 +284,20 @@ const CommunityFeedPage = () => {
     setTimeout(() => {
       setIsUploadOpen(true);
     }, 300);
+  };
+
+  const handlePin = (post) => {
+    setSelectedPost(post);
+    setIsPinOpen(true);
+  };
+
+  const handleRestrict = (post) => {
+    console.log("Restricting user:", post.user.name);
+  };
+
+  const handleDelete = (post) => {
+    setSelectedPost(post);
+    setIsRemoveOpen(true);
   };
 
   return (
@@ -308,6 +366,9 @@ const CommunityFeedPage = () => {
                   setIsDetailsOpen(true);
                 }, 50);
               }}
+              onPin={handlePin}
+              onRestrict={handleRestrict}
+              onDelete={handleDelete}
             />
           ))}
         </div>
@@ -342,6 +403,16 @@ const CommunityFeedPage = () => {
         onConfirm={() => {
           console.log("Removing post:", selectedPost?.id);
           setIsDetailsOpen(false);
+        }}
+      />
+
+      {/* Pin Confirmation Dialog */}
+      <PinPostDialog
+        isOpen={isPinOpen}
+        onOpenChange={setIsPinOpen}
+        post={selectedPost}
+        onConfirm={(post) => {
+          console.log("Pinned as SoftSpark:", post.id);
         }}
       />
     </div>
