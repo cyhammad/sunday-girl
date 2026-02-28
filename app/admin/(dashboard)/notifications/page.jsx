@@ -3,11 +3,12 @@
 import React, { useState, useEffect } from "react";
 import localFont from "next/font/local";
 import { Inter } from "next/font/google";
-import { Check, ChevronLeft, ChevronRight, Trash2 } from "lucide-react";
+import { Check, Trash2 } from "lucide-react";
 import { CalendarIcon } from "@/components/icons/icons";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar, CalendarDayButton } from "@/components/ui/calendar";
 import NotificationSuccessDialog from "./_components/NotificationSuccessDialog";
 import DeleteNotificationDialog from "./_components/DeleteNotificationDialog";
+import { cn } from "@/lib/utils";
 
 const inter = Inter({ subsets: ["latin"] });
 const degular = localFont({
@@ -30,6 +31,31 @@ const scheduledNotifications = [
     date: "10/04/2024",
   },
 ];
+
+// Scheduled dates to show on the calendar (day numbers for current month) — matches reference: July 2025 with 10, 16, 19, 21
+const getScheduledDatesForMonth = (year, month) => {
+  return [
+    new Date(year, month, 10),
+    new Date(year, month, 16),
+    new Date(year, month, 19),
+    new Date(year, month, 21),
+  ];
+};
+
+function NotificationsDayButton({ className, modifiers, ...props }) {
+  const isScheduled = modifiers?.scheduled === true;
+  return (
+    <CalendarDayButton
+      className={cn(
+        className,
+        isScheduled &&
+          "text-[#E07386]! relative after:content-[''] after:absolute after:bottom-1 after:right-1 after:w-1.5 after:h-1.5 after:rounded-full after:bg-[#E07386]"
+      )}
+      modifiers={modifiers}
+      {...props}
+    />
+  );
+}
 
 const NotificationsPage = () => {
   const [isMounted, setIsMounted] = useState(false);
@@ -128,31 +154,43 @@ const NotificationsPage = () => {
             <h2 className="text-[18px] font-bold text-[#24282E] mb-6">
               Scheduled Dates
             </h2>
-            <div className="flex justify-center bg-[#FFF5F7] rounded-[24px] p-4 relative w-fit mx-auto">
+            <div className={`bg-[#FFF5F7] border border-[#F2F2F2] rounded-[16px] p-5 ${degular.className}`}>
               <Calendar
                 mode="single"
                 selected={date}
                 onSelect={setDate}
-                className="w-full border-none p-0 flex flex-col items-center justify-center pointer-events-none"
+                modifiers={{
+                  scheduled: getScheduledDatesForMonth(
+                    date.getFullYear(),
+                    date.getMonth()
+                  ),
+                }}
+                components={{
+                  DayButton: NotificationsDayButton,
+                }}
+                className="w-full border-none bg-transparent p-0 flex flex-col items-center justify-center [--cell-size:2.5rem]"
                 classNames={{
                   months: "flex flex-col space-y-4 w-full",
                   month: "space-y-4 w-full",
                   caption:
                     "flex justify-center py-2 relative items-center w-full mb-4",
-                  caption_label: "text-[18px] font-bold text-[#24282E]",
-                  nav: "space-x-1 flex items-center absolute inset-x-0 top-0 justify-between w-full px-2 mt-2",
+                  caption_label: `${degular.className} text-[17px] font-semibold text-[#24282E]`,
+                  nav: "space-x-1 flex items-center absolute inset-x-0 top-0 justify-between w-full px-0 mt-0",
                   nav_button:
-                    "h-9 w-9 bg-transparent p-0 opacity-50 hover:opacity-100 transition-opacity",
+                    "h-8 w-8 bg-transparent p-0 rounded-full hover:bg-gray-100 transition-colors flex items-center justify-center",
+                  nav_button_previous: "absolute left-0",
+                  nav_button_next: "absolute right-0",
                   table: "w-full border-collapse space-y-1",
                   head_row: "flex w-full justify-between mb-2",
-                  head_cell: "text-[#24282E] font-bold w-9 text-[14px]",
-                  row: "flex w-full justify-between mt-2",
-                  cell: "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 w-9 h-9",
-                  day: "h-9 w-9 p-0 font-medium aria-selected:opacity-100 text-[#24282E] hover:bg-[#FFD6DD] rounded-full transition-colors flex items-center justify-center",
+                  head_cell:
+                    "text-[#24282E] font-semibold w-10 h-10 flex items-center justify-center text-[14px]",
+                  row: "flex w-full justify-between mt-0",
+                  cell: "relative p-0 text-center text-sm focus-within:relative focus-within:z-20 w-10 h-[52px] flex items-center justify-center",
+                  day: "h-10 w-10 p-0 font-medium text-[15px] text-[#24282E] hover:bg-[#FFD6DD] rounded-full transition-colors flex items-center justify-center data-[selected=true]:bg-[#E07386] data-[selected=true]:text-white data-[selected=true]:hover:bg-[#E07386] data-[selected=true]:hover:text-white",
                   day_selected:
                     "bg-[#E07386] text-white hover:bg-[#E07386] hover:text-white focus:bg-[#E07386] focus:text-white",
                   day_today:
-                    "relative text-[#E07386] after:content-['Today'] after:absolute after:-bottom-4 after:left-1/2 after:-translate-x-1/2 after:text-[10px] after:text-[#24282E] after:font-bold",
+                    "bg-[#E07386] text-white hover:bg-[#d06376] focus:bg-[#E07386] after:content-['Today'] after:absolute after:-bottom-5 after:left-1/2 after:-translate-x-1/2 after:text-[10px] after:text-[#24282E] after:font-bold after:whitespace-nowrap",
                   day_outside: "text-[#8F8F8F] opacity-50",
                   day_disabled: "text-[#8F8F8F] opacity-50",
                   day_range_middle:
@@ -160,18 +198,6 @@ const NotificationsPage = () => {
                   day_hidden: "invisible",
                 }}
               />
-              <div className="absolute top-[184px] left-[134px]">
-                <div className="w-1 h-1 bg-[#E07386] rounded-full"></div>
-              </div>
-              <div className="absolute top-[228px] left-[178px]">
-                <div className="w-1 h-1 bg-[#E07386] rounded-full"></div>
-              </div>
-              <div className="absolute top-[228px] left-[266px]">
-                <div className="w-1 h-1 bg-[#E07386] rounded-full"></div>
-              </div>
-              <div className="absolute top-[272px] left-[310px]">
-                <div className="w-1 h-1 bg-[#E07386] rounded-full"></div>
-              </div>
             </div>
           </div>
 
@@ -205,7 +231,7 @@ const NotificationsPage = () => {
                     </span>
                   </div>
                   {notif.id !== scheduledNotifications.length && (
-                    <div className="h-[1px] bg-[#F2F2F2] mt-4" />
+                    <div className="h-px bg-[#F2F2F2] mt-4" />
                   )}
                 </div>
               ))}
