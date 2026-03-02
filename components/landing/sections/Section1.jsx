@@ -2,8 +2,8 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import Script from "next/script";
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
+import { Button } from "@/components/ui/button";
 import { ArrowIcon } from "@/icons/landing-icons";
 
 const VIMEO_BASE_SRC =
@@ -11,6 +11,7 @@ const VIMEO_BASE_SRC =
 
 const Section1 = () => {
   const [isPlaying, setIsPlaying] = useState(false);
+  const [isVideoReady, setIsVideoReady] = useState(false);
   const playerRef = useRef(null);
   const videoContainerRef = useRef(null);
 
@@ -72,6 +73,7 @@ const Section1 = () => {
         clearInterval(checkVimeo);
         const player = ensurePlayer(); // Initialize player
         player.ready().then(() => {
+          setIsVideoReady(true);
           initObserver();
         });
       }
@@ -122,14 +124,14 @@ const Section1 = () => {
               referrerPolicy="strict-origin-when-cross-origin"
               className="w-full h-full"
               title="video 001 copy"
-            ></iframe>
+            />
           </div>
 
           {/* Play/Pause Overlay (custom design kept) */}
           {!isPlaying && (
             <div className="absolute inset-0 flex items-center justify-center">
               <button
-                className="size-[70px] sm:size-24 rounded-full bg-white/16 border border-white/25 hover:bg-white transition-colors flex items-center justify-center shadow-lg"
+                className="size-[70px] sm:size-24 rounded-full bg-white/16 border border-white/25 hover:bg-white transition-colors flex items-center justify-center"
                 aria-label="Play video"
                 suppressHydrationWarning
                 onClick={(e) => {

@@ -199,3 +199,7 @@ button {
 ::-webkit-scrollbar {
   display: none;
 }
+
+.grecaptcha-badge {
+  opacity: 0;
+}
