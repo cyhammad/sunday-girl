@@ -24,7 +24,7 @@ const KpiCards = ({ data, cardClassName, className }) => {
           <div
             key={index}
             className={cn(
-              "bg-white p-[20px] rounded-[10px] border border-[#EEEEEE] shadow-[0px_2px_6px_0px_#90929433] flex flex-col justify-between w-full lg:flex-1 xl:min-w-[245px] h-[118px]",
+              "bg-white p-[20px] rounded-[10px] border border-[#EEEEEE] shadow-[0px_2px_6px_0px_#90929433] flex flex-col justify-between w-full lg:flex-1  h-[118px]",
               cardClassName,
             )}
           >
