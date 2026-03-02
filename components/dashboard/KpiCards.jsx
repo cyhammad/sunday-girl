@@ -15,7 +15,7 @@ const KpiCards = ({ data, cardClassName, className }) => {
   return (
     <div
       className={cn(
-        "grid grid-cols-1 sm:grid-cols-2 lg:flex lg:flex-nowrap gap-4 lg:gap-[12px] mt-6",
+        "grid grid-cols-1 sm:grid-cols-2 xl:flex xl:flex-nowrap gap-4 lg:gap-[12px] mt-6",
         className,
       )}
     >
@@ -24,7 +24,7 @@ const KpiCards = ({ data, cardClassName, className }) => {
           <div
             key={index}
             className={cn(
-              "bg-white p-[20px] rounded-[10px] border border-[#EEEEEE] shadow-[0px_2px_6px_0px_#90929433] flex flex-col justify-between w-full lg:flex-1 lg:min-w-[245px] h-[118px]",
+              "bg-white p-[20px] rounded-[10px] border border-[#EEEEEE] shadow-[0px_2px_6px_0px_#90929433] flex flex-col justify-between w-full lg:flex-1 xl:min-w-[245px] h-[118px]",
               cardClassName,
             )}
           >
