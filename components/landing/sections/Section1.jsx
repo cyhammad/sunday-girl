@@ -7,7 +7,7 @@ import { Button } from "@/components/ui/button";
 import { ArrowIcon } from "@/icons/landing-icons";
 
 const VIMEO_BASE_SRC =
-  "https://player.vimeo.com/video/1168628584?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=1&loop=0&muted=1&controls=0&title=0&byline=0&portrait=0";
+  "https://player.vimeo.com/video/1168628584?badge=0&autopause=0&player_id=0&app_id=58479&autoplay=0&loop=0&muted=1&controls=0&title=0&byline=0&portrait=0";
 
 const Section1 = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -31,60 +31,20 @@ const Section1 = () => {
   };
 
   useEffect(() => {
-    let observer;
-    let checkVimeo;
-
-    const initObserver = () => {
-      observer = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            const player = ensurePlayer();
-            if (!player) return;
-
-            if (entry.isIntersecting) {
-              player.setVolume(1).catch(() => { });
-              player
-                .setMuted(false)
-                .then(() => player.play())
-                .then(() => setIsPlaying(true))
-                .catch(() => {
-                  // If the browser blocks unmuted autoplay, we keep it paused and show the Play button.
-                  player.pause();
-                  setIsPlaying(false);
-                });
-            } else {
-              player
-                .pause()
-                .then(() => setIsPlaying(false))
-                .catch(() => { });
-            }
-          });
-        },
-        { threshold: 0.99 } // using 0.99 to account for subpixel rounding boundaries
-      );
-
-      if (videoContainerRef.current) {
-        observer.observe(videoContainerRef.current);
-      }
-    };
-
-    checkVimeo = setInterval(() => {
+    let checkVimeo = setInterval(() => {
       if (window.Vimeo?.Player && document.getElementById("hero-vimeo-player")) {
         clearInterval(checkVimeo);
-        const player = ensurePlayer(); // Initialize player
-        player.ready().then(() => {
-          setIsVideoReady(true);
-          initObserver();
-        });
+        const player = ensurePlayer();
+        if (player) {
+          player.ready().then(() => {
+            player.pause().catch(() => {});
+            setIsVideoReady(true);
+          });
+        }
       }
     }, 500);
 
-    return () => {
-      clearInterval(checkVimeo);
-      if (observer && videoContainerRef.current) {
-        observer.unobserve(videoContainerRef.current);
-      }
-    };
+    return () => clearInterval(checkVimeo);
   }, []);
 
   const handleTogglePlay = async () => {
